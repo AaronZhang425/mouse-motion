@@ -8,7 +8,7 @@ public class Main {
         }
 
         String inputDevDir = "/dev/input/";
-
+        String deviceListPath = "/proc/bus/input/devices";
         
 
         // String os = getOS();
