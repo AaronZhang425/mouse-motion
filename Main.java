@@ -4,7 +4,7 @@ import java.nio.file.Paths;
 
 public class Main {
     public static void main(String[] args) {
-        if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
+        if (isWindows()) {
             System.out.println("This odometer app does not support windows");
             return;
         }
@@ -18,5 +18,11 @@ public class Main {
         // System.out.println(os);
         // System.out.println();
     }
+
+    public static boolean isWindows() {
+        String os = System.getProperty("os.name").toLowerCase(); 
+        return os.startsWith("windows");
+    }
+
 
 }
