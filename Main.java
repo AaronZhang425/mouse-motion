@@ -1,4 +1,6 @@
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Main {
     public static void main(String[] args) {
@@ -7,9 +9,10 @@ public class Main {
             return;
         }
 
-        String inputDevDir = "/dev/input/";
-        String deviceListPath = "/proc/bus/input/devices";
-        
+        Path inputDevicesDir = Paths.get("/dev/input/");
+        Path inputDeviceInfo = Paths.get("/proc/bus/input/devies");
+
+    
 
         // String os = getOS();
         // System.out.println(os);
