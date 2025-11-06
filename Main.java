@@ -12,7 +12,7 @@ public class Main {
         Path inputDevicesDir = Paths.get("/dev/input/");
         Path inputDeviceInfo = Paths.get("/proc/bus/input/devies");
 
-    
+
 
         // String os = getOS();
         // System.out.println(os);
