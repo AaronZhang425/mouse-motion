@@ -1,12 +1,16 @@
 
 import java.io.IOException;
 
-import java.util.stream.Stream;
-import java.util.List;
+import java.io.File;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.stream.Stream;
+// import java.util.List;
+
+// import java.nio.file.Files;
+// import java.nio.file.Path;
+// import java.nio.file.Paths;
 
 public class Main {
 
@@ -17,30 +21,51 @@ public class Main {
         }
 
         // Path inputDevicesDir = Paths.get("/dev/input/");
-        Path inputDeviceInfo = Paths.get("/proc/bus/input/devices");
+        File inputDeviceInfo = new File("/proc/bus/input/devices");
+        // Path inputDeviceInfo = Paths.get("/proc/bus/input/devices");
         // Path inputDeviceInfo = Paths.get("/siudhgoaeruihgoiuhg");
 
-        if (!Files.isReadable(inputDeviceInfo)) {
+        if (!inputDeviceInfo.canRead()) {
             System.out.println(inputDeviceInfo + " file was not found");
             return;
         }
 
         // Stream<String> content = null;
-
         try {
-            Stream<String> content = Files.lines(inputDeviceInfo);
-            List<String> lines = content.toList();
-        
-            for (int i = 0; i < lines.size(); i++) {
-                System.out.println(lines.get(i));
+            BufferedReader reader = (
+                new BufferedReader(new FileReader(inputDeviceInfo))
+            );
+
+            Stream<String> lines = reader.lines();
+
+
+
+            for (String line : lines.toList()) {
+                System.out.println(line);
 
             }
 
+        
         } catch (IOException error) {
-            System.out.println("Cannot read file");
+            System.out.println(inputDeviceInfo + " cannnot be read");
             return;
+        } 
 
-        }
+
+        // try {
+        //     Stream<String> content = Files.lines(inputDeviceInfo);
+        //     List<String> lines = content.toList();
+        
+        //     for (int i = 0; i < lines.size(); i++) {
+        //         System.out.println(lines.get(i));
+
+        //     }
+
+        // } catch (IOException error) {
+        //     System.out.println("Cannot read file");
+        //     return;
+
+        // }
 
 
 
