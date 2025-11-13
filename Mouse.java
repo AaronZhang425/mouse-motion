@@ -6,6 +6,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.List;
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
+
 // import java.util.stream.Stream;
 
 public class Mouse {
@@ -51,9 +55,18 @@ public class Mouse {
             String line = lines.get(i).toLowerCase();
 
             if (line.matches(".*mouse.*") && line.startsWith("n")) {
-                String handlerLine = lines.get(i + 4);
+                String handlerLine = lines.get(i + 4).toLowerCase();
+                System.out.println(handlerLine);
 
-                System.out.println(lines.get(i + 4));
+                // Pattern eventRegEx = Pattern.compile("event[0-9]*");
+                String regEx = "event[0-9]*";
+                Pattern eventRegEx = Pattern.compile(regEx);
+
+                System.out.println(eventRegEx.matches(regEx, handlerLine));
+                Matcher matcher = eventRegEx.matcher(handlerLine);
+                System.out.println(matcher.group(1));
+
+                System.out.println(handlerLine);
                 break;
             }
 
