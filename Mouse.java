@@ -10,16 +10,15 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-
 // import java.util.stream.Stream;
+public final class Mouse {
 
-public class Mouse {
-    private final File inputDeviceInfo = new File("/proc/bus/input/devices");
+    private final File INPUT_DEVICE_INFO = new File("/proc/bus/input/devices");
     private File mouseHandlerFile;
 
     public Mouse(int eventNum) {
         this(new File("/dev/input/event" + eventNum));
-        
+
     }
 
     public Mouse(String filePath) {
@@ -27,28 +26,30 @@ public class Mouse {
     }
 
     public Mouse(File filePath) {
-        if (isWindows()){
+        if (isWindows()) {
             System.out.println("This app cannot run on windows.");
             return;
-        
+
         }
 
-        System.out.println(filePath);
+        // System.out.println(filePath);
         mouseHandlerFile = filePath;
-        System.out.println(mouseHandlerFile);
-        System.out.println(mouseHandlerFile.canRead());
-        System.out.println(mouseHandlerFile.exists());
+        // System.out.println(mouseHandlerFile);
 
-        if (!mouseHandlerFile.canRead()) {
-            System.out.println("Manually inputted handler file cannot be read");
+        if (!mouseHandlerFile.exists()) {
+            System.out.println("Inputted handler file cannot be found");
             System.out.println("Automatically finding handler");
             parseMouseDriver();
+
+        } else {
+            checkFilePath();
+
         }
 
     }
 
     public Mouse() {
-        if (isWindows()){
+        if (isWindows()) {
             System.out.println("This app cannot run on windows.");
             return;
         }
@@ -61,61 +62,53 @@ public class Mouse {
         return mouseHandlerFile;
     }
 
-
-
     public void parseMouseDriver() {
         List<String> lines = readDeviceList();
 
-        int i = 0;
-
-        while (i < lines.size()) {
+        for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i).toLowerCase();
-
             if (line.matches(".*mouse.*") && line.startsWith("n")) {
-                String handlerLine = lines.get(i + 4).toLowerCase();
-                System.out.println(handlerLine);
+                line = lines.get(i + 4).toLowerCase(); // gets handler line
 
-                String regEx = "event[0-9]*";
-                Pattern eventRegEx = Pattern.compile(regEx);
-
-                Matcher matcher = eventRegEx.matcher(handlerLine);
-                
-                if (matcher.find()) {
-                    System.out.println(matcher.group(0));
-                    
-                    mouseHandlerFile = new File(
-                        "/dev/bus/input/" + matcher.group(0)
-                    );
-
-                    return;
-
-
-                }
-
+                findEventNum(line);
             }
-
-            i++;
         }
 
         System.out.println("Cannot find file");
 
     }
 
+    public void findEventNum(String line) {
+        String regEx = "event[0-9]*";
+        Pattern eventRegEx = Pattern.compile(regEx);
+        Matcher matcher = eventRegEx.matcher(line);
+
+        if (matcher.find()) {
+            mouseHandlerFile = new File("/dev/bus/input/" + matcher.group(0));
+
+            checkFilePath();
+
+        }
+    }
+
+    public void checkFilePath() {
+        if (!mouseHandlerFile.canRead()) {
+            System.out.println("Cannot read handler file");
+            System.out.println("Check file read permissions");
+        }
+    }
+
     public List<String> readDeviceList() {
         try {
-            BufferedReader reader = (
-                new BufferedReader(new FileReader(inputDeviceInfo))
-            );
+            BufferedReader reader = (new BufferedReader(new FileReader(INPUT_DEVICE_INFO)));
 
             return reader.lines().toList();
 
-        
         } catch (IOException error) {
-            System.out.println(inputDeviceInfo + " cannnot be read");
-            List<String> emptyList = new ArrayList<String>();
+            System.out.println(INPUT_DEVICE_INFO + " cannnot be read");
+            return new ArrayList<>();
 
-            return emptyList;
-        } 
+        }
     }
 
     public boolean isWindows() {
