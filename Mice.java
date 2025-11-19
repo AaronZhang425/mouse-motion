@@ -9,10 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.HashMap;
+
 
 public final class Mice {
 
     private final File INPUT_DEVICE_INFO = new File("/proc/bus/input/devices");
+    private HashMap<String, File> miceHandlerFiles;
     private File mouseHandlerFile;
 
     public Mice(int eventNum) {
@@ -25,11 +28,22 @@ public final class Mice {
     }
 
     public Mice(File filePath) {
-        if (isWindows()) {
-            System.out.println("This app cannot run on windows.");
-            return;
+        // if (osCheck()) {ge);
+        //     System.out.println("This app cannot run on windows.");
+        //     return;
 
-        }
+        // }
+
+        osCheck();
+
+        // try {
+        //     osCheck();
+            
+        // } catch (OsException e) {
+        //     // throw new OsException();
+        //     System.err.println(e.getMessage());
+        //     System.err.println(e.getCause());
+        // }
 
         mouseHandlerFile = filePath;
 
@@ -46,10 +60,21 @@ public final class Mice {
     }
 
     public Mice() {
-        if (isWindows()) {
-            System.out.println("This app cannot run on windows.");
-            return;
-        }
+        // if (osCheck()) {
+        //     System.out.println("This app cannot run on this operating system.");
+        //     return;
+        // }
+
+        // try {
+        //     osCheck();
+            
+        // } catch (OsException e) {
+        //     throw new OsException();
+        //     // System.err.println(e.getMessage());
+        //     // System.err.println(e.getCause());
+        // }
+
+        osCheck();
 
         parseMouseDriver();
 
@@ -110,9 +135,22 @@ public final class Mice {
         }
     }
 
-    public boolean isWindows() {
+    // public boolean osCheck() {
+    //     String os = System.getProperty("os.name").toLowerCase();
+    //     return os.startsWith("windows");
+    // }
+
+    public void osCheck() throws OsException {
         String os = System.getProperty("os.name").toLowerCase();
-        return os.startsWith("windows");
+
+        if (!os.equals("linux")) {
+            throw new OsException();
+        }
+        // if (true) {
+        //     throw new OsException();
+        // }
+
     }
+
 
 }

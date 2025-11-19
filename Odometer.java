@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 
 public class Odometer {
-    Mouse mouse;
+    Mice mice;
     int dpi;
 
     public Odometer(int dpi) {
@@ -22,7 +22,7 @@ public class Odometer {
 
     public Odometer(int dpi, File file) {
         this.dpi = dpi;
-        mouse = new Mouse(file);
+        mice = new Mice(file);
     }
 
     public byte[] eventFileReader() {
@@ -31,7 +31,7 @@ public class Odometer {
         try {
 
             FileInputStream reader = new FileInputStream(
-                mouse.getMouseHandlerFile()
+                mice.getMouseHandlerFile()
             );
 
     
