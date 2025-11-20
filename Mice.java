@@ -9,13 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import java.util.HashMap;
-
 
 public final class Mice {
 
     private final File INPUT_DEVICE_INFO = new File("/proc/bus/input/devices");
-    private HashMap<String, File> miceHandlerFiles;
     private File mouseHandlerFile;
 
     public Mice(int eventNum) {
@@ -34,7 +31,6 @@ public final class Mice {
 
         // }
 
-        osCheck();
 
         // try {
         //     osCheck();
@@ -143,12 +139,12 @@ public final class Mice {
     public void osCheck() throws OsException {
         String os = System.getProperty("os.name").toLowerCase();
 
-        if (!os.equals("linux")) {
-            throw new OsException();
-        }
-        // if (true) {
+        // if (!os.equals("linux")) {
         //     throw new OsException();
         // }
+        if (true) {
+            throw new OsException();
+        }
 
     }
 

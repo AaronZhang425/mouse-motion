@@ -4,6 +4,7 @@ public class Main {
         // Mouse mouse = new Mouse(2);
         // System.out.println(mouse.getMouseHandlerFile());
         
+        
         Odometer odometer = new Odometer(1000, 2);
         while (true) {
             byte[] buffer = odometer.eventFileReader();
@@ -16,6 +17,7 @@ public class Main {
             System.out.println();
 
         }
+
 
     }
 
