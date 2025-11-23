@@ -5,12 +5,14 @@ public class Main {
         // System.out.println(mouse.getMouseHandlerFile());
         
         
-        Odometer odometer = new Odometer(1000, 2);
+        Odometer odometer = new Odometer(1000, 5);
         while (true) {
-            byte[] buffer = odometer.eventFileReader();
+            long[] time = odometer.getEventTime();
+            System.out.println();
 
-            for (byte elem : buffer) {
+            for (long elem : time) {
                 System.out.print(elem + ", ");
+                
 
             }
 
