@@ -122,6 +122,8 @@ public final class Mice {
                     new FileReader(INPUT_DEVICE_INFO)
             );
 
+            reader.close();
+
             return reader.lines().toList();
 
         } catch (IOException error) {
@@ -139,12 +141,12 @@ public final class Mice {
     public void osCheck() throws OsException {
         String os = System.getProperty("os.name").toLowerCase();
 
-        // if (!os.equals("linux")) {
-        //     throw new OsException();
-        // }
-        if (true) {
+        if (!os.equals("linux")) {
             throw new OsException();
         }
+        // if (true) {
+        //     throw new OsException();
+        // }
 
     }
 

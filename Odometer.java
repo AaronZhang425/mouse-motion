@@ -25,6 +25,36 @@ public class Odometer {
         mice = new Mice(file);
     }
 
+    public long[] getEventTime() {
+        byte[] buffer = eventFileReader();
+
+        // Loop backwards for big endian and push bigest byte left
+        long microSeconds = 0;
+        for (int i = 7; i >= 4; i--) {
+            // bitshift by byte
+            microSeconds <<= 8;
+            // java adds by bits, not mathamatically
+            microSeconds += buffer[i];
+        }
+
+        long seconds = 0;
+        for (int i = 3; i >= 0; i--) {
+            
+            seconds <<= 8;
+            seconds += buffer[i];
+        }
+
+
+        long[] time = {seconds, microSeconds};
+        return time;
+    }
+
+    // public int byteArrayToInt() {
+        
+    //     int
+
+    // }
+
     public byte[] eventFileReader() {
         byte[] buffer = new byte[24];
         
@@ -36,6 +66,7 @@ public class Odometer {
 
     
             reader.read(buffer);
+            reader.close();
 
             // while (true) { 
             //     reader.read(buffer);
@@ -53,6 +84,7 @@ public class Odometer {
 
         }
         
+
         return buffer;
 
 
