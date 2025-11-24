@@ -10,7 +10,7 @@ public class Main {
         Odometer odometer = new Odometer(1000, 5);
         while (true) {
             // long[] time = odometer.getEventTime();
-            Time time = odometer.getEventTime();
+            Time time = odometer.getEventTime(odometer.eventFileReader());
             System.out.println();
 
             byte[] buffer = odometer.eventFileReader();
@@ -27,11 +27,13 @@ public class Main {
             Instant now = Instant.now();
             System.out.println(now.getEpochSecond());
             System.out.println(now.getEpochSecond() - time.seconds());
-            // for (long elem : time) {
-            //     System.out.print(elem + ", ");
-                
 
-            // }
+            long microSeconds = time.microSeconds();
+ 
+            System.out.println(microSeconds);
+            System.out.println(now.getNano() / 1000);
+            System.out.println(microSeconds - (now.getNano() / 1000));
+
 
             System.out.println();
 
