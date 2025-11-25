@@ -29,9 +29,9 @@ public class Odometer {
         byte[] buffer = eventFileReader();
 
         getEventTime(buffer);
-        int type = byteArrayToUnsignedInt(buffer, 16, 17);
-        int eventCode = byteArrayToUnsignedInt(buffer, 18, 19);
-        int value = byteArrayToSignedInt(buffer, 20, 23);
+        int type = byteArrayToInt(buffer, 16, 17);
+        int eventCode = byteArrayToInt(buffer, 18, 19);
+        int value = byteArrayToInt(buffer, 20, 23);
 
         return new EventData(
             getEventTime(buffer), type, eventCode, value
@@ -40,13 +40,13 @@ public class Odometer {
     }
 
     private Time getEventTime(byte[] buffer) {
-        long microSeconds = byteArrayToUnsignedLong(
+        long microSeconds = byteArrayToLong(
             buffer,
             8,
             15
         );
 
-        long seconds = byteArrayToUnsignedLong(
+        long seconds = byteArrayToLong(
             buffer,
             0,
             7
@@ -67,17 +67,6 @@ public class Odometer {
             reader.read(buffer);
             reader.close();
             
-            // while (true) {
-                // reader.read(buffer);
-                
-                // for (byte input : buffer) {
-                    // System.out.print(input + ", ");
-                    // }
-                    
-                    // System.out.println();
-                    
-                    // }
-                    
         } catch (IOException error) {
             System.out.println(error);
             
@@ -88,54 +77,39 @@ public class Odometer {
     }
                 
 
-    private long byteArrayToUnsignedLong(
+    private long byteArrayToLong(
         byte[] buffer,
         int startIdx,
         int endIdx
     ) {
     
-        long unsingedLong = 0;
+        long num = 0;
         
+        // apply bit mask to buffer to force change interpretation of bits
+        // put bits into num and shift by 1 byte
         for(int i = endIdx; i >= startIdx; i--) {
-            unsingedLong = (unsingedLong << 8) | (buffer[i] & 0xFF);
+            num = (num << 8) | (buffer[i] & 0xFF);
         }
 
-        return unsingedLong;
+        return num;
 
     }
 
-    private int byteArrayToUnsignedInt(
+    private int byteArrayToInt(
         byte[] buffer,
         int startIdx,
         int endIdx
     ) {
     
-        int unsingedInt = 0;
+        int num = 0;
         
         for(int i = endIdx; i >= startIdx; i--) {
-            unsingedInt = (unsingedInt << 8) | (buffer[i] & 0xFF);
+            num = (num << 8) | (buffer[i] & 0xFF);
         }
 
-        return unsingedInt;
+        return num;
 
     }
-
-    private int byteArrayToSignedInt(
-        byte[] buffer,
-        int startIdx,
-        int endIdx
-    ) {
-
-        int signedInt = 0;
-
-        for (int i = endIdx; i >= startIdx; i--) {
-            signedInt = (signedInt << 8) | (buffer[i] & 0xFF);
-        }
-
-        return signedInt;
-    }
-
-
 
 
 }
