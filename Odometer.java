@@ -29,23 +29,29 @@ public class Odometer {
         byte[] buffer = eventFileReader();
 
         getEventTime(buffer);
+        int type = byteArrayToUnsignedInt(buffer, 16, 17);
+        int eventCode = byteArrayToUnsignedInt(buffer, 18, 19);
+        int value = byteArrayToSignedInt(buffer, 20, 23);
 
-        return new EventData();
+        return new EventData(
+            getEventTime(buffer), type, eventCode, value
+        );
 
     }
 
-    public Time getEventTime(byte[] buffer) {
+    private Time getEventTime(byte[] buffer) {
         long microSeconds = byteArrayToUnsignedLong(
             buffer,
-            (byte) 8,
-            (byte) 15
+            8,
+            15
         );
 
         long seconds = byteArrayToUnsignedLong(
             buffer,
-            (byte) 0,
-            (byte) 7
+            0,
+            7
         );
+
 
         return new Time(seconds, microSeconds);
     }
@@ -84,18 +90,49 @@ public class Odometer {
 
     private long byteArrayToUnsignedLong(
         byte[] buffer,
-        byte startIdx,
-        byte endIdx
+        int startIdx,
+        int endIdx
     ) {
     
         long unsingedLong = 0;
         
-        for(byte i = endIdx; i >= startIdx; i--) {
+        for(int i = endIdx; i >= startIdx; i--) {
             unsingedLong = (unsingedLong << 8) | (buffer[i] & 0xFF);
         }
 
         return unsingedLong;
 
+    }
+
+    private int byteArrayToUnsignedInt(
+        byte[] buffer,
+        int startIdx,
+        int endIdx
+    ) {
+    
+        int unsingedInt = 0;
+        
+        for(int i = endIdx; i >= startIdx; i--) {
+            unsingedInt = (unsingedInt << 8) | (buffer[i] & 0xFF);
+        }
+
+        return unsingedInt;
+
+    }
+
+    private int byteArrayToSignedInt(
+        byte[] buffer,
+        int startIdx,
+        int endIdx
+    ) {
+
+        int signedInt = 0;
+
+        for (int i = endIdx; i >= startIdx; i--) {
+            signedInt = (signedInt << 8) | (buffer[i] & 0xFF);
+        }
+
+        return signedInt;
     }
 
 
