@@ -1,2 +1,2 @@
 // to be implemented
-public record EventData() {}
+public record EventData(Time time, int type, int eventCode, int value) {}
