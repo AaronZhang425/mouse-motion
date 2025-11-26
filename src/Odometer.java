@@ -9,6 +9,7 @@ public class Odometer {
 
     public Odometer(int dpi) {
         this.dpi = dpi;
+        mice = new Mice();
     }
 
     public Odometer(int dpi, int eventNum) {
