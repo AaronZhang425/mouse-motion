@@ -1,84 +1,99 @@
 public enum EventTypes {
-    SYN(0x00) {
+    EV_SYN(0x00) {
         enum EventCodes {
+            SYN_REPORT(0),
+            SYN_CONFIG(1),
+            SYN_MT_REPORT(2),
+            SYN_DROPPED(3),
+            SYN_MAX(4),
+            SYN_CNT(5);
 
+            int eventCodeValue;
+
+            EventCodes(int eventCodeValue) {
+                this.eventCodeValue = eventCodeValue;
+            }
+
+            int getEventCodeValue() {
+                return eventCodeValue;
+            }
         }
 
     },
 
-    KEY(0x01) {
-        enum EventCodes {
-            
-        }
-    },
-
-    REL(0x02) {
-        enum EventCodes {
-            
-        }
-    },
-
-    ABS(0x03) {
-        enum EventCodes {
-            
-        }
-    },
-
-    MSC(0x04) {
+    EV_KEY(0x01) {
         enum EventCodes {
             
         }
     },
 
-    SW(0x05) {
+    EV_REL(0x02) {
         enum EventCodes {
             
         }
     },
 
-    LED(0x11) {
+    EV_ABS(0x03) {
+        enum EventCodes {
+            
+        }
+    },
+
+    EV_MSC(0x04) {
+        enum EventCodes {
+            
+        }
+    },
+
+    EV_SW(0x05) {
+        enum EventCodes {
+            
+        }
+    },
+
+    EV_LED(0x11) {
         enum EventCodes {
             
         }
     },
     
-    SND(0x12) {
+    EV_SND(0x12) {
         enum EventCodes {
             
         }
     },
     
-    REP(0x14) {
+    EV_REP(0x14) {
         enum EventCodes {
             
         }
     },
     
-    FF(0x15) {
+    EV_FF(0x15) {
         enum EventCodes {
             
         }
     },
     
-    PWR(0x16) {
+    EV_PWR(0x16) {
         enum EventCodes {
             
         }
     },
     
-    FF_STATUS(0x17) {
+    EV_FF_STATUS(0x17) {
         enum EventCodes {
             
         }
     },
     
-    MAX(0x1f) {
+    EV_MAX(0x1f) {
         enum EventCodes {
             
         }
     },
     
-    CNT(EventTypes.MAX.getEventCode() + 1) {
+    EV_CNT(EventTypes.EV_MAX.getEventCode() + 1) {
         enum EventCodes {
             
         }
@@ -100,7 +115,7 @@ public enum EventTypes {
         eventTypeValue = ByteArrayConverson.toInt(arr, startIdx, endIdx);
     }
 
-    public EventTypes getEventCodeByValue(int value) {
+    public EventTypes getEventTypeByValue(int value) {
         for (EventTypes eventCode : EventTypes.values()) {
             if (eventCode.getEventCode() == value) {
                 return eventCode;
