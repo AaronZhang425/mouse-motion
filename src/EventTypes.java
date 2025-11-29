@@ -1,31 +1,7 @@
 public enum EventTypes {
-    SYN(0x00) {
-        enum EventCodes {
-            REPORT(0),
-            CONFIG(1),
-            MT_REPORT(2),
-            DROPPED(3),
-            MAX(4),
-            CNT(EventCodes.MAX.getEventCodeValue() + 1);
+    SYN(0x00),
 
-            int eventCodeValue;
-
-            EventCodes(int eventCodeValue) {
-                this.eventCodeValue = eventCodeValue;
-            }
-
-            int getEventCodeValue() {
-                return eventCodeValue;
-            }
-        }
-
-    },
-
-    KEY(0x01) {
-        enum EventCodes {
-            
-        }
-    },
+    KEY(0x01),
 
     REL(0x02) {
         enum EventCodes {
