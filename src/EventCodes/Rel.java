@@ -7,13 +7,13 @@ public enum Rel implements EventCode {
     RX(3),
     RY(4),
     RZ(5),
-    HWWEEL(6),
+    HWHEEL(6),
     DIAL(7),
     WHEEL(8),
     MISC(9),
     RESERVED(10),
     WHEEL_HI_RES(11),
-    HWEEL_HI_RES(12);
+    HWHEEL_HI_RES(12);
 
     private int eventCodeValue;
 
@@ -21,6 +21,7 @@ public enum Rel implements EventCode {
         this.eventCodeValue = eventCodeValue;
     }
 
+    @Override
     public int getEventCodeValue(){
         return eventCodeValue;
 

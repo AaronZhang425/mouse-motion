@@ -12,7 +12,7 @@ public enum Syn implements EventCode {
         this.eventCodeValue = eventCodeValue;
     }
 
-
+    @Override
     public int getEventCodeValue(){
         return eventCodeValue;
 
