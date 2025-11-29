@@ -37,7 +37,7 @@ public class Odometer {
         return new EventData(
             getEventTime(buffer),
             type,
-            EventTypes.EV_MAX,
+            EventTypes.MAX,
             value
         );
 
