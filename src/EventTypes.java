@@ -57,71 +57,27 @@ public enum EventTypes {
         }
     },
 
-    ABS(0x03) {
-        enum EventCodes {
-            
-        }
-    },
+    ABS(0x03),
 
-    MSC(0x04) {
-        enum EventCodes {
-            
-        }
-    },
+    MSC(0x04),
 
-    SW(0x05) {
-        enum EventCodes {
-            
-        }
-    },
+    SW(0x05),
 
-    LED(0x11) {
-        enum EventCodes {
-            
-        }
-    },
+    LED(0x11),
     
-    SND(0x12) {
-        enum EventCodes {
-            
-        }
-    },
+    SND(0x12),
     
-    REP(0x14) {
-        enum EventCodes {
-            
-        }
-    },
+    REP(0x14),
     
-    FF(0x15) {
-        enum EventCodes {
-            
-        }
-    },
+    FF(0x15),
     
-    PWR(0x16) {
-        enum EventCodes {
-            
-        }
-    },
+    PWR(0x16),
     
-    FF_STATUS(0x17) {
-        enum EventCodes {
-            
-        }
-    },
+    FF_STATUS(0x17),
     
-    MAX(0x1f) {
-        enum EventCodes {
-            
-        }
-    },
+    MAX(0x1f),
     
-    CNT(EventTypes.MAX.getEventCode() + 1) {
-        enum EventCodes {
-            
-        }
-    },
+    CNT(EventTypes.MAX.getEventCode() + 1),
     
     NONE(-1);
 
@@ -130,15 +86,7 @@ public enum EventTypes {
     private EventTypes(int eventTypeValue) {
         this.eventTypeValue = eventTypeValue;
     }
-
-    private EventTypes(byte[] arr) {
-        eventTypeValue = ByteArrayConverson.toInt(arr);
-    }
-
-    private EventTypes(byte[] arr, int startIdx, int endIdx) {
-        eventTypeValue = ByteArrayConverson.toInt(arr, startIdx, endIdx);
-    }
-
+    
     public EventTypes getEventTypeByValue(int value) {
         for (EventTypes eventCode : EventTypes.values()) {
             if (eventCode.getEventCode() == value) {
