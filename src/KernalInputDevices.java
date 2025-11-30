@@ -1,14 +1,15 @@
 
 import java.io.IOException;
-
-import java.io.File;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+
+import EventCodes.EventCode;
 // import java.util.HashMap;
 
 
@@ -71,7 +72,7 @@ public class KernalInputDevices {
 
     }
 
-    public String getPossibleEvents(String line) {
+    public EventTypes[] getPossibleEvents(String line) {
         String regex = "(?<=EV=)[0-9]+";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(line);
@@ -97,8 +98,25 @@ public class KernalInputDevices {
             bitShiftAmount++;
             
         }
+
+        ArrayList<Integer> indices = new ArrayList<>();
+
+        for (int i = 0; i < Integer.SIZE; i++) {
+            if ((bitMap | 1) == 1) {
+                indices.add(i);
+            }
+
+            bitMap >>>= 1;
+
+        }
+
+        EventTypes[] possibleEvents = new EventTypes[indices.size()];
+
+        for (int i = 0; i < indices.size(); i++) {
+            possibleEvents[i] = EventTypes.getEventTypeByValue(indices.get(i));
+        }
         
-        return "" + bitMap;
+        return possibleEvents;
     }
 
     public List<String> readDeviceList() {
