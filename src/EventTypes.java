@@ -21,7 +21,7 @@ public enum EventTypes {
         this.eventTypeValue = eventTypeValue;
     }
     
-    public EventTypes getEventTypeByValue(int value) {
+    public static EventTypes getEventTypeByValue(int value) {
         for (EventTypes eventCode : EventTypes.values()) {
             if (eventCode.getEventCode() == value) {
                 return eventCode;
