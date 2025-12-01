@@ -72,6 +72,11 @@ public class KernalInputDevices {
 
     }
 
+    // to be implemented
+    public int[] getDeviceId() {
+        return new int[4];
+    }
+
     public EventTypes[] getPossibleEvents(String line) {
         String regex = "(?<=EV=)[0-9]+";
         Pattern pattern = Pattern.compile(regex);
