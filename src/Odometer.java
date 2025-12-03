@@ -1,8 +1,8 @@
+
 import java.io.IOException;
 
-import javax.swing.event.DocumentEvent.EventType;
-
-import EventCodes.Rel;
+import eventclassification.EventTypes;
+import eventclassification.eventcodes.Rel;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,8 +33,8 @@ public class Odometer {
     public EventData getEventData() {
         byte[] buffer = eventFileReader();
 
-        int type = ByteArrayConverson.toInt(buffer, 17, 16);
-        int eventTypeValue = ByteArrayConverson.toInt(buffer, 18, 19);
+        int eventTypeValue = ByteArrayConverson.toInt(buffer, 17, 16);
+        int eventTypeCode = ByteArrayConverson.toInt(buffer, 18, 19);
         int value = ByteArrayConverson.toInt(buffer, 20, 23);
 
         return new EventData(
