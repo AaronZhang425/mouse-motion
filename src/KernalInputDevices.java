@@ -1,4 +1,5 @@
 
+
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,10 +8,11 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
-import EventCodes.EventCode;
-// import java.util.HashMap;
+import eventclassification.EventTypes;
+import eventclassification.eventcodes.EventCode;
+
+import java.util.regex.Matcher;
 
 public class KernalInputDevices {
 
