@@ -1,6 +1,6 @@
 package eventclassification;
 
-public enum EventTypes {
+public enum EventTypes implements EventId{
     SYN(0x00),
     KEY(0x01),
     REL(0x02),
@@ -15,15 +15,15 @@ public enum EventTypes {
     FF_STATUS(0x17),
     NONE(-1);
 
-    private final int eventTypeValue;
+    private final int value;
 
-    private EventTypes(int eventTypeValue) {
-        this.eventTypeValue = eventTypeValue;
+    private EventTypes(int value) {
+        this.value = value;
     }
     
     public static EventTypes getEventTypeByValue(int value) {
         for (EventTypes eventCode : EventTypes.values()) {
-            if (eventCode.getEventCode() == value) {
+            if (eventCode.getValue() == value) {
                 return eventCode;
             }
         }
@@ -32,8 +32,8 @@ public enum EventTypes {
         
     }
 
-    public int getEventCode() {
-        return eventTypeValue;
+    public int getValue() {
+        return value;
     }
 
 }
