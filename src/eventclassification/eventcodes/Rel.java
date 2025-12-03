@@ -1,6 +1,8 @@
 package eventclassification.eventcodes;
 
-public enum Rel implements EventCode {
+import eventclassification.EventId;
+
+public enum Rel implements EventId {
     X(0),
     Y(1),
     Z(2),
@@ -22,7 +24,7 @@ public enum Rel implements EventCode {
     }
 
     @Override
-    public int getEventCodeValue(){
+    public int getValue(){
         return eventCodeValue;
 
     }           

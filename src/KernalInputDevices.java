@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import eventclassification.EventId;
 import eventclassification.EventTypes;
-import eventclassification.eventcodes.EventCode;
 
 import java.util.regex.Matcher;
 
