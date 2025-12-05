@@ -1,16 +1,8 @@
-
-import java.time.Instant;
-
 public class Main {
 
-    public static void main(String[] args) {
-        // Mouse mouse = new Mouse(2);
-        // System.out.println(mouse.getMouseHandlerFile());
-        
-        
+    public static void main(String[] args) {       
         Odometer odometer = new Odometer(1000, 5);
         while (true) {
-            // long[] time = odometer.getEventTime();
             EventData inputData = odometer.getEventData();
             System.out.println();
 
@@ -21,23 +13,6 @@ public class Main {
                 System.out.print(elem + " ");
             }
             
-            System.out.println();
-
-            System.out.println(inputData.time()[0]);
-            
-            Instant now = Instant.now();
-            System.out.println(now.getEpochSecond());
-            System.out.println(now.getEpochSecond() - inputData.time()[0]);
-
-            long microSeconds = inputData.time()[1];
- 
-            System.out.println(microSeconds);
-            System.out.println(now.getNano() / 1000);
-            System.out.println(microSeconds - (now.getNano() / 1000));
-
-
-            System.out.println();
-
         }
 
 
