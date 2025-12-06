@@ -19,6 +19,7 @@ public enum EventTypes implements EventCategory{
     FF_STATUS(0x17);
 
     private final int value;
+    private final EventCategory eventCodeSet;
     private static final HashMap<Integer, EventTypes> VALUE_MAP;
 
     static {
@@ -30,8 +31,9 @@ public enum EventTypes implements EventCategory{
 
     }
 
-    private EventTypes(int value) {
+    private EventTypes(int value, EventCategory eventCodeSet) {
         this.value = value;
+        this.eventCodeSet = eventCodeSet;
     }
     
     // public static EventTypes getEventTypeByValue(int value) {
