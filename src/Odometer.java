@@ -34,14 +34,14 @@ public class Odometer {
         byte[] buffer = eventFileReader();
 
         int eventTypeValue = ByteArrayConverson.toInt(buffer, 17, 16);
-        int eventTypeCode = ByteArrayConverson.toInt(buffer, 18, 19);
+        int eventCodeValue = ByteArrayConverson.toInt(buffer, 18, 19);
         int value = ByteArrayConverson.toInt(buffer, 20, 23);
 
         // EventId eventType = 
 
         return new EventData(
             getEventTime(buffer),
-            EventTypes.REL,
+            EventTypes.fromValue(eventTypeValue),
             Rel.X,
             value
         );
