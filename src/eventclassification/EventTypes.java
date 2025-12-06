@@ -51,8 +51,8 @@ public enum EventTypes implements EventCategory{
     }
 
     
-    public static EventCategory fromValue(int value) {
-        return VALUE_MAP.get(value);
+    public static EventTypes fromValue(int value) {
+        return (EventTypes) VALUE_MAP.get(value);
     }
 
 }
