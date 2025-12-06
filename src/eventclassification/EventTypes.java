@@ -5,9 +5,9 @@ import java.util.HashMap;
 import eventclassification.eventcodes.*;
 
 public enum EventTypes implements EventCategory{
-    SYN(0x00),
+    SYN(0x00, Syn.class),
     KEY(0x01),
-    REL(0x02),
+    REL(0x02, Rel.class),
     ABS(0x03),
     MSC(0x04),
     SW(0x05),
@@ -18,8 +18,10 @@ public enum EventTypes implements EventCategory{
     PWR(0x16),
     FF_STATUS(0x17);
 
+    // public abstract EventCategory getEventCodeSet();
+
     private final int value;
-    private final EventCategory eventCodeSet;
+    private final Class<?> eventCodeSet;
     private static final HashMap<Integer, EventTypes> VALUE_MAP;
 
     static {
@@ -31,9 +33,16 @@ public enum EventTypes implements EventCategory{
 
     }
 
-    private EventTypes(int value, EventCategory eventCodeSet) {
+    private EventTypes(int value, Class<?> eventCodeSet) {
         this.value = value;
         this.eventCodeSet = eventCodeSet;
+    }
+
+    // temporary constructor
+    private EventTypes(int value) {
+        this.value = value;
+        eventCodeSet = null;
+        // this.eventCodeSet = eventCodeSet;
     }
     
     // public static EventTypes getEventTypeByValue(int value) {
