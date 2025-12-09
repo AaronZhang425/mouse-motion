@@ -1,6 +1,4 @@
-import devicemanager.EventData;
-import devicemanager.InputReader;
-import eventclassification.eventcodes.*;
+import devicemanagement.InputReader;
 
 public class Main {
 

@@ -1,4 +1,4 @@
-package devicemanager;
+package devicemanagement;
 
 import java.io.IOException;
 
