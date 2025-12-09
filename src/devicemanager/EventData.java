@@ -1,3 +1,4 @@
+package devicemanager;
 
 import eventclassification.EventCategory;
 import eventclassification.EventTypes;

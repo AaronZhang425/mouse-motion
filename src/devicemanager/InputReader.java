@@ -1,3 +1,5 @@
+package devicemanager;
+
 
 import java.io.IOException;
 
@@ -7,25 +9,25 @@ import eventclassification.eventcodes.Rel;
 import java.io.File;
 import java.io.FileInputStream;
 
-public class Odometer {
+public class InputReader {
     Mice mice;
     int dpi;
 
-    public Odometer(int dpi) {
+    public InputReader(int dpi) {
         this.dpi = dpi;
         mice = new Mice();
     }
 
-    public Odometer(int dpi, int eventNum) {
+    public InputReader(int dpi, int eventNum) {
         this(dpi, new File("/dev/input/event" + eventNum));
 
     }
 
-    public Odometer(int dpi, String filePath) {
+    public InputReader(int dpi, String filePath) {
         this(dpi, new File(filePath));
     }
 
-    public Odometer(int dpi, File file) {
+    public InputReader(int dpi, File file) {
         this.dpi = dpi;
         mice = new Mice(file);
     }

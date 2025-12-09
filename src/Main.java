@@ -1,9 +1,11 @@
+import devicemanager.EventData;
+import devicemanager.InputReader;
 import eventclassification.eventcodes.*;
 
 public class Main {
 
     public static void main(String[] args) {       
-        Odometer odometer = new Odometer(1000, 2);
+        InputReader odometer = new InputReader(1000, 2);
 
         // int num = Key.TEMP.getValue();
 
