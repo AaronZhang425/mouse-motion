@@ -1,8 +1,9 @@
-package devicemanager;
+package devicemanagement;
 
 
 import java.io.IOException;
 
+import EventData;
 import eventclassification.EventTypes;
 import eventclassification.eventcodes.Rel;
 

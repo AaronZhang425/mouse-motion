@@ -1,19 +1,16 @@
-package devicemanager;
+package devicemanagement;
 
-
-import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
 
 import eventclassification.EventCategory;
 import eventclassification.EventTypes;
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class KernalInputDevices {
 
@@ -28,27 +25,32 @@ public class KernalInputDevices {
         List<String> lines = readDeviceList();
 
         ArrayList<InputDevice> devices = new ArrayList<>();
-
+        
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i).toLowerCase();
-
-            int[] id;
+            
+            int[] id = new int[4];
+            String name = "";
+            File physicalPath = null;
+            File systemFileSystem = null;
 
             if (line.startsWith("i:")) {
                 id = getDeviceId(line);
+
+            } else if (line.startsWith("n")) {
+                getDeviceName(line);
+
             }
 
+            
+            // InputDevice device = new InputDevice(id, name, physicalPath, systemFileSystem);
+            // devices.add(device);
+            devices.add(new InputDevice(id, name, physicalPath, systemFileSystem));
+
+    
         }
 
-        // String regex = "\"([^\"]*)\"";
-        // Pattern pattern = Pattern.compile(regex);
-        // for (int i = 0; i < lines.size(); i++) {
-        //     Matcher matcher = pattern.matcher(lines.get(i));
-        //     if(matcher.find()) {
-        //         System.out.group(1);
-        //     }
-        // }
-        return new ArrayList<>();
+        return devices;
 
     }
 
