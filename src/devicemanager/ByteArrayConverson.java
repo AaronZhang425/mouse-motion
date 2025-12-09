@@ -1,3 +1,4 @@
+package devicemanager;
 
 public class ByteArrayConverson {
     public static int toInt(byte[] arr) {
