@@ -5,18 +5,18 @@ import java.util.HashMap;
 import java.util.function.Function;
 
 public enum EventTypes implements EventCategory{
-    SYN(0x00, Syn.class),
-    KEY(0x01, Key.class),
-    REL(0x02, Rel.class),
-    ABS(0x03, Abs.class),
-    MSC(0x04, Msc.class),
-    SW(0x05, Sw.class),
-    LED(0x11, Led.class),
-    SND(0x12, Snd.class),
-    REP(0x14, Rep.class),
-    FF(0x15, null),
-    PWR(0x16, null),
-    FF_STATUS(0x17, null);
+    SYN(0x00),
+    KEY(0x01),
+    REL(0x02),
+    ABS(0x03),
+    MSC(0x04),
+    SW(0x05),
+    LED(0x11),
+    SND(0x12),
+    REP(0x14),
+    FF(0x15),
+    PWR(0x16),
+    FF_STATUS(0x17);
 
     // public abstract EventCategory getEventCodeSet();
 
@@ -34,19 +34,29 @@ public enum EventTypes implements EventCategory{
 
         EVENTCODES = new HashMap<>();
 
-        // methods manually put in to avoid java reflection
-        EVENTCODES.put(EventTypes.SYN, num -> );
+        // methods manually put in to avoid java reflection due to
+        // memory overhead
+
+        // Syn
+        EVENTCODES.put(
+            EventTypes.SYN, num -> {
+                return Syn.fromValue(num);
+            }
+        );
+
+        // Key
+        EVENTCODES.put(
+            EventTypes.KEY, num -> {
+                return Key.fromValue(num);
+            }
+        );
 
     }
 
-    private EventTypes(int value, Class<? extends EventCategory> eventCodeSet) {
+    private EventTypes(int value) {
         this.VALUE = value;
         // this.eventCodeSet = eventCodeSet;
     }
-
-    // public Class<? extends EventCategory> getEventCodeSet() {
-    //     return eventCodeSet;
-    // }
 
     @Override
     public int getValue() {
