@@ -1,12 +1,15 @@
 package devicemanagement;
 
 
+import eventclassification.EventCategory;
 import eventclassification.EventTypes;
+import eventclassification.eventcodes.Abs;
 import eventclassification.eventcodes.Rel;
 import inputanalysis.EventData;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Method;
 
 public class InputReader {
     Mice mice;
@@ -35,7 +38,17 @@ public class InputReader {
         int eventCodeValue = ByteArrayConverson.toInt(buffer, 18, 19);
         int value = ByteArrayConverson.toInt(buffer, 20, 23);
 
-        // EventId eventType = 
+        // EventTypes eventType = EventTypes.fromValue(eventTypeValue);
+        // Class<? extends EventCategory> eventCodeSet = eventType.getEventCodeSet();
+
+        // try {
+        //     Method getEventCodeFromValue = eventCodeSet.getMethod("fromValue", int.class);
+        //     getEventCodeFromValue.invoke(null, eventCodeValue);
+
+        // } catch (NoSuchMethodException error) {
+        //     System.out.println(error);
+        // }
+        // // EventId eventType = 
 
         return new EventData(
             getEventTime(buffer),
