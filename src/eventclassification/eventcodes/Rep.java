@@ -29,7 +29,7 @@ public enum Rep implements EventCategory {
 
     }
 
-    public static Rep fromValue(int value) {
+    public static Rep byValue(int value) {
         return (Rep) VALUE_MAP.get(value);
     }
 

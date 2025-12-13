@@ -32,7 +32,7 @@ public enum Syn implements EventCategory {
 
     }
 
-    public static Syn fromValue(int value) {
+    public static Syn byValue(int value) {
         return (Syn) VALUE_MAP.get(value);
     }
 

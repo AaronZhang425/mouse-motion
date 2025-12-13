@@ -29,7 +29,7 @@ public enum Msc implements EventCategory {
 
     }
 
-    public static Msc fromValue(int value) {
+    public static Msc byValue(int value) {
         return (Msc) VALUE_MAP.get(value);
     }
 

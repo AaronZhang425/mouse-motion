@@ -29,7 +29,7 @@ public enum Snd implements EventCategory {
 
     }
 
-    public static Snd fromValue(int value) {
+    public static Snd byValue(int value) {
         return (Snd) VALUE_MAP.get(value);
     }
 

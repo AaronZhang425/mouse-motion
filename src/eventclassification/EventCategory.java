@@ -7,7 +7,7 @@ public interface EventCategory {
 
     public int getValue();
 
-    public static EventCategory fromValue(int value) {
+    public static EventCategory byValue(int value) {
         return VALUE_MAP.get(value);
     }
     

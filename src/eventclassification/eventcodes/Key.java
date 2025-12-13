@@ -253,7 +253,7 @@ public enum Key implements EventCategory {
 
     }           
 
-    public static Key fromValue(int value) {
+    public static Key byValue(int value) {
         return (Key) VALUE_MAP.get(value);
     }
 

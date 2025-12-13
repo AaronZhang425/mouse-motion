@@ -29,7 +29,7 @@ public enum Led implements EventCategory {
 
     }
 
-    public static Led fromValue(int value) {
+    public static Led byValue(int value) {
         return (Led) VALUE_MAP.get(value);
     }
 

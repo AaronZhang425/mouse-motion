@@ -29,7 +29,7 @@ public enum Sw implements EventCategory {
 
     }
 
-    public static Sw fromValue(int value) {
+    public static Sw byValue(int value) {
         return (Sw) VALUE_MAP.get(value);
     }
 

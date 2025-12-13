@@ -121,7 +121,7 @@ public class KernalInputDevices {
         EventTypes[] possibleEvents = new EventTypes[indices.size()];
 
         for (int i = 0; i < indices.size(); i++) {
-            possibleEvents[i] = EventTypes.fromValue(indices.get(i));
+            possibleEvents[i] = EventTypes.byValue(indices.get(i));
         }
 
         return possibleEvents;
