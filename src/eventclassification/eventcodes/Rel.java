@@ -40,7 +40,7 @@ public enum Rel implements EventCategory {
 
     }           
 
-    public static Rel fromValue(int value) {
+    public static Rel byValue(int value) {
         return (Rel) VALUE_MAP.get(value);
     }
 

@@ -29,7 +29,7 @@ public enum Abs implements EventCategory {
 
     }
 
-    public static Abs fromValue(int value) {
+    public static Abs byValue(int value) {
         return (Abs) VALUE_MAP.get(value);
     }
 

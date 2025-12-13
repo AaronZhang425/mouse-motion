@@ -37,7 +37,7 @@ public class InputReader {
         int eventCodeValue = ByteArrayConverson.toInt(buffer, 18, 19);
         int value = ByteArrayConverson.toInt(buffer, 20, 23);
 
-        // EventTypes eventType = EventTypes.fromValue(eventTypeValue);
+        EventTypes eventType = EventTypes.byValue(eventTypeValue);
         // Class<? extends EventCategory> eventCodeSet = eventType.getEventCodeSet();
 
         // try {
@@ -51,8 +51,8 @@ public class InputReader {
 
         return new EventData(
             getEventTime(buffer),
-            EventTypes.fromValue(eventTypeValue),
-            Rel.X,
+            eventType,
+            eventType.eventCodeByValue(eventCodeValue),
             value
         );
 

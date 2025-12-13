@@ -40,63 +40,63 @@ public enum EventTypes implements EventCategory{
         // SYN
         EVENTCODES_MAP.put(
             EventTypes.SYN, num -> {
-                return Syn.fromValue(num);
+                return Syn.byValue(num);
             }
         );
 
         // KEY
         EVENTCODES_MAP.put(
             EventTypes.KEY, num -> {
-                return Key.fromValue(num);
+                return Key.byValue(num);
             }
         );
 
         // REL
         EVENTCODES_MAP.put(
             EventTypes.REL, num -> {
-                return Rel.fromValue(num);
+                return Rel.byValue(num);
             }
         );
 
         // ABS
         EVENTCODES_MAP.put(
             EventTypes.ABS, num -> {
-                return Abs.fromValue(num);
+                return Abs.byValue(num);
             }
         );
 
         // MSC
         EVENTCODES_MAP.put(
             EventTypes.MSC, num -> {
-                return Msc.fromValue(num);
+                return Msc.byValue(num);
             }
         );
 
         // SW
         EVENTCODES_MAP.put(
             EventTypes.SW, num -> {
-                return Sw.fromValue(num);
+                return Sw.byValue(num);
             }
         );
 
         // LED
         EVENTCODES_MAP.put(
             EventTypes.LED, num -> {
-                return Led.fromValue(num);
+                return Led.byValue(num);
             }
         );
 
         // SND
         EVENTCODES_MAP.put(
             EventTypes.SND, num -> {
-                return Snd.fromValue(num);
+                return Snd.byValue(num);
             }
         );
 
         // REP
         EVENTCODES_MAP.put(
             EventTypes.REP, num -> {
-                return Rep.fromValue(num);
+                return Rep.byValue(num);
             }
         );
 
@@ -104,14 +104,14 @@ public enum EventTypes implements EventCategory{
         // // FF
         // EVENTCODES_MAP.put(
         //     EventTypes.FF, num -> {
-        //         return FF.fromValue(num);
+        //         return FF.byValue(num);
         //     }
         // );
 
         // // PWR
         // EVENTCODES_MAP.put(
         //     EventTypes.PWR, num -> {
-        //         return PWR.fromValue(num);
+        //         return PWR.byValue(num);
         //     }
         // );
 
@@ -133,7 +133,7 @@ public enum EventTypes implements EventCategory{
     }
 
     
-    public static EventTypes fromValue(int value) {
+    public static EventTypes byValue(int value) {
         return (EventTypes) VALUE_MAP.get(value);
     }
 
