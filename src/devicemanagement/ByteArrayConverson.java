@@ -67,24 +67,5 @@ public class ByteArrayConverson {
 
     }
 
-    private static long toLongBigEndian(byte[] arr, int startIdx, int endIdx) {
-        long num = 0;
-        
-        for(int i = startIdx; i <= endIdx; i++) {
-            num = (num << 8) | (arr[i] & 0xFF);
-        }
-
-        return num;
-    }
-
-    private static long toLongLittleEndian(byte[] arr, int startIdx, int endIdx) {
-        long num = 0;
-        
-        for(int i = startIdx; i >= endIdx; i--) {
-            num = (num << 8) | (arr[i] & 0xFF);
-        }
-
-        return num;
-    }
 }
 
