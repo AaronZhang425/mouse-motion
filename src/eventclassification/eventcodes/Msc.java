@@ -2,6 +2,8 @@ package eventclassification.eventcodes;
 
 import java.util.HashMap;
 
+import eventclassification.EventTypes;
+
 public enum Msc implements EventCode {
     SERIAL(0),
     PULSELED(1),
@@ -31,6 +33,11 @@ public enum Msc implements EventCode {
         return value;
 
     }
+
+    @Override
+    public EventTypes getEventType() {
+        return EventTypes.MSC;
+    } 
 
     public static Msc byValue(int value) {
         return (Msc) VALUE_MAP.get(value);

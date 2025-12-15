@@ -2,6 +2,8 @@ package eventclassification.eventcodes;
 
 import java.util.HashMap;
 
+import eventclassification.EventTypes;
+
 public enum Rel implements EventCode {
     X(0x00),
     Y(0x01),
@@ -38,7 +40,12 @@ public enum Rel implements EventCode {
     public int getValue(){
         return value;
 
-    }           
+    }
+    
+    @Override
+    public EventTypes getEventType() {
+        return EventTypes.REL;
+    } 
 
     public static Rel byValue(int value) {
         return (Rel) VALUE_MAP.get(value);

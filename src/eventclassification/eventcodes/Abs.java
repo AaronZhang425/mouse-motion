@@ -2,6 +2,8 @@ package eventclassification.eventcodes;
 
 import java.util.HashMap;
 
+import eventclassification.EventTypes;
+
 public enum Abs implements EventCode {
     X(0x00),
     Y(0x01),
@@ -61,6 +63,11 @@ public enum Abs implements EventCode {
         return value;
 
     }
+
+    @Override
+    public EventTypes getEventType() {
+        return EventTypes.ABS;
+    } 
 
     public static Abs byValue(int value) {
         return (Abs) VALUE_MAP.get(value);

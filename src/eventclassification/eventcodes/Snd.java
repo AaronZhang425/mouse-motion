@@ -2,6 +2,8 @@ package eventclassification.eventcodes;
 
 import java.util.HashMap;
 
+import eventclassification.EventTypes;
+
 public enum Snd implements EventCode {
     CLICK(0x00),
     BELL(0x01),
@@ -28,6 +30,12 @@ public enum Snd implements EventCode {
         return value;
 
     }
+
+    @Override
+    public EventTypes getEventType() {
+        return EventTypes.SND;
+    } 
+
 
     public static Snd byValue(int value) {
         return (Snd) VALUE_MAP.get(value);

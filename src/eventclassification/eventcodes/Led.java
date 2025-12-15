@@ -2,6 +2,8 @@ package eventclassification.eventcodes;
 
 import java.util.HashMap;
 
+import eventclassification.EventTypes;
+
 
 public enum Led implements EventCode {
     TEMP(0);    
@@ -27,6 +29,11 @@ public enum Led implements EventCode {
         return value;
 
     }
+
+    @Override
+    public EventTypes getEventType() {
+        return EventTypes.LED;
+    } 
 
     public static Led byValue(int value) {
         return (Led) VALUE_MAP.get(value);

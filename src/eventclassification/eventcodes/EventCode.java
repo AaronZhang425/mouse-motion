@@ -1,8 +1,8 @@
 package eventclassification.eventcodes;
 
 import eventclassification.EventCategory;
+import eventclassification.EventTypes;
 
-// Empty interface to enforce type safety
 public interface EventCode extends EventCategory{
-    
+    public EventTypes getEventType();    
 }
