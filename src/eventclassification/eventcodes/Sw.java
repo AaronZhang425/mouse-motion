@@ -2,6 +2,8 @@ package eventclassification.eventcodes;
 
 import java.util.HashMap;
 
+import eventclassification.EventTypes;
+
 public enum Sw implements EventCode {
     TEMP(0);    
 
@@ -26,6 +28,11 @@ public enum Sw implements EventCode {
         return value;
 
     }
+
+    @Override
+    public EventTypes getEventType() {
+        return EventTypes.SW;
+    } 
 
     public static Sw byValue(int value) {
         return (Sw) VALUE_MAP.get(value);

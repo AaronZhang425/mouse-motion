@@ -2,6 +2,8 @@ package eventclassification.eventcodes;
 
 import java.util.HashMap;
 
+import eventclassification.EventTypes;
+
 public enum Rep implements EventCode {
     DELAY(0x00),
     PERIOD(0x01);    
@@ -27,6 +29,11 @@ public enum Rep implements EventCode {
         return value;
 
     }
+
+    @Override
+    public EventTypes getEventType() {
+        return EventTypes.REP;
+    } 
 
     public static Rep byValue(int value) {
         return (Rep) VALUE_MAP.get(value);

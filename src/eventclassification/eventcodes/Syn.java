@@ -2,6 +2,8 @@ package eventclassification.eventcodes;
 
 import java.util.HashMap;
 
+import eventclassification.EventTypes;
+
 public enum Syn implements EventCode {
     REPORT(0),
     CONFIG(1),
@@ -29,6 +31,11 @@ public enum Syn implements EventCode {
         return value;
 
     }
+
+    @Override
+    public EventTypes getEventType() {
+        return EventTypes.SYN;
+    } 
 
     public static Syn byValue(int value) {
         return (Syn) VALUE_MAP.get(value);
