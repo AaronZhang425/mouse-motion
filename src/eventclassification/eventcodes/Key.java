@@ -235,7 +235,13 @@ public enum Key implements EventCode {
     SWITCHDEVICEMODE(227),
     KBDILLUMTOGGLE(228),
     KBDILLUMDOWN(229),
-    KBDILLUMUP(230);
+    KBDILLUMUP(230),
+    
+    SEND(231),
+    REPLY(232),
+    FOWARDMAIL(233),
+    SAVE(234),
+    DOCUMENTS(235);
 
     private final int value;
     private static final HashMap<Integer, Key> VALUE_MAP;
