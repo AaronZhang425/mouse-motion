@@ -80,6 +80,11 @@ public class KernalInputDevices {
         return new int[4];
     }
 
+    // to be implemented
+    public File[] getHandlers(String line) {
+        return new File[2];
+    }
+
     public EventCategory[] getPossibleEvents(String line) {
         String regex = "(?<=EV=)[0-9]+";
         Pattern pattern = Pattern.compile(regex);
