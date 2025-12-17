@@ -5,20 +5,20 @@ import java.util.HashMap;
 import eventclassification.EventTypes;
 
 public enum Rel implements EventCode {
-    X(0x00),
-    Y(0x01),
-    Z(0x02),
-    RX(0x03),
-    RY(0x04),
-    RZ(0x05),
-    HWHEEL(0x06),
-    DIAL(0x07),
-    WHEEL(0x08),
-    MISC(0x09),
+    REL_X(0x00),
+    REL_Y(0x01),
+    REL_Z(0x02),
+    REL_RX(0x03),
+    REL_RY(0x04),
+    REL_RZ(0x05),
+    REL_HWHEEL(0x06),
+    REL_DIAL(0x07),
+    REL_WHEEL(0x08),
+    REL_MISC(0x09),
 
-    RESERVED(0x0a),
-    WHEEL_HI_RES(0x0b),
-    HWHEEL_HI_RES(0x0c);
+    REL_RESERVED(0x0a),
+    REL_WHEEL_HI_RES(0x0b),
+    REL_HWHEEL_HI_RES(0x0c);
 
     private final int value;
     private static final HashMap<Integer, Rel> VALUE_MAP;

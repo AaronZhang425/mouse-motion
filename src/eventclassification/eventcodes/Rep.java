@@ -5,8 +5,8 @@ import java.util.HashMap;
 import eventclassification.EventTypes;
 
 public enum Rep implements EventCode {
-    DELAY(0x00),
-    PERIOD(0x01);    
+    REP_DELAY(0x00),
+    REP_PERIOD(0x01);    
 
     private final int value;
     private static final HashMap<Integer, Rep> VALUE_MAP;

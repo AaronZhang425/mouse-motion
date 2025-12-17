@@ -5,12 +5,12 @@ import java.util.HashMap;
 import eventclassification.EventTypes;
 
 public enum Msc implements EventCode {
-    SERIAL(0),
-    PULSELED(1),
-    GESTURE(2),
-    RAW(3),
-    SCAN(4),
-    TIMESTAMP(5);    
+    MSC_SERIAL(0x00),
+    MSC_PULSELED(0x01),
+    MSC_GESTURE(0x02),
+    MSC_RAW(0x03),
+    MSC_SCAN(0x04),
+    MSC_TIMESTAMP(0x05);    
 
     private final int value;
     private static final HashMap<Integer, Msc> VALUE_MAP;
