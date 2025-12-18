@@ -293,7 +293,23 @@ public enum Key implements EventCode {
     BTN_BASE4(0x129),
     BTN_BASE5(0x12a),
     BTN_BASE6(0x12b),
-    BTN_DEAD(0x12f);
+    BTN_DEAD(0x12f),
+    
+    BTN_SOUTH(0x130),
+    BTN_EAST(0x131),
+    BTN_C(0x132),
+    BTN_NORTH(0x133),
+    BTN_WEST(0x134),
+    BTN_Z(0x135),
+    BTN_TL(0x136),
+    BTN_TR(0x137),
+    BTN_TL2(0x138),
+    BTN_TR2(0x139),
+    BTN_SELECT(0x13a),
+    BTN_START(0x13b),
+    BTN_MODE(0x13c),
+    BTN_THUMBL(0x13d),
+    BTN_THUMBR(0x13e);
 
     private final int value;
     private static final HashMap<Integer, Key> VALUE_MAP;
