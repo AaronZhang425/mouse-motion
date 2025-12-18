@@ -9,27 +9,26 @@ import eventclassification.eventcodes.Rel;
 public class MotionTracker implements Runnable {
     private final InputReader reader;
 
-    private final EventData[] xValues = {null, null};
-    private final EventData[] yValues = {null, null};
+    private final EventData[] xValues = new EventData[2];
+    private final EventData[] yValues = new EventData[2];
 
-    private final int initialIndex = 0;
-    private final int finalIndex = 1;
+    // outer: displacement, velocity, acceleration
+    // inner: components of vector (x, y)
+    private final double[][] motionData = new double[3][2];
+
+    public MotionTracker(InputReader reader, double[] origin) {
+        this.reader = reader;
+        motionData[0][0] = origin[0];
+        motionData[0][1] = origin[1];
+
+    }
     
-
-
-    // private EventData xValueFinal;
-    // private EventData xValueInitial;
-
-    // private EventData yValueFinal;
-    // private EventData yValueInitial;
-
-
-
-    // private final EventData[] xValues = new EventData[2];
-    // private final EventData[] yValues = new EventData[2];
-
+    
     public MotionTracker(InputReader reader) {
         this.reader = reader;
+        motionData[0][0] = 0;
+        motionData[0][1] = 0;
+
     }
 
     @Override
@@ -52,14 +51,14 @@ public class MotionTracker implements Runnable {
             if (data.eventCode().equals(Rel.REL_X)) {
                 foundXValues++;
 
-                xValues[initialIndex] = xValues[finalIndex];
-                xValues[finalIndex] = data;
+                xValues[0] = xValues[1];
+                xValues[1] = data;
                 continue;
                 
             } else if (data.eventCode().equals(Rel.REL_Y)) {
                 foundYValues++;
-                yValues[initialIndex] = yValues[finalIndex];
-                yValues[finalIndex] = data;
+                yValues[0] = yValues[1];
+                yValues[1] = data;
 
             }
 
