@@ -1,11 +1,11 @@
 package devicemanagement;
 
 
-import eventclassification.EventCategory;
+// import eventclassification.EventCategory;
 import eventclassification.EventTypes;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
+// import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,8 +14,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class KernalInputDevices {
-
+    // This file lists all devices and their details
     private final File INPUT_DEVICE_INFO = new File("/proc/bus/input/devices");
+
+    // List of devices
     private ArrayList<InputDevice> devices;
 
     public KernalInputDevices() {
@@ -27,6 +29,7 @@ public class KernalInputDevices {
 
     }
 
+    // update list of devices
     public void update() {
         List<String> lines = readDeviceList();
         
@@ -125,13 +128,12 @@ public class KernalInputDevices {
 
         int bitMap = 0;
 
-        int index = ev.length() - 1;
         int bitShiftAmount = 0;
 
-        int num;
-
+        int index = ev.length() - 1;
+    
         while (index >= 0) {
-            num = Character.digit(ev.charAt(index), 16);
+            int num = Character.digit(ev.charAt(index), 16);
             bitMap |= (num << 4 * bitShiftAmount);
 
             index--;
