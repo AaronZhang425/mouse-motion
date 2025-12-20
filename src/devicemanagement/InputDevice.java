@@ -4,7 +4,7 @@ import java.io.File;
 
 import eventclassification.EventTypes;
 
-// to be implemented
+// Record to store device details provided by linux
 public record InputDevice(
     int[] id,
     String name,
