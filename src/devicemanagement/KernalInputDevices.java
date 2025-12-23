@@ -5,7 +5,6 @@ package devicemanagement;
 import eventclassification.EventTypes;
 import java.io.BufferedReader;
 import java.io.File;
-// import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,6 +15,7 @@ import java.util.regex.Pattern;
 public class KernalInputDevices {
     // This file lists all devices and their details
     private final File INPUT_DEVICE_INFO = new File("/proc/bus/input/devices");
+    private final File INPUT_DEVICE_FOLDER = new File("/sys/class/input");
 
     // List of devices
     private ArrayList<InputDevice> devices = new ArrayList<>();
