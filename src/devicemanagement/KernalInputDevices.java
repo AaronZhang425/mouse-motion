@@ -1,16 +1,22 @@
 package devicemanagement;
 
 
-// import eventclassification.EventCategory;
+import eventclassification.EventCategory;
 import eventclassification.EventTypes;
+import eventclassification.eventcodes.EventCode;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 public class KernalInputDevices {
     // This file lists all devices and their details
@@ -28,10 +34,35 @@ public class KernalInputDevices {
     //     System.out.println("Auto-update list");;
     //     update();
     // }
+
     
-    public ArrayList<InputDevice> getDevices() {
+    // get devices with that have the event types listed in the parameters
+    // to be implemented
+    private static ArrayList<InputDevice> getDevices(HashMap<EventTypes, EventCode> fullCapabilities) {
+        return new ArrayList<>(devices);
+    }
+
+
+    // get devices with that have the event types listed in the parameters
+    // to be implemented
+    public static ArrayList<InputDevice> getDeivces(ArrayList<EventTypes> eventTypes) {
+        ArrayList<InputDevice> filtered = new ArrayList<>();
+        
+        for (InputDevice inputDevice : devices) {
+            ArrayList<EventTypes> possibleEvents = new ArrayList<>(Arrays.asList(inputDevice.possibleEvents()));
+
+            if (possibleEvents.containsAll(eventTypes)) {
+                filtered.add(inputDevice);
+            }
+
+        }
+
+        return filtered;
+    }
+    
+    public static ArrayList<InputDevice> getDevices() {
         // System.out.println("Hello");
-        System.out.println(devices.size());
+        // System.out.println(devices.size());
         return new ArrayList<>(devices);
 
     }
