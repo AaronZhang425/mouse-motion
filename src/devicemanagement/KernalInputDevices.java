@@ -14,16 +14,20 @@ import java.util.regex.Pattern;
 
 public class KernalInputDevices {
     // This file lists all devices and their details
-    private final File INPUT_DEVICE_INFO = new File("/proc/bus/input/devices");
-    private final File INPUT_DEVICE_FOLDER = new File("/sys/class/input");
+    private static final File INPUT_DEVICE_INFO = new File("/proc/bus/input/devices");
+    // private final File INPUT_DEVICE_FOLDER = new File("/sys/class/input");
 
     // List of devices
-    private ArrayList<InputDevice> devices = new ArrayList<>();
+    private static ArrayList<InputDevice> devices = new ArrayList<>();
 
-    public KernalInputDevices() {
-        System.out.println("Auto-update list");;
+    static {
         update();
     }
+
+    // public KernalInputDevices() {
+    //     System.out.println("Auto-update list");;
+    //     update();
+    // }
     
     public ArrayList<InputDevice> getDevices() {
         // System.out.println("Hello");
@@ -33,7 +37,7 @@ public class KernalInputDevices {
     }
 
     // update list of devices
-    public void update() {
+    public static void update() {
 
         List<String> lines = readDeviceList();
         System.out.println(lines.size());
@@ -77,7 +81,7 @@ public class KernalInputDevices {
 
     }
 
-    public String getDeviceName(String line) {
+    private static String getDeviceName(String line) {
         String regex = "\"([^\"]*)\"";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(line);
@@ -91,11 +95,11 @@ public class KernalInputDevices {
     }
 
     // to be implemented
-    public int[] getDeviceId(String line) {
+    private static int[] getDeviceId(String line) {
         return new int[4];
     }
 
-    public File getHandlers(String line) {
+    private static File getHandlers(String line) {
         String regEx = "event[0-9]+";
         Pattern eventRegEx = Pattern.compile(regEx);
         Matcher matcher = eventRegEx.matcher(line);
@@ -111,7 +115,7 @@ public class KernalInputDevices {
 
     }
 
-    public EventTypes[] getPossibleEvents(String line) {
+    private static EventTypes[] getPossibleEvents(String line) {
         String regex = "(?<=ev=)[0-9]+";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(line);
@@ -165,7 +169,7 @@ public class KernalInputDevices {
         return possibleEvents;
     }
 
-    public List<String> readDeviceList() {
+    private static List<String> readDeviceList() {
         try (BufferedReader reader = new BufferedReader(
                 new FileReader(INPUT_DEVICE_INFO)
         )) {
