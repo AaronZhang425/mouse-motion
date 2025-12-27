@@ -206,6 +206,10 @@ public class KernalInputDevices {
 
     }
 
+    private static HashMap<EventTypes, EventCode[]> getCapabilities(String eventDirname) {
+        return null;
+    }
+
     private static EventCode getPossibleEventCodes(String eventDirName, EventTypes eventType) {
         return null;
     }
