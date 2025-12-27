@@ -174,8 +174,31 @@ public class KernalInputDevices {
     // }
 
     // to be implemented
-    private static int[] getDeviceId(String line) {
+    private static int[] getDeviceId(String eventDirName) {
+        int[] id = new int[4];
+
+        id[0] = getBus(eventDirName);
+        id[1] = getVendor(eventDirName);
+        id[2] = getProduct(eventDirName);
+        id[3] = getVersion(eventDirName);
+
         return new int[4];
+    }
+
+    private static int getBus(String eventDirName) {
+        return 0;
+    }
+
+    private static int getVendor(String eventDirName) {
+        return 0;
+    }
+
+    private static int getProduct(String eventDirName) {
+        return 0;
+    }
+
+    private static int getVersion(String eventDirName) {
+        return 0;
     }
 
     private static File getHanderFile(String eventDirName) {
