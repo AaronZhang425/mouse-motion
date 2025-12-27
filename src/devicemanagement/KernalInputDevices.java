@@ -86,9 +86,13 @@ public class KernalInputDevices {
         String[] eventDirs = getEventDirectories(INPUT_DEVICE_DIR);
 
         for (String eventDir : eventDirs) {
-            // File eventDetailsDir = new File(INPUT_DEVICE_DIR.getPath() + eventDir + "/device");
-            // System.out.println(eventDetailsDir);
             System.out.println(eventDir);
+            // File eventDetailsDir = new File(INPUT_DEVICE_DIR.getPath() + eventDir + "/device");
+            
+            id = getDeviceId(eventDir);
+            System.out.println(id);
+
+            // System.out.println(eventDetailsDir);
             // eventFile = new File("/dev/input/" + eventDir);
             eventFile = getHanderFile(eventDir);
             System.out.println(eventFile);
@@ -173,32 +177,40 @@ public class KernalInputDevices {
 
     // }
 
-    // to be implemented
     private static int[] getDeviceId(String eventDirName) {
+        File idDir = new File(INPUT_DEVICE_DIR + "/" + eventDirName + "/device/id");
         int[] id = new int[4];
 
-        id[0] = getBus(eventDirName);
-        id[1] = getVendor(eventDirName);
-        id[2] = getProduct(eventDirName);
-        id[3] = getVersion(eventDirName);
+        id[0] = getBus(idDir);
+        id[1] = getVendor(idDir);
+        id[2] = getProduct(idDir);
+        id[3] = getVersion(idDir);
 
         return new int[4];
     }
 
-    private static int getBus(String eventDirName) {
-        return 0;
+    private static int getBus(File idDir) {
+        File busFile = new File(idDir + "/bustype");
+        int busNum = Integer.parseInt(readFileLine(busFile), 16);
+        return busNum;
     }
 
-    private static int getVendor(String eventDirName) {
-        return 0;
+    private static int getVendor(File idDir) {
+        File vendorFile = new File(idDir + "/vendor");
+        int vendorNum = Integer.parseInt(readFileLine(vendorFile), 16);
+        return vendorNum;
     }
-
-    private static int getProduct(String eventDirName) {
-        return 0;
+    
+    private static int getProduct(File idDir) {
+        File productFile = new File(idDir + "/product");
+        int productNum = Integer.parseInt(readFileLine(productFile), 16);
+        return productNum;
     }
-
-    private static int getVersion(String eventDirName) {
-        return 0;
+    
+    private static int getVersion(File idDir) {
+        File versionFile = new File(idDir + "/product");
+        int versionNum = Integer.parseInt(readFileLine(versionFile), 16);
+        return versionNum;
     }
 
     private static File getHanderFile(String eventDirName) {
