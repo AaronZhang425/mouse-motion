@@ -52,11 +52,6 @@ public enum Sw implements EventCode {
         return EventTypes.SW;
     } 
 
-    // @Override
-    // public String getEventCodeName() {
-    //     return "sw";
-    // }
-
     public static Sw byValue(int value) {
         return (Sw) VALUE_MAP.get(value);
     }

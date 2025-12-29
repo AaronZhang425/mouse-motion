@@ -37,11 +37,6 @@ public enum Syn implements EventCode {
         return EventTypes.SYN;
     } 
 
-    // @Override
-    // public String getEventCodeName() {
-    //     return "syn";
-    // }
-
     public static Syn byValue(int value) {
         return (Syn) VALUE_MAP.get(value);
     }

@@ -3,7 +3,7 @@ package eventclassification;
 import java.util.HashMap;
 
 public interface EventCategory {
-    public HashMap<Integer, EventCategory> VALUE_MAP = new HashMap<>();
+    public static HashMap<Integer, EventCategory> VALUE_MAP = new HashMap<>();
 
     public int getValue();
 

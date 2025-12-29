@@ -47,11 +47,6 @@ public enum Rel implements EventCode {
         return EventTypes.REL;
     } 
 
-    // @Override
-    // public String getEventCodeName() {
-    //     return "rel";
-    // }
-
     public static Rel byValue(int value) {
         return (Rel) VALUE_MAP.get(value);
     }
