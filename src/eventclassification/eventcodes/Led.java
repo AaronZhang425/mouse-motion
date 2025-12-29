@@ -43,7 +43,12 @@ public enum Led implements EventCode {
     @Override
     public EventTypes getEventType() {
         return EventTypes.LED;
-    } 
+    }
+
+    // @Override
+    // public String getEventCodeName() {
+    //     return "led";
+    // }
 
     public static Led byValue(int value) {
         return (Led) VALUE_MAP.get(value);

@@ -77,7 +77,12 @@ public enum Abs implements EventCode {
     @Override
     public EventTypes getEventType() {
         return EventTypes.ABS;
-    } 
+    }
+
+    // @Override
+    // public String getEventCodeName() {
+    //     return "abs";
+    // }
 
     public static Abs byValue(int value) {
         return (Abs) VALUE_MAP.get(value);

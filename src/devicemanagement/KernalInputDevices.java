@@ -158,14 +158,50 @@ public class KernalInputDevices {
 
 
     // capability methods
+    // to be tested
     private static HashMap<EventTypes, EventCode[]> getCapabilities(String eventDirname) {
-        return null;
+        EventTypes[] possiableEventTypes = getPossibleEventTypes(eventDirname);
+
+        HashMap<EventTypes, EventCode[]> fullCapabilities = new HashMap<>();
+
+        for (EventTypes eventType : possiableEventTypes) {
+            fullCapabilities.put(eventType, getPossibleEventCodes(eventDirname, eventType));
+
+        }
+        
+
+        return fullCapabilities;
     }
 
-    private static EventCode getPossibleEventCodes(String eventDirName, EventTypes eventType) {
-        return null;
+    // to be tested
+    private static EventCode[] getPossibleEventCodes(String eventDirName, EventTypes eventType) {
+        String eventTypeName = eventType.name().toLowerCase();
+
+        File eventCodeFile = new File(
+            INPUT_DEVICE_DIR +
+            "/" +
+            eventDirName +
+            "/name/capabilities/" +
+            eventTypeName
+        );
+
+        String hex = readFileLine(eventCodeFile);
+
+        ArrayList<Integer> bitIndicies = getHexBitIndicies(hex);
+
+        EventCode[] eventCodeCapabilities = new EventCode[bitIndicies.size()];
+
+        for (int i = 0; i < eventCodeCapabilities.length; i++) {
+            EventCode capability = EventCode.byValue(bitIndicies.get(i));
+            eventCodeCapabilities[i] = capability;
+
+        }
+        
+
+        return eventCodeCapabilities;
     }
 
+    // to be tested
     private static EventTypes[] getPossibleEventTypes(String eventDirName) {
         File eventTypeCapabilitiesFile = new File(
             INPUT_DEVICE_DIR + 
@@ -180,7 +216,7 @@ public class KernalInputDevices {
 
         EventTypes[] eventTypeCapabilities = new EventTypes[bitIndicies.size()];
 
-        for (int i = 0; i < bitIndicies.size(); i++) {
+        for (int i = 0; i < eventTypeCapabilities.length; i++) {
             EventTypes capability = EventTypes.byValue(bitIndicies.get(i));
             eventTypeCapabilities[i] = capability;
 
