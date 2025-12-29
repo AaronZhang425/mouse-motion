@@ -4,6 +4,8 @@ package devicemanagement;
 // import eventclassification.EventCategory;
 import eventclassification.EventTypes;
 import eventclassification.eventcodes.EventCode;
+import eventclassification.eventcodes.Rep;
+import eventclassification.eventcodes.Syn;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -34,27 +36,27 @@ public class KernalInputDevices {
     
     // get devices with that have the event types listed in the parameters
     // to be implemented
-    private static ArrayList<InputDevice> getDevices(HashMap<EventTypes, EventCode> fullCapabilities) {
+    public static ArrayList<InputDevice> getDevices(HashMap<EventTypes, EventCode> fullCapabilities) {
         return new ArrayList<>(devices);
     }
 
 
     // get devices with that have the event types listed in the parameters
     // to be implemented
-    public static ArrayList<InputDevice> getDeivces(ArrayList<EventTypes> eventTypes) {
-        ArrayList<InputDevice> filtered = new ArrayList<>();
+    // public static ArrayList<InputDevice> getDeivces(ArrayList<EventTypes> eventTypes) {
+    //     ArrayList<InputDevice> filtered = new ArrayList<>();
         
-        for (InputDevice inputDevice : devices) {
-            ArrayList<EventTypes> possibleEvents = new ArrayList<>(Arrays.asList(inputDevice.possibleEvents()));
+    //     for (InputDevice inputDevice : devices) {
+    //         ArrayList<EventTypes> possibleEvents = new ArrayList<>(Arrays.asList(inputDevice.possibleEvents()));
 
-            if (possibleEvents.containsAll(eventTypes)) {
-                filtered.add(inputDevice);
-            }
+    //         if (possibleEvents.containsAll(eventTypes)) {
+    //             filtered.add(inputDevice);
+    //         }
 
-        }
+    //     }
 
-        return filtered;
-    }
+    //     return filtered;
+    // }
     
     public static ArrayList<InputDevice> getDevices() {
         return new ArrayList<>(devices);
@@ -68,9 +70,10 @@ public class KernalInputDevices {
         File physicalPath = null;
         File systemFileSystem = null;
         File eventFile = null;
-        EventTypes[] possiableEventTypes = null;
+        HashMap<EventTypes, EventCode[]> capabilities = null;
     
         String[] eventDirs = getEventDirectories(INPUT_DEVICE_DIR);
+        // String[] eventDirs = {"event0"};
 
         for (String eventDir : eventDirs) {
             System.out.println(eventDir);
@@ -84,6 +87,18 @@ public class KernalInputDevices {
             name = getDeviceName(eventDir);
             System.out.println(name);
 
+            capabilities = getCapabilities(eventDir);
+
+            devices.add(new InputDevice(
+                id,
+                name,
+                physicalPath,
+                systemFileSystem,
+                eventFile,
+                capabilities
+            ));
+
+            
 
 
         }
@@ -175,19 +190,45 @@ public class KernalInputDevices {
 
     // to be tested
     private static EventCode[] getPossibleEventCodes(String eventDirName, EventTypes eventType) {
+        System.out.println(eventType);
+
+
+        if (eventType.equals(EventTypes.SYN)) {
+            return Syn.values();
+
+        } else if (eventType.equals(EventTypes.REP)) {
+            return Rep.values();
+        }
+
+
         String eventTypeName = eventType.name().toLowerCase();
 
+        
         File eventCodeFile = new File(
             INPUT_DEVICE_DIR +
             "/" +
             eventDirName +
-            "/name/capabilities/" +
+            "/device/capabilities/" +
             eventTypeName
         );
-
-        String hex = readFileLine(eventCodeFile);
-
-        ArrayList<Integer> bitIndicies = getHexBitIndicies(hex);
+        
+        String[] hexNums = readFileLine(eventCodeFile).split(" ");
+        
+        ArrayList<Integer> bitIndicies = new ArrayList<>();;
+        // ArrayList<Integer> bitIndicies = getHexBitIndicies(hex);
+        
+        for (int i = 0; i < hexNums.length; i++) {
+            ArrayList<Integer> wordBitIndicies = getHexBitIndicies(hexNums[i]);
+            
+            for (int j = 0; j < wordBitIndicies.size(); j++) {
+                int bitIndexValue = wordBitIndicies.get(j) + i * Long.SIZE;
+                wordBitIndicies.set(j, bitIndexValue);
+            }
+            
+            bitIndicies.addAll(wordBitIndicies);
+            
+            
+        }
 
         EventCode[] eventCodeCapabilities = new EventCode[bitIndicies.size()];
 
@@ -207,7 +248,7 @@ public class KernalInputDevices {
             INPUT_DEVICE_DIR + 
             "/" +
             eventDirName + 
-            "device/capabilities/ev"
+            "/device/capabilities/ev"
         );
 
         String hex = readFileLine(eventTypeCapabilitiesFile);
@@ -228,11 +269,11 @@ public class KernalInputDevices {
 
     // utility methods
     private static ArrayList<Integer> getHexBitIndicies(String hex) {
-        int bitMap = Integer.parseInt(hex, 16);
+        Long bitMap = Long.parseUnsignedLong(hex, 16);
         
         ArrayList<Integer> indicies = new ArrayList<>();
 
-        for (int i = 0; i < Integer.SIZE; i++) {
+        for (Integer i = 0; i < Long.SIZE; i++) {
             if ((bitMap & 1) == 1) {
                 indicies.add(i);
             }

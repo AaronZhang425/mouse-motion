@@ -1,8 +1,10 @@
 import devicemanagement.*;
 import inputanalysis.*;
 import eventclassification.*;
+import eventclassification.eventcodes.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Main {
 
@@ -12,6 +14,8 @@ public class Main {
         // int num = Key.TEMP.getValue();
 
         KernalInputDevices.update();
+        ArrayList<InputDevice> devices = KernalInputDevices.getDevices();
+        HashMap<EventTypes, EventCode[]> capabilities = devices.get(0).capabilities();
 
 
         // Kernel input device class testing
