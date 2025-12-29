@@ -443,11 +443,6 @@ public enum Key implements EventCode {
         return EventTypes.KEY;
     }
 
-    // @Override
-    // public String getEventCodeName() {
-    //     return "key";
-    // }
-
     public static Key byValue(int value) {
         return (Key) VALUE_MAP.get(value);
     }
