@@ -39,6 +39,11 @@ public enum Msc implements EventCode {
         return EventTypes.MSC;
     } 
 
+    // @Override
+    // public String getEventCodeName() {
+    //     return "msc";
+    // }
+
     public static Msc byValue(int value) {
         return (Msc) VALUE_MAP.get(value);
     }

@@ -33,7 +33,11 @@ public enum Rep implements EventCode {
     @Override
     public EventTypes getEventType() {
         return EventTypes.REP;
-    } 
+    }
+
+    public String getEventCodeName() {
+        return "rep";
+    }
 
     public static Rep byValue(int value) {
         return (Rep) VALUE_MAP.get(value);

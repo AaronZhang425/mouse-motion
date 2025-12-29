@@ -36,6 +36,11 @@ public enum Snd implements EventCode {
         return EventTypes.SND;
     } 
 
+    // @Override
+    // public String getEventCodeName() {
+    //     return "snd";
+    // }
+
 
     public static Snd byValue(int value) {
         return (Snd) VALUE_MAP.get(value);
