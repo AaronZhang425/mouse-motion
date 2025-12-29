@@ -1,8 +1,10 @@
 package devicemanagement;
 
 import java.io.File;
+import java.util.HashMap;
 
 import eventclassification.EventTypes;
+import eventclassification.eventcodes.EventCode;
 
 // Record to store device details provided by linux
 public record InputDevice(
@@ -11,5 +13,5 @@ public record InputDevice(
     File physicalPath,
     File systemFileSystem,
     File handlerFile,
-    EventTypes[] possibleEvents
+    HashMap<EventTypes, EventCode[]> capabilities
 ) {}
