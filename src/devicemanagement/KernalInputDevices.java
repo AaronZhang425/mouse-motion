@@ -76,16 +76,16 @@ public class KernalInputDevices {
         // String[] eventDirs = {"event0"};
 
         for (String eventDir : eventDirs) {
-            System.out.println(eventDir);
+            // System.out.println(eventDir);
             
             id = getDeviceId(eventDir);
-            System.out.println(id);
+            // System.out.println(id);
 
             eventFile = getHanderFile(eventDir);
-            System.out.println(eventFile);
+            // System.out.println(eventFile);
 
             name = getDeviceName(eventDir);
-            System.out.println(name);
+            // System.out.println(name);
 
             capabilities = getCapabilities(eventDir);
 
@@ -125,7 +125,7 @@ public class KernalInputDevices {
             "/device/name"
         );
         
-        System.out.println(nameFile);
+        // System.out.println(nameFile);
         return readFileLine(nameFile);
     }
 
@@ -175,12 +175,16 @@ public class KernalInputDevices {
     // capability methods
     // to be tested
     private static HashMap<EventTypes, EventCode[]> getCapabilities(String eventDirname) {
+        // System.out.println(eventDirname);
         EventTypes[] possiableEventTypes = getPossibleEventTypes(eventDirname);
+        // System.out.println("Got event types");
 
         HashMap<EventTypes, EventCode[]> fullCapabilities = new HashMap<>();
 
         for (EventTypes eventType : possiableEventTypes) {
+            // System.out.println(eventType);
             fullCapabilities.put(eventType, getPossibleEventCodes(eventDirname, eventType));
+            // System.out.println();
 
         }
         
@@ -188,9 +192,8 @@ public class KernalInputDevices {
         return fullCapabilities;
     }
 
-    // to be tested
     private static EventCode[] getPossibleEventCodes(String eventDirName, EventTypes eventType) {
-        System.out.println(eventType);
+        // System.out.println(eventType);
 
 
         if (eventType.equals(EventTypes.SYN)) {
@@ -216,8 +219,11 @@ public class KernalInputDevices {
         
         ArrayList<Integer> bitIndicies = new ArrayList<>();;
         // ArrayList<Integer> bitIndicies = getHexBitIndicies(hex);
+
         
         for (int i = 0; i < hexNums.length; i++) {
+            // System.out.println(eventType);
+            // System.out.println(hexNums[i]);
             ArrayList<Integer> wordBitIndicies = getHexBitIndicies(hexNums[i]);
             
             for (int j = 0; j < wordBitIndicies.size(); j++) {
@@ -229,11 +235,12 @@ public class KernalInputDevices {
             
             
         }
-
+        
         EventCode[] eventCodeCapabilities = new EventCode[bitIndicies.size()];
-
+        
         for (int i = 0; i < eventCodeCapabilities.length; i++) {
-            EventCode capability = EventCode.byValue(bitIndicies.get(i));
+            EventCode capability = eventType.eventCodeByValue(bitIndicies.get(i));
+            // System.out.println(capability);
             eventCodeCapabilities[i] = capability;
 
         }
@@ -242,7 +249,6 @@ public class KernalInputDevices {
         return eventCodeCapabilities;
     }
 
-    // to be tested
     private static EventTypes[] getPossibleEventTypes(String eventDirName) {
         File eventTypeCapabilitiesFile = new File(
             INPUT_DEVICE_DIR + 
@@ -252,6 +258,7 @@ public class KernalInputDevices {
         );
 
         String hex = readFileLine(eventTypeCapabilitiesFile);
+        // System.out.println("ev hex: " + hex);
 
         ArrayList<Integer> bitIndicies = getHexBitIndicies(hex);
 
@@ -263,28 +270,64 @@ public class KernalInputDevices {
 
         }
 
+        // for (int i = 0; i < eventTypeCapabilities.length; i++) {
+        //     System.out.println("Event types" + eventTypeCapabilities[i]);
+        // }
+
         return eventTypeCapabilities;
 
     }
 
     // utility methods
+    /**
+     * 
+     * All content in the files in the 
+     * /sys/class/input/eventX/device/capabilities directory are hexidecimal
+     * numbers. The position of each 1's bit signify flags that correspond to a 
+     * event code or event type. Position 0 is defined as the left most bit
+     * (i.e. the 1's place of a binary number)
+     * 
+     * Mappings of the the 1's bit positions can be found here:
+     * https://github.com/torvalds/linux/blob/master/include/uapi/linux/input-event-codes.h
+     * 
+     * @param hex Hexidecimal number to search
+     * @return An Array List of all the indicies of a 1 bit
+     */
     private static ArrayList<Integer> getHexBitIndicies(String hex) {
+        // The given hex number often exceeds the range of an int
         Long bitMap = Long.parseUnsignedLong(hex, 16);
         
+        // An array list to contain the indicies of each bit with index 0 being 
+        // the  1's place and index 1 being the 2's place of the binary number
         ArrayList<Integer> indicies = new ArrayList<>();
 
-        for (Integer i = 0; i < Long.SIZE; i++) {
+
+        
+
+        // This loop goes through a long and adds the positions in which a 
+        // 1 is found in the binary number to the array list. After each check,
+        // the index count increases (i in this case) and the number is shifted 
+        // rightwards.
+
+        // for each bit of a long:
+        for (int i = 0; i < Long.SIZE; i++) {
+            // if the rightmost bit is 1 (i.e. the 1's bit is 1):
             if ((bitMap & 1) == 1) {
+                // Add the index of that bit into the array list
+                // i represents the index of the number
                 indicies.add(i);
             }
 
+            // Do a logical shift rightwards by one bit
             bitMap >>>= 1;
 
         }
 
+        // return the resulting indicies found
         return indicies;
     }
     
+    // reads a single line of a given file
     private static String readFileLine(File file) {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             return reader.readLine();
