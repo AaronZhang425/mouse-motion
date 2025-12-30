@@ -5,6 +5,7 @@ import eventclassification.eventcodes.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 public class Main {
 
@@ -13,9 +14,28 @@ public class Main {
 
         // int num = Key.TEMP.getValue();
 
+        int index = 8;
+
         KernalInputDevices.update();
         ArrayList<InputDevice> devices = KernalInputDevices.getDevices();
-        HashMap<EventTypes, EventCode[]> capabilities = devices.get(0).capabilities();
+        HashMap<EventTypes, EventCode[]> capabilities = devices.get(index).capabilities();
+        Set<EventTypes> keys = capabilities.keySet();
+
+        System.out.println(devices.get(index).name());
+        System.out.println(devices.get(index).handlerFile());
+
+        for (EventTypes eventType : keys) {
+            System.out.println(eventType);
+            
+            EventCode[] eventCodes = capabilities.get(eventType);
+
+            for (EventCode eventCode : eventCodes) {
+                System.out.print(eventCode + " ");
+            }
+
+            System.out.println();
+
+        }
 
 
         // Kernel input device class testing
