@@ -1,7 +1,7 @@
 package inputanalysis;
 
 public class MouseTrackerManger {
-    private MouseMotionTracker[] mouseTrackers;
+    private MouseMotionTracker mouseTracker;
 
     public MouseTrackerManger() {
 

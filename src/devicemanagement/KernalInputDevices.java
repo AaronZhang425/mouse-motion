@@ -12,13 +12,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FilenameFilter;
 // import java.io.IOException;
-// import java.text.FieldPosition;
 import java.util.ArrayList;
-import java.util.Arrays;
+// import java.util.Arrays;
 import java.util.HashMap;
-// import java.util.List;
-// import java.util.regex.Matcher;
-// import java.util.regex.Pattern;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 
@@ -35,28 +34,37 @@ public class KernalInputDevices {
     }
     
     // get devices with that have the event types listed in the parameters
-    // to be implemented
-    public static ArrayList<InputDevice> getDevices(HashMap<EventTypes, EventCode> fullCapabilities) {
-        return new ArrayList<>(devices);
+    // TODO: implement full capabilities filtering
+    public static ArrayList<InputDevice> getDevices(HashMap<EventTypes, EventCode> fullCapabilitiesFilter) {
+        // return new ArrayList<>(devices);
+        return getDeivces(fullCapabilitiesFilter.keySet());
     }
 
 
     // get devices with that have the event types listed in the parameters
-    // to be implemented
-    // public static ArrayList<InputDevice> getDeivces(ArrayList<EventTypes> eventTypes) {
-    //     ArrayList<InputDevice> filtered = new ArrayList<>();
+    public static ArrayList<InputDevice> getDeivces(Set<EventTypes> eventTypesFilter) {
+        ArrayList<InputDevice> filtered = new ArrayList<>();
         
-    //     for (InputDevice inputDevice : devices) {
-    //         ArrayList<EventTypes> possibleEvents = new ArrayList<>(Arrays.asList(inputDevice.possibleEvents()));
+        for (InputDevice inputDevice : devices) {
+            Set<EventTypes> possibleEventTypes = (
+                inputDevice.capabilities().keySet()
+            );
+            
 
-    //         if (possibleEvents.containsAll(eventTypes)) {
-    //             filtered.add(inputDevice);
-    //         }
+            if (possibleEventTypes.equals(eventTypesFilter)) {
+                filtered.add(inputDevice);
 
-    //     }
+            }
 
-    //     return filtered;
-    // }
+        }
+
+        return filtered;
+    }
+
+    public static ArrayList<InputDevice> getDevices(List<EventTypes> eventTypesFilter) {
+        return getDeivces(new HashSet<>(eventTypesFilter));
+
+    }
     
     public static ArrayList<InputDevice> getDevices() {
         return new ArrayList<>(devices);
@@ -257,6 +265,9 @@ public class KernalInputDevices {
             "/device/capabilities/ev"
         );
 
+        // get get the hex number representing the possible event types
+        // file containing possible event types will always use a single word
+        // extra processing is therefore not needed unlike event code
         String hex = readFileLine(eventTypeCapabilitiesFile);
         // System.out.println("ev hex: " + hex);
 
