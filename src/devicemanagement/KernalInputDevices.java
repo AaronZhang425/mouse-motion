@@ -13,6 +13,7 @@ import java.io.FileReader;
 import java.io.FilenameFilter;
 // import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 // import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -21,7 +22,7 @@ import java.util.Set;
 
 
 
-public class KernalInputDevices {
+public class KernalInputDevices { 
     // This file lists all devices and their details
     // private static final File INPUT_DEVICE_INFO = new File("/proc/bus/input/devices");
     private static final File INPUT_DEVICE_DIR = new File("/sys/class/input");
@@ -34,12 +35,50 @@ public class KernalInputDevices {
     }
     
     // get devices with that have the event types listed in the parameters
-    // TODO: implement full capabilities filtering
+    // TODO: test method
     public static ArrayList<InputDevice> getDevices(HashMap<EventTypes, EventCode> fullCapabilitiesFilter) {
-        // return new ArrayList<>(devices);
-        return getDeivces(fullCapabilitiesFilter.keySet());
-    }
+        // Arraylist containing a filtered list of devices by both
+        // event type and event code
+        ArrayList<InputDevice> filtered = new ArrayList<>();
+        
+        ArrayList<EventTypes> eventTypeFilter = new ArrayList<>(fullCapabilitiesFilter.keySet());
+        
+        // Input devices filtered only by event type, not including event codes
+        ArrayList<InputDevice> eventTypeFiltered = getDevices(eventTypeFilter);
 
+        for (InputDevice inputDevice : eventTypeFiltered) {
+            boolean matches = true;
+
+            for (int i = 0; i < eventTypeFilter.size(); i++) {
+                EventTypes eventTypeKey = eventTypeFilter.get(i);
+
+
+                // Convert the event codes of the device to a hash set
+                HashSet<EventCode> capableEventCodes = new HashSet<>(
+                    Arrays.asList(inputDevice.capabilities().get(eventTypeKey))
+                );
+
+                // Convert the event codes to filter to a hash set
+                HashSet<EventCode> eventCodeFilter = new HashSet<>(
+                    Arrays.asList(fullCapabilitiesFilter.get(eventTypeKey))
+                );
+
+                if (!capableEventCodes.containsAll(eventCodeFilter)) {
+                    matches = false;
+                }
+
+            }
+
+
+            if (matches) {
+                filtered.add(inputDevice);
+            }
+        
+        }
+
+        return filtered;
+    
+    }
 
     // get devices with that have the event types listed in the parameters
     public static ArrayList<InputDevice> getDeivces(Set<EventTypes> eventTypesFilter) {
@@ -51,7 +90,7 @@ public class KernalInputDevices {
             );
             
 
-            if (possibleEventTypes.equals(eventTypesFilter)) {
+            if (possibleEventTypes.containsAll(eventTypesFilter)) {
                 filtered.add(inputDevice);
 
             }
@@ -351,6 +390,5 @@ public class KernalInputDevices {
 
 
     }
-
 
 }
