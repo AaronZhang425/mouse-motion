@@ -49,10 +49,18 @@ public class MouseMotionTracker implements Runnable {
 
             // update x displacement
             motionData[0][0] += totalDisplacement(xValues);
+            System.out.println("X displacement: " + motionData[0][0]);
             // update y displacement
             motionData[0][1] += totalDisplacement(yValues);
+            System.out.println("Y displacement: " + motionData[0][1]);
 
+            System.out.println("X value 0: " + xValues[0].value());
+            System.out.println("X value 1: " + xValues[1].value());
+            System.out.println("X value 2: " + xValues[2].value());
 
+            System.out.println("Y value 0: " + yValues[0].value());
+            System.out.println("Y value 1: " + yValues[1].value());
+            System.out.println("Y value 2: " + yValues[2].value());
             
         }
         
@@ -161,6 +169,7 @@ public class MouseMotionTracker implements Runnable {
 
         while (foundXValues < 3 || foundYValues < 3) {
             EventData data = reader.getEventData();
+            printEventData(data);
 
             if (!data.eventType().equals(EventTypes.REL)) {
                 continue;
@@ -172,6 +181,12 @@ public class MouseMotionTracker implements Runnable {
                 xValues[0] = xValues[1];
                 xValues[1] = xValues[2];
                 xValues[2] = data;
+
+                // System.out.println("X value 0: " + xValues[0]);
+                // System.out.println("X value 1: " + xValues[1]);
+                // System.out.println("X value 0: " + xValues[2]);
+
+
                 continue;
                 
             } else if (data.eventCode().equals(Rel.REL_Y)) {
@@ -186,6 +201,17 @@ public class MouseMotionTracker implements Runnable {
 
 
         }
+
+    }
+
+    private void printEventData(EventData data) {
+        System.out.println("Input event info: ");
+        System.out.println("Seconds: " + data.time()[0]);
+        System.out.println("Microseconds: " + data.time()[1]);
+        System.out.println("Event type: " + data.eventType());
+        System.out.println("Event code: " + data.eventCode());
+        System.out.println("Value: " + data.value());
+        System.out.println();
 
     }
 

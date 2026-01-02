@@ -25,11 +25,11 @@ public class InputReader {
     public EventData getEventData() {
         byte[] buffer = eventFileReader();
 
-        for (byte elem : buffer) {
-            System.out.print(elem + " ");
-        }
+        // for (byte elem : buffer) {
+        //     System.out.print(elem + " ");
+        // }
         
-        System.out.println();
+        // System.out.println();
 
         int eventTypeValue = ByteArrayConverson.toInt(buffer, 17, 16);
         int eventCodeValue = ByteArrayConverson.toInt(buffer, 19, 18);

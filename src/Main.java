@@ -28,17 +28,21 @@ public class Main {
         ArrayList<InputDevice> filteredDeviceList = KernalInputDevices.getDevices(fullCapabilitiesFilter);
         // ArrayList<InputDevice> filteredDeviceList = KernalInputDevices.getDevices(filter);
 
-        for (int i = 0; i < filteredDeviceList.size(); i++) {
-            InputDevice device = filteredDeviceList.get(i);
+        Mouse mouse = new Mouse(filteredDeviceList.get(0), 1000);
+        MouseMotionTracker tracker = new MouseMotionTracker(mouse);
+        tracker.run();
 
-            System.out.println(device.name());
-            Set<EventTypes> keySet = device.capabilities().keySet();
+        // for (int i = 0; i < filteredDeviceList.size(); i++) {
+        //     InputDevice device = filteredDeviceList.get(i);
 
-            for (EventTypes eventType : keySet) {
-                System.out.println(eventType);
-            }
+        //     System.out.println(device.name());
+        //     Set<EventTypes> keySet = device.capabilities().keySet();
 
-        }
+        //     for (EventTypes eventType : keySet) {
+        //         System.out.println(eventType);
+        //     }
+
+        // }
 
 
         // int index = 8;
