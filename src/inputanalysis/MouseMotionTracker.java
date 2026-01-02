@@ -1,9 +1,12 @@
 package inputanalysis;
 
+import java.util.ArrayDeque;
+
 import devicemanagement.EventData;
 import devicemanagement.InputReader;
 import devicemanagement.Mouse;
 import eventclassification.EventTypes;
+// import eventclassification.eventcodes.Rel;
 import eventclassification.eventcodes.Rel;
 
 
@@ -13,14 +16,20 @@ public class MouseMotionTracker implements Runnable{
     private final InputReader reader;
     private final Mouse mouse;
 
-    private final InputFilter xValues;
-    private final InputFilter yValues;
+    // private final InputFilter xValues;
+    // private final InputFilter yValues;
 
-    private final Thread xValuesThread;
-    private final Thread yValuesThread;
+    // private final Thread xValuesThread;
+    // private final Thread yValuesThread;
 
     // private final EventData[] xValues = new EventData[3];
     // private final EventData[] yValues = new EventData[3];
+
+    // private final EventData[] xValues = {new EventData(), new EventData(), new EventData()};
+    // private final EventData[] yValues = {new EventData(), new EventData(), new EventData()};
+
+    private final ArrayDeque<EventData> xValues = new ArrayDeque<>();
+    private final ArrayDeque<EventData> yValues = new ArrayDeque<>();
 
     // outer: displacement, velocity, acceleration
     // inner: components of vector (x, y)
@@ -33,11 +42,11 @@ public class MouseMotionTracker implements Runnable{
         motionData[0][0] = start[0];
         motionData[0][1] = start[1];
 
-        xValues = new InputFilter(reader, EventTypes.REL, Rel.REL_X);
-        yValues = new InputFilter(reader, EventTypes.REL, Rel.REL_Y);
+        // xValues = new InputFilter(reader, EventTypes.REL, Rel.REL_X);
+        // yValues = new InputFilter(reader, EventTypes.REL, Rel.REL_Y);
 
-        xValuesThread = new Thread(xValues);
-        yValuesThread = new Thread(yValues);
+        // xValuesThread = new Thread(xValues);
+        // yValuesThread = new Thread(yValues);
 
         
     }
@@ -92,8 +101,8 @@ public class MouseMotionTracker implements Runnable{
             
         }
 
-        xValues.terminate();
-        yValues.terminate();
+        // xValues.terminate();
+        // yValues.terminate();
         
     }
     
@@ -191,6 +200,23 @@ public class MouseMotionTracker implements Runnable{
         );
 
         return timeDifference;
+
+    }
+
+    private void getData() {
+        EventData data = reader.getEventData();
+        
+        if (!data.eventType().equals(EventTypes.REL)) {
+            return;
+        }
+
+        if (data.eventCode().equals(Rel.REL_X)) {
+            xValues.addLast(data);
+
+        } else if (data.eventCode().equals(Rel.REL_Y)) {
+            yValues.addLast(data);
+
+        }
 
     }
 
