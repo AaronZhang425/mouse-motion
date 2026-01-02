@@ -6,12 +6,21 @@ import devicemanagement.Mouse;
 import eventclassification.EventTypes;
 import eventclassification.eventcodes.Rel;
 
-public class MouseMotionTracker implements Runnable {
+
+public class MouseMotionTracker extends Thread {
+    private boolean stop = false;
+
     private final InputReader reader;
     private final Mouse mouse;
 
-    private final EventData[] xValues = new EventData[3];
-    private final EventData[] yValues = new EventData[3];
+    private final InputFilter xValues;
+    private final InputFilter yValues;
+
+    private final Thread xValuesThread;
+    private final Thread yValuesThread;
+
+    // private final EventData[] xValues = new EventData[3];
+    // private final EventData[] yValues = new EventData[3];
 
     // outer: displacement, velocity, acceleration
     // inner: components of vector (x, y)
@@ -23,17 +32,35 @@ public class MouseMotionTracker implements Runnable {
         
         motionData[0][0] = start[0];
         motionData[0][1] = start[1];
+
+        xValues = new InputFilter(reader, EventTypes.REL, Rel.REL_X);
+        yValues = new InputFilter(reader, EventTypes.REL, Rel.REL_Y);
+
+        xValuesThread = new Thread(xValues);
+        yValuesThread = new Thread(yValues);
+
         
     }
     
     
     public MouseMotionTracker(Mouse mouse) {
-        this.mouse = mouse;
-        this.reader = new InputReader(this.mouse.device().handlerFile());
+        double[] startPosition = {0, 0};
+        this(mouse, startPosition);
+        
+        // this.mouse = mouse;
+        // this.reader = new InputReader(this.mouse.device().handlerFile());
 
-        motionData[0][0] = 0;
-        motionData[0][1] = 0;
+        // motionData[0][0] = 0;
+        // motionData[0][1] = 0;
 
+    }
+
+    public void setStop(boolean stop) {
+        this.stop = stop;
+    }
+
+    public boolean getStop() {
+        return stop;
     }
 
     public double[][] getMotionData() {
@@ -43,24 +70,25 @@ public class MouseMotionTracker implements Runnable {
 
     @Override
     public void run() {
-        // TODO Auto-generated method stub
-        while (true) {
-            getData();
+        // TODO: Redo logic for sensing
 
-            // update x displacement
-            motionData[0][0] += totalDisplacement(xValues);
-            System.out.println("X displacement: " + motionData[0][0]);
-            // update y displacement
-            motionData[0][1] += totalDisplacement(yValues);
-            System.out.println("Y displacement: " + motionData[0][1]);
+        while (!stop) {
+        //     getData();
 
-            System.out.println("X value 0: " + xValues[0].value());
-            System.out.println("X value 1: " + xValues[1].value());
-            System.out.println("X value 2: " + xValues[2].value());
+        //     // update x displacement
+        //     motionData[0][0] += totalDisplacement(xValues.getData);
+        //     System.out.println("X displacement: " + motionData[0][0]);
+        //     // update y displacement
+        //     motionData[0][1] += totalDisplacement(yValues);
+        //     System.out.println("Y displacement: " + motionData[0][1]);
 
-            System.out.println("Y value 0: " + yValues[0].value());
-            System.out.println("Y value 1: " + yValues[1].value());
-            System.out.println("Y value 2: " + yValues[2].value());
+        //     System.out.println("X value 0: " + xValues[0].value());
+        //     System.out.println("X value 1: " + xValues[1].value());
+        //     System.out.println("X value 2: " + xValues[2].value());
+
+        //     System.out.println("Y value 0: " + yValues[0].value());
+        //     System.out.println("Y value 1: " + yValues[1].value());
+        //     System.out.println("Y value 2: " + yValues[2].value());
             
         }
         
@@ -163,46 +191,46 @@ public class MouseMotionTracker implements Runnable {
 
     }
 
-    private void getData() {
-        int foundXValues = 0;
-        int foundYValues = 0;
+    // private void getData() {
+    //     int foundXValues = 0;
+    //     int foundYValues = 0;
 
-        while (foundXValues < 3 || foundYValues < 3) {
-            EventData data = reader.getEventData();
-            printEventData(data);
+    //     while (foundXValues < 3 || foundYValues < 3) {
+    //         EventData data = reader.getEventData();
+    //         printEventData(data);
 
-            if (!data.eventType().equals(EventTypes.REL)) {
-                continue;
-            }
+    //         if (!data.eventType().equals(EventTypes.REL)) {
+    //             continue;
+    //         }
 
-            if (data.eventCode().equals(Rel.REL_X)) {
-                foundXValues++;
+    //         if (data.eventCode().equals(Rel.REL_X)) {
+    //             foundXValues++;
 
-                xValues[0] = xValues[1];
-                xValues[1] = xValues[2];
-                xValues[2] = data;
+    //             xValues[0] = xValues[1];
+    //             xValues[1] = xValues[2];
+    //             xValues[2] = data;
 
-                // System.out.println("X value 0: " + xValues[0]);
-                // System.out.println("X value 1: " + xValues[1]);
-                // System.out.println("X value 0: " + xValues[2]);
+    //             // System.out.println("X value 0: " + xValues[0]);
+    //             // System.out.println("X value 1: " + xValues[1]);
+    //             // System.out.println("X value 0: " + xValues[2]);
 
 
-                continue;
+    //             continue;
                 
-            } else if (data.eventCode().equals(Rel.REL_Y)) {
-                foundYValues++;
+    //         } else if (data.eventCode().equals(Rel.REL_Y)) {
+    //             foundYValues++;
 
-                yValues[0] = yValues[1];
-                yValues[1] = yValues[2];
-                yValues[2] = data;
+    //             yValues[0] = yValues[1];
+    //             yValues[1] = yValues[2];
+    //             yValues[2] = data;
 
-            }
+    //         }
 
 
 
-        }
+    //     }
 
-    }
+    // }
 
     private void printEventData(EventData data) {
         System.out.println("Input event info: ");
