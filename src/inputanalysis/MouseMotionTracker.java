@@ -7,7 +7,7 @@ import eventclassification.EventTypes;
 import eventclassification.eventcodes.Rel;
 
 
-public class MouseMotionTracker extends Thread {
+public class MouseMotionTracker implements Runnable{
     private boolean stop = false;
 
     private final InputReader reader;
