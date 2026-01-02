@@ -73,24 +73,27 @@ public class MouseMotionTracker implements Runnable{
         // TODO: Redo logic for sensing
 
         while (!stop) {
-        //     getData();
-
-        //     // update x displacement
-        //     motionData[0][0] += totalDisplacement(xValues.getData);
-        //     System.out.println("X displacement: " + motionData[0][0]);
-        //     // update y displacement
-        //     motionData[0][1] += totalDisplacement(yValues);
-        //     System.out.println("Y displacement: " + motionData[0][1]);
-
-        //     System.out.println("X value 0: " + xValues[0].value());
-        //     System.out.println("X value 1: " + xValues[1].value());
-        //     System.out.println("X value 2: " + xValues[2].value());
-
-        //     System.out.println("Y value 0: " + yValues[0].value());
-        //     System.out.println("Y value 1: " + yValues[1].value());
-        //     System.out.println("Y value 2: " + yValues[2].value());
+            //     getData();
+            
+            //     // update x displacement
+            //     motionData[0][0] += totalDisplacement(xValues.getData);
+            //     System.out.println("X displacement: " + motionData[0][0]);
+            //     // update y displacement
+            //     motionData[0][1] += totalDisplacement(yValues);
+            //     System.out.println("Y displacement: " + motionData[0][1]);
+            
+            //     System.out.println("X value 0: " + xValues[0].value());
+            //     System.out.println("X value 1: " + xValues[1].value());
+            //     System.out.println("X value 2: " + xValues[2].value());
+            
+            //     System.out.println("Y value 0: " + yValues[0].value());
+            //     System.out.println("Y value 1: " + yValues[1].value());
+            //     System.out.println("Y value 2: " + yValues[2].value());
             
         }
+        
+        xValues.setStop(stop);
+        yValues.setStop(stop);
         
     }
     
