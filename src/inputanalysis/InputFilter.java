@@ -34,12 +34,12 @@ public class InputFilter implements Runnable {
         this(reader, eventType, null);
     }
 
-    public boolean getStop() {
+    public boolean isTerminated() {
         return stop;
     }
 
-    public void setStop(boolean stop) {
-        this.stop = stop;
+    public void terminate() {
+        stop = true;
     }
 
     public EventData getData() {
