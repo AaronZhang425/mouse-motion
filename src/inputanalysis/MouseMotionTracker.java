@@ -55,11 +55,11 @@ public class MouseMotionTracker implements Runnable{
 
     }
 
-    public void setStop(boolean stop) {
-        this.stop = stop;
+    public void terminate() {
+        stop = false;
     }
 
-    public boolean getStop() {
+    public boolean isTerminated() {
         return stop;
     }
 
@@ -91,9 +91,9 @@ public class MouseMotionTracker implements Runnable{
             //     System.out.println("Y value 2: " + yValues[2].value());
             
         }
-        
-        xValues.setStop(stop);
-        yValues.setStop(stop);
+
+        xValues.terminate();
+        yValues.terminate();
         
     }
     
