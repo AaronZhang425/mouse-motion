@@ -13,6 +13,7 @@ public class Main {
         // InputReader input = new InputReader(5);
 
         // int num = Key.TEMP.getValue();
+        System.out.println("Program running");
 
         ArrayList<InputDevice> devices = KernalInputDevices.getDevices();
 
@@ -27,7 +28,20 @@ public class Main {
         ArrayList<InputDevice> filteredDeviceList = KernalInputDevices.getDevices(fullCapabilitiesFilter);
         // ArrayList<InputDevice> filteredDeviceList = KernalInputDevices.getDevices(filter);
 
-        Mouse mouse = new Mouse(filteredDeviceList.get(0), 1000);
+        InputDevice deviceToUse = filteredDeviceList.get(0);
+        Mouse mouse = new Mouse(deviceToUse, 1000);
+        System.out.println(deviceToUse.name());
+        System.out.println("Please wait");
+
+        try {
+            Thread.sleep(2000);
+
+        } catch (Exception e) {
+            System.out.println(e);
+
+        }
+        
+        
         Thread tracker = new Thread(new MouseMotionTracker(mouse));
 
         tracker.start();
