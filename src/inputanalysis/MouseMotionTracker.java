@@ -78,10 +78,13 @@ public class MouseMotionTracker implements Runnable{
         while (!stop) {
             // motionData[0][0] = xValues.getData();
 
+            if (xValues.hasNext()) {
+                EventData xData = xValues.getData();
+                motionData[0][0] += getDisplacement(xData);
+                // System.out.println(xData);
+            }
 
-            EventData xData = xValues.getData();
-            System.out.println(xData);
-            
+            System.out.println(motionData[0][0]);
             // if (xData != null) {
             //     motionData[0][0] += getDisplacement(xData);
 
@@ -138,6 +141,9 @@ public class MouseMotionTracker implements Runnable{
         // return (double) counts / 1000.0;
         // return (double) counts / dpi;
         return (double) counts / dpi * 0.0254;
+
+        // counts inch   meters
+        //        counts inch
     }
     
     private double mouseCountsToMeters(int counts) {

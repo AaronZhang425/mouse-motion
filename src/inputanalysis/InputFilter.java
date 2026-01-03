@@ -42,6 +42,10 @@ public class InputFilter implements Runnable {
         stop = true;
     }
 
+    public boolean hasNext() {
+        return data.size() > 0;
+    }
+
     public EventData getData() {
         // place holder
         synchronized(data) {
@@ -76,8 +80,6 @@ public class InputFilter implements Runnable {
             if (filter.apply(eventData)) {
                 data.addLast(eventData);
                 // System.out.println(data.getLast());
-            } else {
-                data.add(new EventData());
             }
         }
 
