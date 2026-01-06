@@ -8,6 +8,7 @@ import eventclassification.eventcodes.Rel;
 
 
 public class MouseMotionTracker implements Runnable{
+    // variable used to control termination of thread
     private volatile boolean stop = false;
 
     private final InputReader reader;

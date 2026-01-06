@@ -16,6 +16,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.w3c.dom.events.Event;
+
 
 
 public class KernalInputDevices { 
@@ -122,10 +124,12 @@ public class KernalInputDevices {
 
     // update list of devices
     public static void update() {
+        devices.clear();
+
         int[] id = new int[4];
         String name = null;
-        File physicalPath = null;
-        File systemFileSystem = null;
+        File physicalPath = null; // unimplemented
+        File systemFileSystem = null; // unimplemented
         File eventFile = null;
         HashMap<EventTypes, EventCode[]> capabilities = null;
     
@@ -158,6 +162,8 @@ public class KernalInputDevices {
     }
 
     private static String[] getEventDirectories(File dirToFilter) {
+        // Get the files within the directory and only get subdirectoreis
+        // of /sys/class/input that start with event followed by a number
         String[] files = dirToFilter.list(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
@@ -200,7 +206,7 @@ public class KernalInputDevices {
         id[2] = getProduct(idDir);
         id[3] = getVersion(idDir);
 
-        return new int[4];
+        return id;
     }
 
     private static int getBus(File idDir) {
@@ -222,7 +228,7 @@ public class KernalInputDevices {
     }
     
     private static int getVersion(File idDir) {
-        File versionFile = new File(idDir + "/product");
+        File versionFile = new File(idDir + "/version");
         int versionNum = Integer.parseInt(readFileLine(versionFile), 16);
         return versionNum;
     }
@@ -237,26 +243,44 @@ public class KernalInputDevices {
     private static HashMap<EventTypes, EventCode[]> getCapabilities(String eventDirname) {
         EventTypes[] possiableEventTypes = getPossibleEventTypes(eventDirname);
 
+        // create a hashmap to map event types to the corresponding array of
+        // event types
         HashMap<EventTypes, EventCode[]> fullCapabilities = new HashMap<>();
 
+        // For each event type, get the array of possiable event codes and
+        // add the pair into the hash map 
         for (EventTypes eventType : possiableEventTypes) {
             fullCapabilities.put(eventType, getPossibleEventCodes(eventDirname, eventType));
 
         }
         
-
+        // Return the hashmap that maps each possiable event type to their
+        // respective array of possiable event codes
         return fullCapabilities;
     }
 
     private static EventCode[] getPossibleEventCodes(String eventDirName, EventTypes eventType) {
+        // Any device capable of SYN or REP are automatically capable of 
+        // every event code listed under the respective event type. Therefore,
+        // a file that lists the possiable event codes for event types SYN and
+        // REP is not created by the linux system  
         if (eventType.equals(EventTypes.SYN)) {
             return Syn.values();
 
         } else if (eventType.equals(EventTypes.REP)) {
             return Rep.values();
+        
         }
 
-
+        /*
+        In the directory /sys/class/input/eventX/device/capabilities where
+        eventX represents any directory starting with event and ending with
+        any number, there exists files specifying event codes the event
+        is capable of communicating. The files specifying the possiable
+        evnet codes are named after the respective event type in lower case.
+        For example, the bit flags indicating potential event codes for relative
+        input will be in the rel file, named after the event type rel
+        */
         String eventTypeName = eventType.name().toLowerCase();
 
         
@@ -272,6 +296,8 @@ public class KernalInputDevices {
         
         ArrayList<Integer> bitIndicies = new ArrayList<>();;
         
+        System.out.println(eventDirName);
+
         for (int i = 0; i < hexNums.length; i++) {
             ArrayList<Integer> wordBitIndicies = getHexBitIndicies(hexNums[i]);
             
@@ -292,7 +318,13 @@ public class KernalInputDevices {
             eventCodeCapabilities[i] = capability;
 
         }
-        
+
+        System.out.println(eventTypeName);
+        for (EventCode test: eventCodeCapabilities) {
+            System.out.print(test + " ");
+        }
+
+        System.out.println();
 
         return eventCodeCapabilities;
     }
@@ -330,7 +362,7 @@ public class KernalInputDevices {
      * All content in the files in the 
      * /sys/class/input/eventX/device/capabilities directory are hexidecimal
      * numbers. The position of each 1's bit signify flags that correspond to a 
-     * event code or event type. Position 0 is defined as the left most bit
+     * event code or event type. Position 0 is defined as the right most bit
      * (i.e. the 1's place of a binary number)
      * 
      * Mappings of the the 1's bit positions can be found here:
@@ -340,6 +372,9 @@ public class KernalInputDevices {
      * @return An Array List of all the indicies of a 1 bit
      */
     private static ArrayList<Integer> getHexBitIndicies(String hex) {
+        // TODO: Redo method to allow for hex strings beyond the size of a long. Method can still break on the largest possiable inputs
+
+
         // The given hex number often exceeds the range of an int
         Long bitMap = Long.parseUnsignedLong(hex, 16);
         
