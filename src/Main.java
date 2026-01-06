@@ -28,23 +28,23 @@ public class Main {
         ArrayList<InputDevice> filteredDeviceList = KernalInputDevices.getDevices(fullCapabilitiesFilter);
         // ArrayList<InputDevice> filteredDeviceList = KernalInputDevices.getDevices(filter);
 
-        InputDevice deviceToUse = filteredDeviceList.get(0);
-        Mouse mouse = new Mouse(deviceToUse, 1000);
-        System.out.println(deviceToUse.name());
-        System.out.println("Please wait");
+        // InputDevice deviceToUse = filteredDeviceList.get(0);
+        // Mouse mouse = new Mouse(deviceToUse, 1000);
+        // System.out.println(deviceToUse.name());
+        // System.out.println("Please wait");
 
-        try {
-            Thread.sleep(2000);
+        // try {
+        //     Thread.sleep(2000);
 
-        } catch (Exception e) {
-            System.out.println(e);
+        // } catch (Exception e) {
+        //     System.out.println(e);
 
-        }
+        // }
         
         
-        Thread tracker = new Thread(new MouseMotionTracker(mouse));
+        // Thread tracker = new Thread(new MouseMotionTracker(mouse));
 
-        tracker.start();
+        // tracker.start();
 
         // for (int i = 0; i < filteredDeviceList.size(); i++) {
         //     InputDevice device = filteredDeviceList.get(i);
@@ -82,50 +82,6 @@ public class Main {
 
         // }
 
-
-        // Kernel input device class testing
-        // KernalInputDevices list = new KernalInputDevices();
-
-        // list.update();
-
-        // ArrayList<InputDevice> devices = list.getDevices();
-        // System.out.println(devices.size());
-
-        // InputDevice inputDevice = devices.get(5);
-
-        // System.out.print(inputDevice.name());
-        // for (EventTypes eventType : inputDevice.possibleEvents()) {
-        //     System.out.print(eventType + " ");
-        // }
-
-        // System.out.println();
-        // System.out.println(inputDevice.handlerFile());
-
-
-        // for (InputDevice device : devices) {
-        //     System.out.println(device.name());
-            
-        //     for (EventTypes eventType : device.possibleEvents()) {
-        //         System.out.print(eventType + " ");
-        //     }
-
-        // }
-
-        // while (true) {
-        //     EventData inputData = input.getEventData();
-        //     System.out.println(inputData);
-        //     System.out.println();
-
-        //     // byte[] buffer = input.eventFileReader();
-
-        //     // for (byte elem : buffer) {
-        //     //     System.out.print(elem + " ");
-        //     // }
-            
-        //     // // System.out.println(num);
-
-
-        // }
 
 
     }
