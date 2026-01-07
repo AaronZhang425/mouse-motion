@@ -413,8 +413,25 @@ public enum Key implements EventCode {
     KEY_MESSENGER(0x1ae),
     KEY_DISPLAYTOGGLE(0x1af),
     KEY_SPELLCHECK(0x1b0),
-    KEY_LOGOFF(0x1b1);
+    KEY_LOGOFF(0x1b1),
 
+    KEY_DOLLAR(0x1b2),
+    KEY_EURO(0x1b3),
+    KEY_FRAMEBACK(0x1b4),
+    KEY_FRAMEFORWARD(0x1b5),
+    KEY_CONTEXT_MENU(0x1b6),
+    KEY_MEDIA_REPEAT(0x1b7),
+    KEY_10CHANNELSUP(0x1b8),
+    KEY_10CHANNELSDOWN(0x1b9),
+    KEY_IMAGES(0x1ba),
+    KEY_NOTIFICATION_CENTER(0x1bc),
+    KEY_PICKUP_PHONE(0x1bd),
+    KEY_HANGUP_PHONE(0x1be),
+    KEY_LINK_PHONE (0x1bf),
+    KEY_DEL_EOL(0x1c0),
+    KEY_DEL_EOS(0x1c1),
+    KEY_INS_LINE(0x1c2),
+    KEY_DEL_LINE(0x1c3);
 
     private final int value;
     private static final HashMap<Integer, Key> VALUE_MAP;
