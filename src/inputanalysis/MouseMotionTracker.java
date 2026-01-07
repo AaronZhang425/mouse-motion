@@ -42,13 +42,24 @@ public class MouseMotionTracker implements Runnable{
 
         
     }
-    
-    
-    // public MouseMotionTracker(Mouse mouse) {
-    //     double[] startPosition = {0, 0};
-    //     this(mouse, startPosition);
 
-    // }
+    public MouseMotionTracker(Mouse mouse) {
+        this.mouse = mouse;
+        this.reader = new InputReader(this.mouse.device().handlerFile());
+
+        // initilize the position of mouse to (0, 0)
+        motionData[0][0] = 0;
+        motionData[0][1] = 0;
+
+        xValues = new InputFilter(reader, EventTypes.REL, Rel.REL_X);
+        yValues = new InputFilter(reader, EventTypes.REL, Rel.REL_Y);
+
+        xValuesThread = new Thread(xValues);
+        yValuesThread = new Thread(yValues);
+
+        xValuesThread.start();
+        yValuesThread.start();
+    }
 
     public void terminate() {
         stop = false;
@@ -84,6 +95,7 @@ public class MouseMotionTracker implements Runnable{
             
         }
 
+        // stop threads getting data
         xValues.terminate();
         yValues.terminate();
         
