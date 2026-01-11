@@ -8,7 +8,10 @@ import devicemanagement.InputReader;
 import eventclassification.EventTypes;
 import eventclassification.eventcodes.EventCode;
 
-public class InputFilter implements Runnable {
+
+// TODO: Rework class to allow several filters and several collections
+
+public class EventFileFilterer implements Runnable {
     private volatile boolean stop = false;
 
     private EventTypes eventType;
@@ -19,7 +22,7 @@ public class InputFilter implements Runnable {
 
     private volatile ArrayDeque<EventData> data = new ArrayDeque<>(16);
 
-    public InputFilter(InputReader reader, EventTypes eventType, EventCode eventCode) {
+    public EventFileFilterer(InputReader reader, EventTypes eventType, EventCode eventCode) {
         this.reader = reader;
         this.eventType = eventType;
         this.eventCode = eventCode;
@@ -28,7 +31,7 @@ public class InputFilter implements Runnable {
 
     }
 
-    public InputFilter(InputReader reader, EventTypes eventType) {
+    public EventFileFilterer(InputReader reader, EventTypes eventType) {
         // this.reader = reader;
         // this.eventType = eventType;
         this(reader, eventType, null);

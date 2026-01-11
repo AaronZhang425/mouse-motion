@@ -6,6 +6,10 @@ import devicemanagement.Mouse;
 import eventclassification.EventTypes;
 import eventclassification.eventcodes.Rel;
 
+
+// TODO: Rework class so that system to collect xValues and yValues do not conflict
+// In original system, they consume data, leading to inaccuracies in both.
+
 public class MouseMotionTracker implements Runnable {
     // variable used to control termination of thread
     private volatile boolean stop = false;
@@ -13,8 +17,8 @@ public class MouseMotionTracker implements Runnable {
     private final InputReader reader;
     private final Mouse mouse;
 
-    private final InputFilter xValues;
-    private final InputFilter yValues;
+    private final EventFileFilterer xValues;
+    private final EventFileFilterer yValues;
 
     private final Thread xValuesThread;
     private final Thread yValuesThread;
@@ -30,14 +34,14 @@ public class MouseMotionTracker implements Runnable {
         motionData[0][0] = start[0];
         motionData[0][1] = start[1];
 
-        xValues = new InputFilter(reader, EventTypes.REL, Rel.REL_X);
-        yValues = new InputFilter(reader, EventTypes.REL, Rel.REL_Y);
+        xValues = new EventFileFilterer(reader, EventTypes.REL, Rel.REL_X);
+        yValues = new EventFileFilterer(reader, EventTypes.REL, Rel.REL_Y);
 
         xValuesThread = new Thread(xValues);
         yValuesThread = new Thread(yValues);
 
         xValuesThread.start();
-        yValuesThread.start();
+        // yValuesThread.start();
 
     }
 
@@ -49,18 +53,18 @@ public class MouseMotionTracker implements Runnable {
         motionData[0][0] = 0;
         motionData[0][1] = 0;
 
-        xValues = new InputFilter(reader, EventTypes.REL, Rel.REL_X);
-        yValues = new InputFilter(reader, EventTypes.REL, Rel.REL_Y);
+        xValues = new EventFileFilterer(reader, EventTypes.REL, Rel.REL_X);
+        yValues = new EventFileFilterer(reader, EventTypes.REL, Rel.REL_Y);
 
         xValuesThread = new Thread(xValues);
         yValuesThread = new Thread(yValues);
 
         xValuesThread.start();
-        yValuesThread.start();
+        // yValuesThread.start();
     }
 
     public void terminate() {
-        stop = false;
+        stop = true;
     }
 
     public boolean isTerminated() {
@@ -85,7 +89,14 @@ public class MouseMotionTracker implements Runnable {
                 motionData[0][1] += getDisplacement(data);
 
             }
-            System.out.printf("X displacement: %5.4f \t Y displacement: %5.4f\n", motionData[0][0], motionData[0][1]);
+            
+            // System.out.printf("X displacement: %5.4f \t Y displacement: %5.4f\n", motionData[0][0], motionData[0][1]);
+
+            System.out.println("X displacement: " + motionData[0][0]);
+            // System.out.println("Y displacement: " + motionData[0][1]);
+            System.out.println();
+
+
         }
 
         // stop threads getting data
