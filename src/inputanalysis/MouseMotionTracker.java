@@ -6,8 +6,7 @@ import devicemanagement.Mouse;
 import eventclassification.EventTypes;
 import eventclassification.eventcodes.Rel;
 
-
-public class MouseMotionTracker implements Runnable{
+public class MouseMotionTracker implements Runnable {
     // variable used to control termination of thread
     private volatile boolean stop = false;
 
@@ -27,7 +26,7 @@ public class MouseMotionTracker implements Runnable{
     public MouseMotionTracker(Mouse mouse, double[] start) {
         this.mouse = mouse;
         this.reader = new InputReader(this.mouse.device().handlerFile());
-        
+
         motionData[0][0] = start[0];
         motionData[0][1] = start[1];
 
@@ -40,7 +39,6 @@ public class MouseMotionTracker implements Runnable{
         xValuesThread.start();
         yValuesThread.start();
 
-        
     }
 
     public MouseMotionTracker(Mouse mouse) {
@@ -73,49 +71,42 @@ public class MouseMotionTracker implements Runnable{
         return motionData.clone();
     }
 
-
     @Override
     public void run() {
         while (!stop) {
             if (xValues.hasNext()) {
                 EventData data = xValues.getData();
                 motionData[0][0] += getDisplacement(data);
-                
+
             }
-            
+
             if (yValues.hasNext()) {
                 EventData data = yValues.getData();
                 motionData[0][1] += getDisplacement(data);
 
             }
-
-            System.out.println("X displacement: " + motionData[0][0]);
-            System.out.println("Y displacement: " + motionData[0][1]);
-
-            
+            System.out.printf("X displacement: %5.4f \t Y displacement: %5.4f\n", motionData[0][0], motionData[0][1]);
         }
 
         // stop threads getting data
         xValues.terminate();
         yValues.terminate();
-        
+
     }
-    
+
     private double mouseCountsToMeters(int counts, int dpi) {
         // return (double) counts / 1000.0;
         // return (double) counts / dpi;
         return (double) counts / dpi * 0.0254;
 
-        // counts inch   meters
-        //        counts inch
+        // counts inch meters
+        // counts inch
     }
-    
+
     private double mouseCountsToMeters(int counts) {
         return mouseCountsToMeters(counts, mouse.dpi());
         // return (1.0 * counts / mouse.dpi()) * 0.0254;
     }
-    
-    
 
     private double totalDisplacement(EventData[] event) {
         double displacement = 0;
@@ -138,32 +129,29 @@ public class MouseMotionTracker implements Runnable{
     // }
 
     // private double getVelocity(EventData event0, EventData event1) {
-    //     double timeDifference = getTimeDifference(event0.finalData);
-    //     double finalMeters = mouseCountsToMeters(event1.value());
+    // double timeDifference = getTimeDifference(event0.finalData);
+    // double finalMeters = mouseCountsToMeters(event1.value());
 
-    //     return finalMeters / timeDifference;
+    // return finalMeters / timeDifference;
 
-
-    //     // in m/s
-    //     // currently only gets length, not velocity
-    //     // double initialMeters = mouseCountsToMeters(initialCount);
+    // // in m/s
+    // // currently only gets length, not velocity
+    // // double initialMeters = mouseCountsToMeters(initialCount);
 
     // }
 
     private double getVelocity(
-        double displacementDifference,
-        double timeDifference
-    ) {
+            double displacementDifference,
+            double timeDifference) {
 
         return displacementDifference / timeDifference;
 
     }
 
     private double getVelocity(
-        double intialDisplacement,
-        double finalDisplacemenet,
-        double timeDifference
-    ) {
+            double intialDisplacement,
+            double finalDisplacemenet,
+            double timeDifference) {
 
         return (finalDisplacemenet - intialDisplacement) / timeDifference;
 
@@ -172,10 +160,9 @@ public class MouseMotionTracker implements Runnable{
     // data is a parameter that represents an initial and final component
     // of a vector
     private double getAcceleration(
-        double intialVelocity,
-        double finalVelocity,
-        double timeDifference
-    ) {
+            double intialVelocity,
+            double finalVelocity,
+            double timeDifference) {
         return (finalVelocity - intialVelocity) / timeDifference;
 
     }
@@ -194,14 +181,11 @@ public class MouseMotionTracker implements Runnable{
         // long finalMicroseconds = data[1].time()[1];
 
         // in seconds
-        double timeDifference = (
-            (finalSeconds - initialSeconds) +
-            (finalMicroseconds - initialMicroseconds) / 1.0E60
-        );
+        double timeDifference = ((finalSeconds - initialSeconds) +
+                (finalMicroseconds - initialMicroseconds) / 1.0E60);
 
         return timeDifference;
 
     }
-
 
 }

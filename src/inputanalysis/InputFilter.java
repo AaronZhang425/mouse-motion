@@ -39,6 +39,10 @@ public class InputFilter implements Runnable {
     }
 
     public void terminate() {
+        // Stop file reader to prevent resource leaks
+        reader.stop();
+        
+        // Stop thread runtime loop
         stop = true;
     }
 
