@@ -15,7 +15,6 @@ public class Main {
 
         ArrayList<InputDevice> devices = KernalInputDevices.getDevices();
 
-        // EventTypes[] filter = {EventTypes.REL, EventTypes.MSC};
         HashMap<EventTypes, EventCode[]> fullCapabilitiesFilter = new HashMap<>();
         EventCode[] filter = {Rel.REL_X, Rel.REL_Y};
         EventCode[] eventCodeFilterMsc = null;
@@ -24,16 +23,24 @@ public class Main {
         fullCapabilitiesFilter.put(EventTypes.MSC, eventCodeFilterMsc);
 
         ArrayList<InputDevice> filteredDeviceList = KernalInputDevices.getDevices(fullCapabilitiesFilter);
-        // ArrayList<InputDevice> filteredDeviceList = KernalInputDevices.getDevices(filter);
 
         if (filteredDeviceList.size() == 0) {
-            System.exit(1);
+            throw new IndexOutOfBoundsException();
         }
         
         MouseMotionTracker mouseTracker = new MouseMotionTracker(new Mouse(filteredDeviceList.get(0), 1000));
 
         Thread mouseThread = new Thread(mouseTracker);
         mouseThread.start();
+    
+        // InputReader reader = new InputReader("/dev/input/event5");
+
+        // while(true) {
+        //     System.out.println(reader.getEventData());
+
+        // }
+
+
 
         // InputDevice deviceToUse = filteredDeviceList.get(0);
         // Mouse mouse = new Mouse(deviceToUse, 1000);

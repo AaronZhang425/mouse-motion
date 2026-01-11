@@ -6,11 +6,13 @@ import eventclassification.eventcodes.EventCode;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class InputReader {
     // Input file is intialized in the constructor
     // Represents the pseudofile that contains the input events of a device
     private File inputFile;
+    private FileInputStream reader;
 
     public InputReader(int eventNum) {
         this(new File("/dev/input/event" + eventNum));
@@ -23,10 +25,33 @@ public class InputReader {
 
     public InputReader(File file) {
         inputFile = file;
+        
+        try {
+            reader = new FileInputStream(inputFile);
+        
+        } catch(Exception e) {
+            System.out.println(e);
+
+        }
+    }
+
+    public EventData[] getSynReport() {
+        ArrayList<EventData> events = new ArrayList<>();
+
+
+        return events.toArray(new EventData[0]);
+
     }
 
     public EventData getEventData() {
         byte[] buffer = eventFileReader();
+        
+        for (byte num : buffer) {
+            System.out.print(num + " ");
+
+        }
+
+        System.out.println();
 
         // Byte order of the buffer is assumed to be little endian
         long[] time = getEventTime(buffer);
@@ -81,20 +106,56 @@ public class InputReader {
     
     public byte[] eventFileReader() {
         // Each event is composed of 24 bytes and writes bytes to buffer
+        // If buffer is smaller than 24 on 64 bit system, an error will happen
+        // Buffer should be 16 bytes if on 32 architecture 
         byte[] buffer = new byte[24];
         
+        
         // try to get the event data from the file
-        try (FileInputStream reader = new FileInputStream(inputFile)) {
-            reader.read(buffer);
+        
+        try {
+            int bytesRead = 0;
+            int maxBytesRead = buffer.length;
+
+            int bufferIndexOffSet = 0;
+
+            // Ensure a single entire event is read
+            // Prevent events being sheered and cut in half
+            while (bufferIndexOffSet < buffer.length) {
+                bytesRead = reader.read(buffer, bufferIndexOffSet, maxBytesRead);
+
+                bufferIndexOffSet += bytesRead;
+                maxBytesRead -= bytesRead;
+            }
+
             
-        } catch (IOException error) {
-            System.out.println(error);
-            
+        
+        } catch(IOException e) {
+            System.out.println(e);
+
         }
+        // try (FileInputStream reader = new FileInputStream(inputFile)) {
+        //     reader.read(buffer);
+            
+        // } catch (IOException error) {
+        //     System.out.println(error);
+            
+        // }
         
         // return the event data
         return buffer;
                     
+    }
+
+    public void stop() {
+        try {
+            reader.close();
+
+        } catch (IOException e) {
+            System.out.println(e);
+
+        }
+
     }
 
 }

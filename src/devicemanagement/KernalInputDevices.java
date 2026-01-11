@@ -340,11 +340,11 @@ public class KernalInputDevices {
         }
 
         // System.out.println(eventTypeName);
-        for (EventCode test: eventCodeCapabilities) {
-            System.out.print(test + " ");
-        }
+        // for (EventCode test: eventCodeCapabilities) {
+        //     System.out.print(test + " ");
+        // }
 
-        System.out.println();
+        // System.out.println();
 
         return eventCodeCapabilities;
     }
