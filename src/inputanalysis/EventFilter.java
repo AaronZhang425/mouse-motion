@@ -1,5 +1,11 @@
 package inputanalysis;
 
+import eventclassification.eventcodes.EventCode;
+import eventclassification.EventTypes;
+import devicemanagement.EventData;
+
+import java.util.function.*;
+
 // TODO: Implement class
 // This class represents a single filter for events by event type
 // or by both event type and code
