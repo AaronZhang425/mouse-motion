@@ -431,7 +431,30 @@ public enum Key implements EventCode {
     KEY_DEL_EOL(0x1c0),
     KEY_DEL_EOS(0x1c1),
     KEY_INS_LINE(0x1c2),
-    KEY_DEL_LINE(0x1c3);
+    KEY_DEL_LINE(0x1c3),
+
+    KEY_FN(0x1d0),
+    KEY_FN_ESC(0x1d1),
+    KEY_FN_F1(0x1d2),
+    KEY_FN_F2(0x1d3),
+    KEY_FN_F3(0x1d4),
+    KEY_FN_F4(0x1d5),
+    KEY_FN_F5(0x1d6),
+    KEY_FN_F6(0x1d7),
+    KEY_FN_F7(0x1d8),
+    KEY_FN_F8(0x1d9),
+    KEY_FN_F9(0x1da),
+    KEY_FN_F10(0x1db),
+    KEY_FN_F11(0x1dc),
+    KEY_FN_F12(0x1dd),
+    KEY_FN_1(0x1de),
+    KEY_FN_2(0x1df),
+    KEY_FN_D(0x1e0),
+    KEY_FN_E(0x1e1),
+    KEY_FN_F(0x1e2),
+    KEY_FN_S(0x1e3),
+    KEY_FN_B(0x1e4),
+    KEY_FN_RIGHT_SHIFT(0x1e5);
 
     private final int value;
     private static final HashMap<Integer, Key> VALUE_MAP;
