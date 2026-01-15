@@ -15,6 +15,7 @@ public class EventFilter {
     private EventTypes eventType;
     private EventCode eventCode;
 
+
     private Function<EventData, Boolean> eventFilter;
 
     public static ArrayList<EventFilter> createFilterGroup(EventTypes eventType, EventCode eventCode) {
