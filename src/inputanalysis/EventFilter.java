@@ -4,70 +4,60 @@ import eventclassification.eventcodes.EventCode;
 import eventclassification.EventTypes;
 import devicemanagement.EventData;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.function.*;
 
-// TODO: Implement class
-// This class represents a single filter for events by event type
-// or by both event type and code
 public class EventFilter {
-    private EventTypes eventType;
-    private EventCode eventCode;
-
-
-    private Function<EventData, Boolean> eventFilter;
-
-    public static ArrayList<EventFilter> createFilterGroup(EventTypes eventType, EventCode eventCode) {
-        return new ArrayList<>();
-
-    }
-
-    public static ArrayList<EventFilter> createFilterGroup(HashMap<EventTypes, EventCode> fullCapabilities) {
-        return new ArrayList<>();
-    
-    }
-
+    private HashMap<EventTypes, EventCode[]> filter;
 
     public EventFilter(EventTypes eventType, EventCode eventCode) {
-        this.eventType = eventType;
-        this.eventCode = eventCode;
+        // this.eventType = eventType;
+        // this.eventCode = eventCode;
+        EventCode[] eventCodes = {eventCode};
 
-        eventFilter = configFilter();
+        filter.put(eventType, eventCodes);
+
+        // eventFilter = configFilter();
     }
 
     public EventFilter(EventTypes eventType) {
         this(eventType, null);
     }
 
-    private Function<EventData, Boolean> configFilter() {
-        Function<EventData, Boolean> filter;
+    public EventFilter(HashMap<EventTypes, EventCode[]> filter) {
+        this.filter = filter;
+    }
 
-        if (eventCode == null) {
-            // filter only by event type
-            filter = eventData -> {
-                return eventData.eventType().equals(eventType);
-            };
+    public boolean filter(EventData inputEvent) {
+        EventTypes inputEventType = inputEvent.eventType();
 
-        } else {
-            // filter by both event type and event code
-            filter = eventData -> {
-                return (
-                    eventData.eventType().equals(eventType) &&
-                    eventData.eventCode().equals(eventCode)
-                );
-            };
+        // If the event type of the input event does not exist in the hashmap
+        // fitler of accepted event types, return false
+        if (!filter.containsKey(inputEventType)) {
+            return false;
         }
 
-        return filter;
+        EventCode[] acceptedEventCodes = filter.get(inputEventType);
+        EventCode inputEventCode = inputEvent.eventCode();
+
+        // If no array of accpetable event codes exists, filter only by
+        // event type
+        if (acceptedEventCodes == null) {
+            return true;
+        }
+
+        int index = Arrays.asList(acceptedEventCodes).indexOf(inputEventCode);
+
+        // if the event code of input cannot be found in list of accepted
+        // event codes, return false
+        if (index < 0) {
+            return false;
+        }
+
+
+        return true;
 
     }
-
-    public boolean isMatch(EventData eventData) {
-        return eventFilter.apply(eventData);
-   
-    }
-    
 
 
 }
