@@ -13,15 +13,21 @@ import eventclassification.eventcodes.Rel;
 public class MouseMotionTracker implements Runnable {
     // variable used to control termination of thread
     private volatile boolean stop = false;
-
-    private final InputReader reader;
+    
     private final Mouse mouse;
 
-    private final EventFileFilterer xValues;
-    private final EventFileFilterer yValues;
+    // private final InputReader reader;
+    private final EventFileFilterer eventFilterer;
 
-    private final Thread xValuesThread;
-    private final Thread yValuesThread;
+    private final EventFilter xFilter;
+    private final EventFilter yFilter;
+    
+    private final Thread readerRunner;
+    // private final EventFileFilterer xValues;
+    // private final EventFileFilterer yValues;
+
+    // private final Thread xValuesThread;
+    // private final Thread yValuesThread;
 
     // outer: displacement, velocity, acceleration
     // inner: components of vector (x, y)
@@ -29,38 +35,40 @@ public class MouseMotionTracker implements Runnable {
 
     public MouseMotionTracker(Mouse mouse, double[] start) {
         this.mouse = mouse;
-        this.reader = new InputReader(this.mouse.device().handlerFile());
+        
+        eventFilterer = new EventFileFilterer(
+            new InputReader(this.mouse.device().handlerFile())
+        );
 
-        motionData[0][0] = start[0];
-        motionData[0][1] = start[1];
+        // Create data filters for x and y
+        xFilter = new EventFilter(EventTypes.REL, Rel.REL_X);
+        yFilter = new EventFilter(EventTypes.REL, Rel.REL_Y);
 
-        xValues = new EventFileFilterer(reader, EventTypes.REL, Rel.REL_X);
-        yValues = new EventFileFilterer(reader, EventTypes.REL, Rel.REL_Y);
+        // Add and register filters to event reader
+        eventFilterer.addFilter(xFilter);
+        eventFilterer.addFilter(yFilter);
+        
+        
 
-        xValuesThread = new Thread(xValues);
-        yValuesThread = new Thread(yValues);
+        // If start is null, set initial displacement to 0
+        // Otherwise, set it to the values of the array
+        if (start == null) {
+            motionData[0][0] = 0;
+            motionData[0][1] = 0;
 
-        xValuesThread.start();
-        // yValuesThread.start();
+        } else {
+            motionData[0][0] = start[0];
+            motionData[0][1] = start[1];
+
+        }
+
+        readerRunner = new Thread(eventFilterer);
+        readerRunner.start();
 
     }
 
     public MouseMotionTracker(Mouse mouse) {
-        this.mouse = mouse;
-        this.reader = new InputReader(this.mouse.device().handlerFile());
-
-        // initilize the position of mouse to (0, 0)
-        motionData[0][0] = 0;
-        motionData[0][1] = 0;
-
-        xValues = new EventFileFilterer(reader, EventTypes.REL, Rel.REL_X);
-        yValues = new EventFileFilterer(reader, EventTypes.REL, Rel.REL_Y);
-
-        xValuesThread = new Thread(xValues);
-        yValuesThread = new Thread(yValues);
-
-        xValuesThread.start();
-        // yValuesThread.start();
+        this(mouse, null);
     }
 
     public void terminate() {
@@ -78,31 +86,37 @@ public class MouseMotionTracker implements Runnable {
     @Override
     public void run() {
         while (!stop) {
-            if (xValues.hasNext()) {
-                EventData data = xValues.getData();
-                motionData[0][0] += getDisplacement(data);
+            // If there is any data associated with the x filter
+            if (eventFilterer.hasNext(xFilter)) {
+                // Convert the value of the event associated with the x filter
+                // to meters and add to x displacement
+                motionData[0][0] += mouseCountsToMeters(
+                    eventFilterer.getData(xFilter).value()
+                );
 
-            }
-
-            if (yValues.hasNext()) {
-                EventData data = yValues.getData();
-                motionData[0][1] += getDisplacement(data);
-
+                // System.out.print(eventFilterer.getData(xFilter));
+                
             }
             
-            // System.out.printf("X displacement: %5.4f \t Y displacement: %5.4f\n", motionData[0][0], motionData[0][1]);
+            // If there is any data associated with the y filter
+            if (eventFilterer.hasNext(yFilter)) {
+                // Convert the value of the event associated with the y filter
+                // to meters and add to y displacement
+                motionData[0][1] += mouseCountsToMeters(
+                    eventFilterer.getData(yFilter).value()
+                );
+                
+                // System.out.print(eventFilterer.getData(xFilter));
 
-            System.out.println("X displacement: " + motionData[0][0]);
-            // System.out.println("Y displacement: " + motionData[0][1]);
-            System.out.println();
-
+            }
+        
+            System.out.printf(
+                "X displacement: %5.4f \t Y displacement: %5.4f\n",
+                motionData[0][0],
+                motionData[0][1]
+            );
 
         }
-
-        // stop threads getting data
-        xValues.terminate();
-        yValues.terminate();
-
     }
 
     private double mouseCountsToMeters(int counts, int dpi) {
@@ -119,6 +133,7 @@ public class MouseMotionTracker implements Runnable {
         // return (1.0 * counts / mouse.dpi()) * 0.0254;
     }
 
+    // TODO: Reimplement
     private double totalDisplacement(EventData[] event) {
         double displacement = 0;
 
@@ -130,27 +145,13 @@ public class MouseMotionTracker implements Runnable {
 
     }
 
+    // TODO: Reimplement
     private double getDisplacement(EventData event) {
         return mouseCountsToMeters(event.value());
 
     }
 
-    // private void displacement() {
-
-    // }
-
-    // private double getVelocity(EventData event0, EventData event1) {
-    // double timeDifference = getTimeDifference(event0.finalData);
-    // double finalMeters = mouseCountsToMeters(event1.value());
-
-    // return finalMeters / timeDifference;
-
-    // // in m/s
-    // // currently only gets length, not velocity
-    // // double initialMeters = mouseCountsToMeters(initialCount);
-
-    // }
-
+    // TODO: Reimplement
     private double getVelocity(
             double displacementDifference,
             double timeDifference) {
@@ -159,6 +160,7 @@ public class MouseMotionTracker implements Runnable {
 
     }
 
+    // TODO: Reimplement
     private double getVelocity(
             double intialDisplacement,
             double finalDisplacemenet,
@@ -170,6 +172,7 @@ public class MouseMotionTracker implements Runnable {
 
     // data is a parameter that represents an initial and final component
     // of a vector
+    // TODO: Reimplement
     private double getAcceleration(
             double intialVelocity,
             double finalVelocity,
@@ -178,6 +181,7 @@ public class MouseMotionTracker implements Runnable {
 
     }
 
+    // TODO: Reimplement
     private double getTimeDifference(EventData intialData, EventData finalData) {
         long initialSeconds = intialData.time()[0];
         long initialMicroseconds = intialData.time()[1];

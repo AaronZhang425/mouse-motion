@@ -1,15 +1,15 @@
 package inputanalysis;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
+// import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.function.Function;
+// import java.util.function.Function;
 
 import devicemanagement.EventData;
 import devicemanagement.InputReader;
-import eventclassification.EventTypes;
-import eventclassification.eventcodes.EventCode;
+// import eventclassification.EventTypes;
+// import eventclassification.eventcodes.EventCode;
 
 
 // TODO: Rework class to allow several filters and several collections
@@ -17,34 +17,36 @@ import eventclassification.eventcodes.EventCode;
 public class EventFileFilterer implements Runnable {
     private volatile boolean stop = false;
 
-    private EventTypes eventType;
-    private EventCode eventCode;
+    // private EventTypes eventType;
+    // private EventCode eventCode;
     private InputReader reader;
 
-    private Function<EventData, Boolean> inputEventFilter;
+    // private Function<EventData, Boolean> inputEventFilter;
 
     // private volatile ArrayDeque<EventData> data = new ArrayDeque<>(16);
-    private volatile HashMap<EventFilter, ArrayDeque<EventData>> data;
+    private volatile HashMap<EventFilter, ArrayDeque<EventData>> data = (
+        new HashMap<>()
+    );
 
-    @Deprecated
-    public EventFileFilterer(InputReader reader, EventTypes eventType, EventCode eventCode) {
-        this.reader = reader;
-        this.eventType = eventType;
-        this.eventCode = eventCode;
+    // @Deprecated
+    // public EventFileFilterer(InputReader reader, EventTypes eventType, EventCode eventCode) {
+    //     this.reader = reader;
+    //     this.eventType = eventType;
+    //     this.eventCode = eventCode;
 
-        configFilter();
+    //     // configFilter();
 
-    }
+    // }
 
-    @Deprecated
-    public EventFileFilterer(InputReader reader, EventTypes eventType) {
-        // this.reader = reader;
-        // this.eventType = eventType;
-        this(reader, eventType, null);
-    }
+    // @Deprecated
+    // public EventFileFilterer(InputReader reader, EventTypes eventType) {
+    //     // this.reader = reader;
+    //     // this.eventType = eventType;
+    //     this(reader, eventType, null);
+    // }
 
     public EventFileFilterer(InputReader reader) {
-        this(reader, new ArrayList<>());
+        this.reader = reader;
 
     }
 
@@ -71,24 +73,22 @@ public class EventFileFilterer implements Runnable {
     }
 
     public void terminate() {
-        // Stop file reader to prevent resource leaks
-        reader.stop();
-        
-        // Stop thread runtime loop
-        stop = true;
+        reader.stop(); // Stop file reader to prevent resource leaks
+        stop = true; // Stop thread runtime loop
+
     }
 
     
     // TODO: Eventually remove
-    @Deprecated
-    public boolean hasNext() {
-        // return true if the size of the deque is greater than 0 and contains
-        // non-null values
-        ArrayDeque<EventData> data = new ArrayDeque<>();
-        return (data.size() > 0) && (data.peekFirst() != null);
-    }
+    // @Deprecated
+    // public boolean hasNext() {
+    //     // return true if the size of the deque is greater than 0 and contains
+    //     // non-null values
+    //     ArrayDeque<EventData> data = new ArrayDeque<>();
+    //     return (data.size() > 0) && (data.peekFirst() != null);
+    // }
 
-    // TODO: implement
+    // TODO: test
     public boolean hasNext(EventFilter filter) {
         // If no such filter exists in the data, return false
         if (!data.containsKey(filter)) {
@@ -99,7 +99,7 @@ public class EventFileFilterer implements Runnable {
         return (events != null) && (events.size() > 0) && (events.peekFirst() != null);
     }
 
-    // TODO: Given a key, get data from the hash map of filters
+    // TODO: test
     public EventData getData(EventFilter filter) {
         synchronized(data) {
             ArrayDeque<EventData> events = data.get(filter);
@@ -114,48 +114,55 @@ public class EventFileFilterer implements Runnable {
     }
 
     // TODO: Eventually remove
-    @Deprecated
-    public EventData getData() {
-        synchronized(data) {
-            ArrayDeque<EventData> data = new ArrayDeque<>();
-            return data.pollFirst();
-            // return new EventData(null, eventType, eventCode, 0);
+    // @Deprecated
+    // public EventData getData() {
+    //     synchronized(data) {
+    //         ArrayDeque<EventData> data = new ArrayDeque<>();
+    //         return data.pollFirst();
+    //         // return new EventData(null, eventType, eventCode, 0);
             
-        }
+    //     }
 
-    }
+    // }
 
-    // sets the filter to a lambda that evaluates each event
-    @Deprecated
-    private void configFilter() {
-        if (eventCode == null) {
-            // filter only by event type
-            inputEventFilter = eventData -> {
-                return eventData.eventType().equals(eventType);
-            };
+    // // sets the filter to a lambda that evaluates each event
+    // @Deprecated
+    // private void configFilter() {
+    //     if (eventCode == null) {
+    //         // filter only by event type
+    //         inputEventFilter = eventData -> {
+    //             return eventData.eventType().equals(eventType);
+    //         };
 
-        } else {
-            // filter by both event type and event code
-            inputEventFilter = eventData -> {
-                return (
-                    eventData.eventType().equals(eventType) &&
-                    eventData.eventCode().equals(eventCode)
-                );
-            };
-        }
-    }
+    //     } else {
+    //         // filter by both event type and event code
+    //         inputEventFilter = eventData -> {
+    //             return (
+    //                 eventData.eventType().equals(eventType) &&
+    //                 eventData.eventCode().equals(eventCode)
+    //             );
+    //         };
+    //     }
+    // }
 
+    // TODO: test
     @Override
-    @Deprecated // out dated logic that will fail; will be removed
     public void run() {
         while (!stop) {
             // Get data and add to deque if passes filtering
             EventData eventData = reader.getEventData();
 
-            if (inputEventFilter.apply(eventData)) {
-                // data.addLast(eventData);
+            // Iterate through the hashmap of data
+            for (EventFilter filter : data.keySet()) {
+                // If the event data matches with filter
+                if (filter.isMatch(eventData)) {
+                    // Add event to array deque associated with filter
+                    data.get(filter).addLast(eventData);
+
+                }
 
             }
+
         }
 
     }

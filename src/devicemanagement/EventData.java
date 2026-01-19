@@ -12,11 +12,11 @@ public record EventData (
 
     public String toString() {
         return (
-            "Input event info: " + "\n" +
+            "Input Event Info: " + "\n" +
             "Seconds: " + time[0] + "\n" +
             "Microseconds: " + time[1] + "\n" +
-            "Event type: " + eventType + "\n" +
-            "Event code: " + eventCode + "\n" +
+            "Event Type: " + eventType + "\n" +
+            "Event Code: " + eventCode + "\n" +
             "Value: " + value + "\n"
         );
 
