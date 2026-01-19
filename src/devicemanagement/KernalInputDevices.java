@@ -140,13 +140,9 @@ public class KernalInputDevices {
         String[] eventDirs = getEventDirectories(INPUT_DEVICE_DIR);
 
         for (String eventDir : eventDirs) {
-            
             id = getDeviceId(eventDir);
-
             eventFile = getHanderFile(eventDir);
-
             name = getDeviceName(eventDir);
-
             capabilities = getCapabilities(eventDir);
 
             devices.add(new InputDevice(
@@ -157,9 +153,6 @@ public class KernalInputDevices {
                 eventFile,
                 capabilities
             ));
-
-            
-
 
         }
         
@@ -191,12 +184,12 @@ public class KernalInputDevices {
         return readFileLine(nameFile);
     }
 
-    // Todo: implement
+    // TODO: implement
     private static File getPhysicalPath(String eventDirString) {
         return null;
     }
 
-    // Todo: implement
+    // TODO: implement
     private static File getSystemFileSystem(String eventDirString) {
         return null;
     }
