@@ -94,8 +94,6 @@ public class MouseMotionTracker implements Runnable {
                     eventFilterer.getData(xFilter).value()
                 );
 
-                // System.out.print(eventFilterer.getData(xFilter));
-                
             }
             
             // If there is any data associated with the y filter
@@ -106,8 +104,6 @@ public class MouseMotionTracker implements Runnable {
                     eventFilterer.getData(yFilter).value()
                 );
                 
-                // System.out.print(eventFilterer.getData(xFilter));
-
             }
         
             System.out.printf(
