@@ -35,7 +35,8 @@ public class InputReader {
         }
     }
 
-    public EventData[] getSynReport() {
+    // TODO: implement
+    private EventData[] getSynReport() {
         ArrayList<EventData> events = new ArrayList<>();
 
 
@@ -46,12 +47,12 @@ public class InputReader {
     public EventData getEventData() {
         byte[] buffer = eventFileReader();
         
-        for (byte num : buffer) {
-            System.out.print(num + " ");
+        // for (byte num : buffer) {
+        //     System.out.print(num + " ");
 
-        }
+        // }
 
-        System.out.println();
+        // System.out.println();
 
         // Byte order of the buffer is assumed to be little endian
         long[] time = getEventTime(buffer);
@@ -134,13 +135,6 @@ public class InputReader {
             System.out.println(e);
 
         }
-        // try (FileInputStream reader = new FileInputStream(inputFile)) {
-        //     reader.read(buffer);
-            
-        // } catch (IOException error) {
-        //     System.out.println(error);
-            
-        // }
         
         // return the event data
         return buffer;
