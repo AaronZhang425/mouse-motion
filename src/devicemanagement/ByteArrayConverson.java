@@ -15,11 +15,14 @@ public class ByteArrayConverson {
         return num;
     }
     
+    // Given an array and a start and end index, convert the number to a int
     public static int toInt(
         byte[] arr,
         int startIdx,
         int endIdx
     ) {
+        // Assumed endianness is dependent on the start index relative to the
+        // end index
         return (
             startIdx < endIdx 
             ? toIntBigEndian(arr, startIdx, endIdx)
