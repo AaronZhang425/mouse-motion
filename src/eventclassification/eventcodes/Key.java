@@ -465,7 +465,24 @@ public enum Key implements EventCode {
     KEY_BRL_DOT7(0x1f7),
     KEY_BRL_DOT8(0x1f8),
     KEY_BRL_DOT9(0x1f9),
-    KEY_BRL_DOT10(0x1fa);
+    KEY_BRL_DOT10(0x1fa),
+
+    KEY_NUMERIC_0(0x200),
+    KEY_NUMERIC_1(0x201),
+    KEY_NUMERIC_2(0x202),
+    KEY_NUMERIC_3(0x203),
+    KEY_NUMERIC_4(0x204),
+    KEY_NUMERIC_5(0x205),
+    KEY_NUMERIC_6(0x206),
+    KEY_NUMERIC_7(0x207),
+    KEY_NUMERIC_8(0x208),
+    KEY_NUMERIC_9(0x209),
+    KEY_NUMERIC_STAR(0x20a),
+    KEY_NUMERIC_POUND(0x20b),
+    KEY_NUMERIC_A(0x20c),
+    KEY_NUMERIC_B(0x20d),
+    KEY_NUMERIC_C(0x20e),
+    KEY_NUMERIC_D(0x20f);
 
     private final int value;
     private static final HashMap<Integer, Key> VALUE_MAP;
