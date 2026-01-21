@@ -38,3 +38,45 @@ public record EventData (
     }
 
 }
+
+// public class EventData {
+//     private long[] time;
+//     private EventTypes eventType;
+//     private EventCode eventCode;
+//     private int value;
+
+//     public EventData(long[] time, EventTypes eventType, EventCode eventCode, int value) {
+//         this.time = time;
+//         this.eventType = eventType;
+//         this.eventCode = eventCode;
+//         this.value = value;
+//     }
+
+
+//     public boolean equals(EventData other){
+//         if (other == null) {
+//             return false;
+//         }
+
+//         return (
+//             Arrays.equals(time, other.time) &&
+//             eventType.equals(other.eventType) &&
+//             eventCode.equals(other.eventCode) &&
+//             value == other.value
+//         );
+//     }
+
+//     public String toString() {
+//         return (
+//             "Input Event Info: " + "\n" +
+//             "Seconds: " + time[0] + "\n" +
+//             "Microseconds: " + time[1] + "\n" +
+//             "Event Type: " + eventType + "\n" +
+//             "Event Code: " + eventCode + "\n" +
+//             "Value: " + value + "\n"
+//         );
+     
+//     }
+
+
+// }
