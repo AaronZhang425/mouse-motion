@@ -34,6 +34,7 @@ public class EventFileFilterer implements Runnable {
     }
 
     public void addFilter(EventFilter filter) {
+        // Add the filter to the hashmap and an associated array deque
         data.put(filter, new ArrayDeque<>());
 
     }
@@ -54,7 +55,9 @@ public class EventFileFilterer implements Runnable {
             return false;
         }
 
+        // Get the deque of events
         ArrayDeque<EventData> events = data.get(filter);
+
         return (events != null) && (events.size() > 0) && (events.peekFirst() != null);
     }
 
@@ -65,6 +68,7 @@ public class EventFileFilterer implements Runnable {
                 return null;
             }
 
+            // get and remove first item
             return events.pollFirst();
             
         }
