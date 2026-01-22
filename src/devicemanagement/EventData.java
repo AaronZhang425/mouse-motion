@@ -97,7 +97,7 @@ public class EventData {
     }
 
     public boolean equals(EventData other){
-        if (other == null || !(other instanceof EventData)) {
+        if (other == null) {
             return false;
         }
 

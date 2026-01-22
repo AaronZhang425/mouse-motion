@@ -107,7 +107,7 @@ public class InputDevice {
     }
 
     public boolean equals(InputDevice other) {
-        if (other == null || !(other instanceof InputDevice)) {
+        if (other == null) {
             return false;
         }
 
