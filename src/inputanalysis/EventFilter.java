@@ -30,7 +30,7 @@ public class EventFilter {
     }
 
     public boolean isMatch(EventData inputEvent) {
-        EventTypes inputEventType = inputEvent.eventType();
+        EventTypes inputEventType = inputEvent.getEventType();
 
         // If the event type of the input event does not exist in the hashmap
         // filter of accepted event types, return false
@@ -39,7 +39,7 @@ public class EventFilter {
         }
 
         EventCode[] acceptedEventCodes = filter.get(inputEventType);
-        EventCode inputEventCode = inputEvent.eventCode();
+        EventCode inputEventCode = inputEvent.getEventCode();
 
         // If no array of accpetable event codes exists, filter only by
         // event type

@@ -55,7 +55,7 @@ public class KernalInputDevices {
 
                 // Convert the event codes of the device to a hash set
                 HashSet<EventCode> capableEventCodes = new HashSet<>(
-                    Arrays.asList(inputDevice.capabilities().get(eventTypeKey))
+                    Arrays.asList(inputDevice.getCapabilities().get(eventTypeKey))
                 );
 
                 // Convert the event codes to filter to a hash set
@@ -92,7 +92,7 @@ public class KernalInputDevices {
             // For every device, get the set of keys of the hashmap of
             // capabilities
             Set<EventTypes> possibleEventTypes = (
-                inputDevice.capabilities().keySet()
+                inputDevice.getCapabilities().keySet()
             );
             
             // If the key set contains all elements of the specified set
