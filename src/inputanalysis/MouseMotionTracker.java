@@ -37,7 +37,7 @@ public class MouseMotionTracker implements Runnable {
         this.mouse = mouse;
         
         eventFilterer = new EventFileFilterer(
-            new InputReader(this.mouse.device().handlerFile())
+            new InputReader(this.mouse.getDevice().getHandlerFile())
         );
 
         // Create data filters for x and y
@@ -91,7 +91,7 @@ public class MouseMotionTracker implements Runnable {
                 // Convert the value of the event associated with the x filter
                 // to meters and add to x displacement
                 motionData[0][0] += mouseCountsToMeters(
-                    eventFilterer.getData(xFilter).value()
+                    eventFilterer.getData(xFilter).getValue()
                 );
 
             }
@@ -101,7 +101,7 @@ public class MouseMotionTracker implements Runnable {
                 // Convert the value of the event associated with the y filter
                 // to meters and add to y displacement
                 motionData[0][1] += mouseCountsToMeters(
-                    eventFilterer.getData(yFilter).value()
+                    eventFilterer.getData(yFilter).getValue()
                 );
                 
             }
@@ -125,7 +125,7 @@ public class MouseMotionTracker implements Runnable {
     }
 
     private double mouseCountsToMeters(int counts) {
-        return mouseCountsToMeters(counts, mouse.dpi());
+        return mouseCountsToMeters(counts, mouse.getDpi());
         // return (1.0 * counts / mouse.dpi()) * 0.0254;
     }
 
@@ -143,7 +143,7 @@ public class MouseMotionTracker implements Runnable {
 
     // TODO: Reimplement
     private double getDisplacement(EventData event) {
-        return mouseCountsToMeters(event.value());
+        return mouseCountsToMeters(event.getValue());
 
     }
 
@@ -179,11 +179,11 @@ public class MouseMotionTracker implements Runnable {
 
     // TODO: Reimplement
     private double getTimeDifference(EventData intialData, EventData finalData) {
-        long initialSeconds = intialData.time()[0];
-        long initialMicroseconds = intialData.time()[1];
+        long initialSeconds = intialData.getTime()[0];
+        long initialMicroseconds = intialData.getTime()[1];
 
-        long finalSeconds = finalData.time()[0];
-        long finalMicroseconds = finalData.time()[1];
+        long finalSeconds = finalData.getTime()[0];
+        long finalMicroseconds = finalData.getTime()[1];
 
         // long initialSeconds = data[0].time()[0];
         // long intialMicroseconds = data[0].time()[1];
