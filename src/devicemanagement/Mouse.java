@@ -3,8 +3,8 @@ package devicemanagement;
 // public record Mouse(InputDevice device, int dpi) {}
 
 public class Mouse {
-    private InputDevice device;
-    private int dpi;
+    private final InputDevice device;
+    private final int dpi;
 
     public Mouse(InputDevice device, int dpi) {
         this.device = device;
