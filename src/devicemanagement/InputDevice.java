@@ -17,12 +17,12 @@ import java.util.HashMap;
 // ) {}
 
 public class InputDevice {
-    private int[] id;
-    private String name;
-    private File physicalPath;
-    private File systemFileSystem;
-    private File handlerFile;
-    private HashMap<EventTypes, EventCode[]> capabilities;
+    private final int[] id;
+    private final String name;
+    private final File physicalPath;
+    private final File systemFileSystem;
+    private final File handlerFile;
+    private final HashMap<EventTypes, EventCode[]> capabilities;
 
     public InputDevice(
         int[] id,

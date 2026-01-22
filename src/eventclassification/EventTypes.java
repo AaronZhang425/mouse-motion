@@ -18,10 +18,7 @@ public enum EventTypes implements EventCategory{
     // PWR(0x16),
     // FF_STATUS(0x17);
 
-    // public abstract EventCategory getEventCodeSet();
-
     private final int VALUE;
-    // private final Class<? extends EventCategory> eventCodeSet;
     private static final HashMap<Integer, EventTypes> VALUE_MAP;
     private static final HashMap<EventTypes, Function<Integer, EventCode>> EVENTCODES_MAP;
 

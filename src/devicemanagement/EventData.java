@@ -42,10 +42,10 @@ import java.util.Arrays;
 // }
 
 public class EventData {
-    private long[] time;
-    private EventTypes eventType;
-    private EventCode eventCode;
-    private int value;
+    private final long[] time;
+    private final EventTypes eventType;
+    private final EventCode eventCode;
+    private final int value;
 
     public EventData(long[] time, EventTypes eventType, EventCode eventCode, int value) {
         this.time = time;
