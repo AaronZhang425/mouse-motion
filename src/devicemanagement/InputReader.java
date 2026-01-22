@@ -101,8 +101,9 @@ public class InputReader {
 
         // put the unix seconds and microseconds representing fractions of a 
         // second as a long[] array and return
-        long[] time = {seconds, microSeconds};
-        return time;
+        // long[] time = {seconds, microSeconds};
+        // return time;
+        return new long[]{seconds, microSeconds};
     }
     
     public byte[] eventFileReader() {
