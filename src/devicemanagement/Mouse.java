@@ -34,7 +34,7 @@ public class Mouse {
     }
 
     public boolean equals(Mouse other) {
-        if (other == null || !(other instanceof Mouse)) {
+        if (other == null) {
             return false;
         }
 
