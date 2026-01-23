@@ -313,7 +313,8 @@ public class KernalInputDevices {
             // Get the bit indicies without of each hex number
             ArrayList<Integer> wordBitIndicies = getHexBitIndicies(hexNums[i]);
             
-            // Factor the index of the hex number to get true bit index value
+            // Factor the index of the hex number word 
+            // to get true bit index value
             for (int j = 0; j < wordBitIndicies.size(); j++) {
                 int bitIndexValue = wordBitIndicies.get(j) + i * Long.SIZE;
                 wordBitIndicies.set(j, bitIndexValue);
@@ -324,6 +325,7 @@ public class KernalInputDevices {
             
         }
         
+        // Create an array of the same size of bitIndicies
         EventCode[] eventCodeCapabilities = new EventCode[bitIndicies.size()];
         
         for (int i = 0; i < eventCodeCapabilities.length; i++) {

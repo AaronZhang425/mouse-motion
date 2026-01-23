@@ -47,11 +47,6 @@ public class InputReader {
     public EventData getEventData() {
         byte[] buffer = eventFileReader();
         
-        // for (byte num : buffer) {
-        //     System.out.print(num + " ");
-
-        // }
-
         // System.out.println();
 
         // Byte order of the buffer is assumed to be little endian
@@ -119,14 +114,14 @@ public class InputReader {
             int bytesRead = 0;
             int maxBytesRead = buffer.length;
 
-            int bufferIndexOffSet = 0;
+            int bufferIndexOffset = 0;
 
             // Ensure a single entire event is read
             // Prevent events being sheered and cut in half
-            while (bufferIndexOffSet < buffer.length) {
-                bytesRead = reader.read(buffer, bufferIndexOffSet, maxBytesRead);
+            while (bufferIndexOffset < buffer.length) {
+                bytesRead = reader.read(buffer, bufferIndexOffset, maxBytesRead);
 
-                bufferIndexOffSet += bytesRead;
+                bufferIndexOffset += bytesRead;
                 maxBytesRead -= bytesRead;
             }
 

@@ -40,40 +40,6 @@ public class Main {
 
         // }
 
-
-
-        // InputDevice deviceToUse = filteredDeviceList.get(0);
-        // Mouse mouse = new Mouse(deviceToUse, 1000);
-        // System.out.println(deviceToUse.name());
-        // System.out.println("Please wait");
-
-        // try {
-        //     Thread.sleep(2000);
-
-        // } catch (Exception e) {
-        //     System.out.println(e);
-
-        // }
-        
-        
-        // Thread tracker = new Thread(new MouseMotionTracker(mouse));
-
-        // tracker.start();
-
-        // for (int i = 0; i < filteredDeviceList.size(); i++) {
-        //     InputDevice device = filteredDeviceList.get(i);
-
-        //     System.out.println(device.name());
-        //     Set<EventTypes> keySet = device.capabilities().keySet();
-
-        //     for (EventTypes eventType : keySet) {
-        //         System.out.println(eventType);
-        //     }
-
-        // }
-
-
-
     }
 
 
