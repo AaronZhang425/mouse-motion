@@ -121,5 +121,13 @@ public class InputDevice {
         );
     }
 
+    public String toString() {
+        return (
+            "Name: " + name + "\n" +
+            "Handler: " + handlerFile
+
+        );
+    }
+
 
 }

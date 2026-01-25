@@ -106,6 +106,7 @@ public class MouseMotionTracker implements Runnable {
                 
             }
         
+            // Output to console the displacement in terms of meters
             System.out.printf(
                 "X displacement: %5.4f \t Y displacement: %5.4f\n",
                 motionData[0][0],
