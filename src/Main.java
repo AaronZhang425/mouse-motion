@@ -24,21 +24,16 @@ public class Main {
 
         ArrayList<InputDevice> filteredDeviceList = KernalInputDevices.getDevices(fullCapabilitiesFilter);
 
-        if (filteredDeviceList.size() == 0) {
-            throw new IndexOutOfBoundsException();
-        }
-        
-        MouseMotionTracker mouseTracker = new MouseMotionTracker(new Mouse(filteredDeviceList.get(0), 1000));
-
-        Thread mouseThread = new Thread(mouseTracker);
-        mouseThread.start();
+        if (!filteredDeviceList.isEmpty()) {
+            MouseMotionTracker mouseTracker = new MouseMotionTracker(new Mouse(filteredDeviceList.get(0), 1000));
     
-        // InputReader reader = new InputReader("/dev/input/event5");
+            Thread mouseThread = new Thread(mouseTracker);
+            mouseThread.start();
 
-        // while(true) {
-        //     System.out.println(reader.getEventData());
-
-        // }
+        } else {
+            System.out.println("No mouse has been detected");
+        }
+    
 
     }
 
