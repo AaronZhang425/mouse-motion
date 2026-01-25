@@ -29,8 +29,8 @@ public class MouseMotionTracker implements Runnable {
     // private final Thread xValuesThread;
     // private final Thread yValuesThread;
 
-    // outer: displacement, velocity, acceleration
-    // inner: components of vector (x, y)
+    // outer: first array is displacement seconds is velocity; third is acceleration
+    // inner: components of  the vector (x, y)
     private final double[][] motionData = new double[3][2];
 
     public MouseMotionTracker(Mouse mouse, double[] start) {

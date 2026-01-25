@@ -8,9 +8,24 @@ import devicemanagement.EventData;
 import devicemanagement.InputReader;
 
 public class EventFileFilterer implements Runnable {
+
+    /**
+     * Denotes if thread should stop
+     */
     private volatile boolean stop = false;
+
+    /**
+     * File reader that reads input events found in the file /dev/input/eventX
+     * where x denotes any positivie integer including 0.
+     */
     private InputReader reader;
 
+    /**
+     * Holds several filters and an associated queue. If an event is found 
+     * matching the filter, add to the associated queue. Can be modified in
+     * multiple threads
+     */
+    // TODO: Change type from ArrayDeque to the Queue to ensure safe queue handling
     private volatile HashMap<EventFilter, ArrayDeque<EventData>> data = (
         new HashMap<>()
     );
