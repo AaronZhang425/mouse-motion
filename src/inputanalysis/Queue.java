@@ -40,6 +40,12 @@ public class Queue<T> {
 
     }
 
+    @Deprecated
+    public T poll() {
+        return get();
+
+    }
+
     public T peek() {
         return queue.getFirst();
 
