@@ -360,8 +360,15 @@ public class KernalInputDevices {
         // file containing possible event types will always use a single word
         // extra processing is therefore not needed unlike event code
         String hex = readFileLine(eventTypeCapabilitiesFile);
+        ArrayList<Integer> bitIndicies;
 
-        ArrayList<Integer> bitIndicies = getHexBitIndicies(hex);
+        try {
+            bitIndicies = getHexBitIndicies(hex);
+            
+        } catch (NumberFormatException e) {
+            bitIndicies = getBigHexBitIndicies(hex);
+
+        }
 
         EventTypes[] eventTypeCapabilities = new EventTypes[bitIndicies.size()];
 
