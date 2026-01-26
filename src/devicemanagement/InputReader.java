@@ -2,9 +2,9 @@ package devicemanagement;
 
 import eventclassification.EventTypes;
 import eventclassification.eventcodes.EventCode;
-
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -29,7 +29,7 @@ public class InputReader {
         try {
             reader = new FileInputStream(inputFile);
         
-        } catch(Exception e) {
+        } catch(FileNotFoundException e) {
             System.out.println(e);
 
         }
@@ -111,7 +111,7 @@ public class InputReader {
         // try to get the event data from the file
         
         try {
-            int bytesRead = 0;
+            int bytesRead;
             int maxBytesRead = buffer.length;
 
             int bufferIndexOffset = 0;

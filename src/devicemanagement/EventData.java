@@ -2,7 +2,6 @@ package devicemanagement;
 
 import eventclassification.EventTypes;
 import eventclassification.eventcodes.EventCode;
-
 import java.util.Arrays;
 
 // Linux stores event data as a struct
@@ -109,9 +108,10 @@ public class EventData {
         );
     }
 
+    @Override
     public String toString() {
         return (
-            "Input Event Info: " + "\n" +
+            "Input Event Info: \n" +
             "Seconds: " + time[0] + "\n" +
             "Microseconds: " + time[1] + "\n" +
             "Event Type: " + eventType + "\n" +
