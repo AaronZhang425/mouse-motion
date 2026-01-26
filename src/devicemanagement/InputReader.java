@@ -35,12 +35,21 @@ public class InputReader {
         }
     }
 
-    // TODO: implement
-    private EventData[] getSynReport() {
+    public EventData[] getSynReport() {
+        // Create array list to store all non-syn events
         ArrayList<EventData> events = new ArrayList<>();
+        
+        // Get the first event
+        EventData event = getEventData(); 
 
+        // Keep adding events to the array list until the event is of type SYN
+        while (!event.getEventType().equals(EventTypes.SYN)) {
+            events.add(event);
+            event = getEventData();
+        }
 
-        return events.toArray(new EventData[0]);
+        // Return the arraylist as an array
+        return events.toArray(new EventData[events.size()]);
 
     }
 
