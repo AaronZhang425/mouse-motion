@@ -26,7 +26,7 @@ public class EventFileFilterer implements Runnable {
      * multiple threads
      */
     // TODO: Change type from ArrayDeque to the Queue to ensure safe queue handling
-    private volatile HashMap<EventFilter, ArrayDeque<EventData>> data = (
+    private volatile HashMap<EventFilter, Queue<EventData>> data = (
         new HashMap<>()
     );
 
@@ -37,20 +37,20 @@ public class EventFileFilterer implements Runnable {
 
     public EventFileFilterer(InputReader reader, EventFilter filter) {
         this.reader = reader;
-        data.put(filter, new ArrayDeque<>());
+        data.put(filter, new Queue<>());
     }
 
     public EventFileFilterer(InputReader reader, Collection<EventFilter> filters) {
         this.reader = reader;
 
         for (EventFilter filter : filters) {
-            data.put(filter, new ArrayDeque<>());
+            data.put(filter, new Queue<>());
         }
     }
 
     public void addFilter(EventFilter filter) {
         // Add the filter to the hashmap and an associated array deque
-        data.put(filter, new ArrayDeque<>());
+        data.put(filter, new Queue<>());
 
     }
 
@@ -71,20 +71,20 @@ public class EventFileFilterer implements Runnable {
         }
 
         // Get the deque of events
-        ArrayDeque<EventData> events = data.get(filter);
+        Queue<EventData> events = data.get(filter);
 
-        return (events != null) && (events.size() > 0) && (events.peekFirst() != null);
+        return (events != null) && (events.size() > 0) && (events.peek() != null);
     }
 
     public EventData getData(EventFilter filter) {
         synchronized(data) {
-            ArrayDeque<EventData> events = data.get(filter);
-            if (events != null && events.peekFirst() == null) {
+            Queue<EventData> events = data.get(filter);
+            if (events != null && events.peek() == null) {
                 return null;
             }
 
             // get and remove first item
-            return events.pollFirst();
+            return events.get();
             
         }
 
@@ -101,7 +101,7 @@ public class EventFileFilterer implements Runnable {
                 // If the event data matches with filter
                 if (filter.isMatch(eventData)) {
                     // Add event to array deque associated with filter
-                    data.get(filter).addLast(eventData);
+                    data.get(filter).add(eventData);
 
                 }
 
