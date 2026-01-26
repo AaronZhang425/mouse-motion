@@ -121,9 +121,16 @@ public class InputDevice {
         );
     }
 
+    @Override
     public String toString() {
         return (
+            "Bus: " + id[0] + "\n" +
+            "Vendor: " + id[1] + "\n" +
+            "Product: " + id[2] + "\n" +
+            "Version: " + id[3] + "\n" +
             "Name: " + name + "\n" +
+            "Physical Path: " + physicalPath + "\n" +
+            "System File Path" + systemFileSystem + "\n" +
             "Handler: " + handlerFile
 
         );

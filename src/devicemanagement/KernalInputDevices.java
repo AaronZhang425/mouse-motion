@@ -7,6 +7,7 @@ import eventclassification.eventcodes.Syn;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,7 +23,7 @@ public class KernalInputDevices {
     private static final File INPUT_DEVICE_DIR = new File("/sys/class/input");
 
     // List of devices
-    private static ArrayList<InputDevice> devices = new ArrayList<>();
+    private static final ArrayList<InputDevice> devices = new ArrayList<>();
 
     static {
         update();
@@ -130,12 +131,12 @@ public class KernalInputDevices {
         // Clear arraylist to remove duplicate items being added
         devices.clear();
 
-        int[] id = new int[4];
-        String name = null;
+        int[] id;
+        String name;
         File physicalPath = null; // unimplemented
         File systemFileSystem = null; // unimplemented
-        File eventFile = null;
-        HashMap<EventTypes, EventCode[]> capabilities = null;
+        File eventFile;
+        HashMap<EventTypes, EventCode[]> capabilities;
     
         String[] eventDirs = getEventDirectories(INPUT_DEVICE_DIR);
 
@@ -227,18 +228,21 @@ public class KernalInputDevices {
     private static int getVendor(File idDir) {
         File vendorFile = new File(idDir + "/vendor");
         int vendorNum = Integer.parseInt(readFileLine(vendorFile), 16);
+
         return vendorNum;
     }
     
     private static int getProduct(File idDir) {
         File productFile = new File(idDir + "/product");
         int productNum = Integer.parseInt(readFileLine(productFile), 16);
+
         return productNum;
     }
     
     private static int getVersion(File idDir) {
         File versionFile = new File(idDir + "/version");
         int versionNum = Integer.parseInt(readFileLine(versionFile), 16);
+
         return versionNum;
     }
 
@@ -387,10 +391,6 @@ public class KernalInputDevices {
      * @return An Array List of all the indicies of a 1 bit
      */
     private static ArrayList<Integer> getHexBitIndicies(String hex) {
-        // TODO: Redo method to allow for hex strings beyond the size of a long. Method can still break on the largest possiable inputs
-
-
-        // The given hex number often exceeds the range of an int
         Long bitMap = Long.parseUnsignedLong(hex, 16);
         
         // An array list to contain the indicies of each bit with index 0 being 
@@ -419,6 +419,40 @@ public class KernalInputDevices {
         // return the resulting indicies found
         return indicies;
     }
+
+    private static ArrayList<Integer> getBigHexBitIndicies(String hex) {
+        // The given hex number often exceeds the range of a big int
+        // Use BigInteger in case the string is larger than range of long
+        // Number in linux will be given to not be negative. BigInt constructor
+        // will make positive number
+        BigInteger bitMap = new BigInteger(hex, 16);
+        
+        // An array list to contain the indicies of each bit with index 0 being 
+        // the  1's place and index 1 being the 2's place of the binary number
+        ArrayList<Integer> indicies = new ArrayList<>();
+
+        // This loop goes through a long and adds the positions in which a 
+        // 1 is found in the binary number to the array list. After each check,
+        // the index count increases (i in this case) and the number is shifted 
+        // rightwards.
+
+        // for each bit of a long:
+        for (int i = 0; i < Long.SIZE; i++) {
+            // if the rightmost bit is 1 (i.e. the 1's bit is 1):
+            if (bitMap.and(BigInteger.ONE).equals(BigInteger.ONE)) {
+                // Add the index of that bit into the array list
+                // i represents the index of the number
+                indicies.add(i);
+            }
+
+            // Do a logical shift rightwards by one bit
+            bitMap.shiftRight(1);
+
+        }
+
+        // return the resulting indicies found
+        return indicies;
+    }       
     
     // reads a single line of a given file
     private static String readFileLine(File file) {
