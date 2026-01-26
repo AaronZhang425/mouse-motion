@@ -13,7 +13,7 @@ public class Main {
         // int num = Key.TEMP.getValue();
         System.out.println("Program running");
 
-        ArrayList<InputDevice> devices = KernalInputDevices.getDevices();
+        // ArrayList<InputDevice> devices = KernalInputDevices.getDevices();
 
         HashMap<EventTypes, EventCode[]> fullCapabilitiesFilter = new HashMap<>();
         EventCode[] filter = {Rel.REL_X, Rel.REL_Y};
