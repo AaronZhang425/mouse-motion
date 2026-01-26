@@ -430,7 +430,7 @@ public class KernalInputDevices {
     private static ArrayList<Integer> getBigHexBitIndicies(String hex) {
         // The given hex number often exceeds the range of a big int
         // Use BigInteger in case the string is larger than range of long
-        // Number in linux will be given to not be negative. BigInt constructor
+        // Number in linux will be given to be positive. BigInt constructor
         // will make positive number
         BigInteger bitMap = new BigInteger(hex, 16);
         
