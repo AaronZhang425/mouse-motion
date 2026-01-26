@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -40,9 +41,11 @@ public class KernalInputDevices {
         // Input devices filtered only by event type, not including event codes
         ArrayList<InputDevice> eventTypeFiltered = getDevices(eventTypeFilter);
 
+        // Loop through each device
         for (InputDevice inputDevice : eventTypeFiltered) {
             boolean matches = true;
 
+            // Loop through each event type capability
             for (int i = 0; i < eventTypeFilter.size(); i++) {
                 // Get the event code capabilities for a single event type key
                 EventTypes eventTypeKey = eventTypeFilter.get(i);
@@ -84,7 +87,7 @@ public class KernalInputDevices {
     }
 
     // get devices with that have the event types listed in the parameters
-    public static ArrayList<InputDevice> getDevices(Set<EventTypes> eventTypesFilter) {
+    public static ArrayList<InputDevice> getDevices(Collection<EventTypes> eventTypesFilter) {
         // Arraylist to be filled with each device that is capable of at least
         // all capabilities as specified by the parameter
         ArrayList<InputDevice> filtered = new ArrayList<>();
