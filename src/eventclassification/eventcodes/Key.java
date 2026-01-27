@@ -482,7 +482,21 @@ public enum Key implements EventCode {
     KEY_NUMERIC_A(0x20c),
     KEY_NUMERIC_B(0x20d),
     KEY_NUMERIC_C(0x20e),
-    KEY_NUMERIC_D(0x20f);
+    KEY_NUMERIC_D(0x20f),
+
+    KEY_CAMERA_FOCUS(0x210),
+    KEY_WPS_BUTTON	(0x211),
+
+    KEY_TOUCHPAD_TOGGLE(0x212),
+    KEY_TOUCHPAD_ON	(0x213),
+    KEY_TOUCHPAD_OFF(0x214),
+
+    KEY_CAMERA_ZOOMIN(0x215),
+    KEY_CAMERA_ZOOMOUT(0x216),
+    KEY_CAMERA_UP(0x217),
+    KEY_CAMERA_DOWN(0x218),
+    KEY_CAMERA_LEFT(0x219),
+    KEY_CAMERA_RIGHT(0x21a);
 
     private final int value;
     private static final HashMap<Integer, Key> VALUE_MAP;
