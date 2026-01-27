@@ -17,7 +17,7 @@ public class MouseMotionTracker implements Runnable {
     private final Mouse mouse;
 
     // private final InputReader reader;
-    private final EventFileFilterer eventFilterer;
+    private final InputEventFilterer eventFilterer;
 
     private final EventFilter xFilter;
     private final EventFilter yFilter;
@@ -36,7 +36,7 @@ public class MouseMotionTracker implements Runnable {
     public MouseMotionTracker(Mouse mouse, double[] start) {
         this.mouse = mouse;
         
-        eventFilterer = new EventFileFilterer(
+        eventFilterer = new InputEventFilterer(
             new InputReader(this.mouse.getDevice().getHandlerFile())
         );
 
@@ -107,11 +107,11 @@ public class MouseMotionTracker implements Runnable {
             }
         
             // Output to console the displacement in terms of meters
-            System.out.printf(
-                "X displacement: %5.4f \t Y displacement: %5.4f\n",
-                motionData[0][0],
-                motionData[0][1]
-            );
+            // System.out.printf(
+            //     "X displacement: %5.4f \t Y displacement: %5.4f\n",
+            //     motionData[0][0],
+            //     motionData[0][1]
+            // );
 
         }
     }
