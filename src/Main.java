@@ -6,14 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Main {
-
-    public static void main(String[] args) {       
-        // InputReader input = new InputReader(5);
-
-        // int num = Key.TEMP.getValue();
+    public static int DPI = 1000;
+    public static void main(String[] args) {
         System.out.println("Program running");
-
-        // ArrayList<InputDevice> devices = KernalInputDevices.getDevices();
 
         HashMap<EventTypes, EventCode[]> fullCapabilitiesFilter = new HashMap<>();
         EventCode[] filter = {Rel.REL_X, Rel.REL_Y};
@@ -27,7 +22,7 @@ public class Main {
         MouseMotionTracker mouseTracker = null;
 
         if (!filteredDeviceList.isEmpty()) {
-            mouseTracker = new MouseMotionTracker(new Mouse(filteredDeviceList.get(0), 1000));
+            mouseTracker = new MouseMotionTracker(new Mouse(filteredDeviceList.get(0), DPI));
     
             Thread mouseThread = new Thread(mouseTracker);
             mouseThread.start();
