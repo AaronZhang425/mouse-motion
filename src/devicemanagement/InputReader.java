@@ -2,6 +2,8 @@ package devicemanagement;
 
 import eventclassification.EventTypes;
 import eventclassification.eventcodes.EventCode;
+
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -12,7 +14,7 @@ public class InputReader {
     // Input file is intialized in the constructor
     // Represents the pseudofile that contains the input events of a device
     private File inputFile;
-    private FileInputStream reader;
+    private BufferedInputStream reader;
 
     public InputReader(int eventNum) {
         this(new File("/dev/input/event" + eventNum));
@@ -27,7 +29,7 @@ public class InputReader {
         inputFile = file;
         
         try {
-            reader = new FileInputStream(inputFile);
+            reader = new BufferedInputStream(new FileInputStream(inputFile));
         
         } catch(FileNotFoundException e) {
             System.out.println(e);

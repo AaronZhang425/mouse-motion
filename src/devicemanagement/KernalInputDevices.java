@@ -366,9 +366,12 @@ public class KernalInputDevices {
         ArrayList<Integer> bitIndicies;
 
         try {
+            // On most cases, the hex number can read into a long
             bitIndicies = getHexBitIndicies(hex);
             
         } catch (NumberFormatException e) {
+            // In rare cases, the hex number will exceed a long when it is 
+            // 0xFFFFFFFFFFFFFFFF (16 F's)
             bitIndicies = getBigHexBitIndicies(hex);
 
         }
