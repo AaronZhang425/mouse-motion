@@ -24,14 +24,29 @@ public class Main {
 
         ArrayList<InputDevice> filteredDeviceList = KernalInputDevices.getDevices(fullCapabilitiesFilter);
 
+        MouseMotionTracker mouseTracker = null;
+
         if (!filteredDeviceList.isEmpty()) {
-            MouseMotionTracker mouseTracker = new MouseMotionTracker(new Mouse(filteredDeviceList.get(0), 1000));
+            mouseTracker = new MouseMotionTracker(new Mouse(filteredDeviceList.get(0), 1000));
     
             Thread mouseThread = new Thread(mouseTracker);
             mouseThread.start();
 
         } else {
             System.out.println("No mouse has been detected");
+            System.exit(0);
+        }
+
+        while (mouseTracker != null) {
+            double[][] motionData = mouseTracker.getMotionData();
+
+            System.out.printf(
+                "X displacement: %5.4f \t Y displacement: %5.4f\n",
+                motionData[0][0],
+                motionData[0][1]
+            );
+
+
         }
     
 

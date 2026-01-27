@@ -1,13 +1,12 @@
 package inputanalysis;
 
-import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.HashMap;
 
 import devicemanagement.EventData;
 import devicemanagement.InputReader;
 
-public class EventFileFilterer implements Runnable {
+public class InputEventFilterer implements Runnable {
 
     /**
      * Denotes if thread should stop
@@ -25,29 +24,34 @@ public class EventFileFilterer implements Runnable {
      * matching the filter, add to the associated queue. Can be modified in
      * multiple threads
      */
-    // TODO: Change type from ArrayDeque to the Queue to ensure safe queue handling
     private volatile HashMap<EventFilter, Queue<EventData>> data = (
         new HashMap<>()
     );
 
-    public EventFileFilterer(InputReader reader) {
+    public InputEventFilterer(InputReader reader) {
         this.reader = reader;
 
     }
 
-    public EventFileFilterer(InputReader reader, EventFilter filter) {
+    public InputEventFilterer(InputReader reader, EventFilter filter) {
         this.reader = reader;
         data.put(filter, new Queue<>());
     }
 
-    public EventFileFilterer(InputReader reader, Collection<EventFilter> filters) {
+    public InputEventFilterer(InputReader reader, Collection<EventFilter> filters) {
         this.reader = reader;
 
         for (EventFilter filter : filters) {
             data.put(filter, new Queue<>());
         }
     }
-
+    
+    /**
+     * Adds filter to the hash map of filters and creates an associated queue
+     * of events that match the filter
+     * 
+     * @param filter filter to add to categorize events
+     */
     public void addFilter(EventFilter filter) {
         // Add the filter to the hashmap and an associated array deque
         data.put(filter, new Queue<>());
@@ -78,9 +82,13 @@ public class EventFileFilterer implements Runnable {
 
     public EventData getData(EventFilter filter) {
         synchronized(data) {
+            // Get the queue associated with fitler
             Queue<EventData> events = data.get(filter);
-            if (events != null && events.peek() == null) {
+
+            // If the queue exists an
+            if (events == null || events.peek() == null) {
                 return null;
+
             }
 
             // get and remove first item
