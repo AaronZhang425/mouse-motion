@@ -1,7 +1,8 @@
 package inputanalysis;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import devicemanagement.EventData;
 import devicemanagement.InputReader;
@@ -24,8 +25,8 @@ public class InputEventFilterer implements Runnable {
      * matching the filter, add to the associated queue. Can be modified in
      * multiple threads
      */
-    private volatile HashMap<EventFilter, Queue<EventData>> data = (
-        new HashMap<>()
+    private ConcurrentHashMap<EventFilter, ConcurrentLinkedQueue<EventData>> data = (
+        new ConcurrentHashMap<>()
     );
 
     public InputEventFilterer(InputReader reader) {
@@ -35,14 +36,14 @@ public class InputEventFilterer implements Runnable {
 
     public InputEventFilterer(InputReader reader, EventFilter filter) {
         this.reader = reader;
-        data.put(filter, new Queue<>());
+        data.put(filter, new ConcurrentLinkedQueue<>());
     }
 
     public InputEventFilterer(InputReader reader, Collection<EventFilter> filters) {
         this.reader = reader;
 
         for (EventFilter filter : filters) {
-            data.put(filter, new Queue<>());
+            data.put(filter, new ConcurrentLinkedQueue<>());
         }
     }
     
@@ -54,7 +55,7 @@ public class InputEventFilterer implements Runnable {
      */
     public void addFilter(EventFilter filter) {
         // Add the filter to the hashmap and an associated array deque
-        data.put(filter, new Queue<>());
+        data.put(filter, new ConcurrentLinkedQueue<>());
 
     }
 
@@ -69,32 +70,26 @@ public class InputEventFilterer implements Runnable {
     }
 
     public boolean hasNext(EventFilter filter) {
-        // If no such filter exists in the data, return false
-        if (!data.containsKey(filter)) {
-            return false;
-        }
-
         // Get the deque of events
-        Queue<EventData> events = data.get(filter);
+        ConcurrentLinkedQueue<EventData> events = data.get(filter);
 
-        return (events != null) && (events.size() > 0) && (events.peek() != null);
+        return (events != null) && (events.peek() != null);
     }
 
     public EventData getData(EventFilter filter) {
-        synchronized(data) {
-            // Get the queue associated with fitler
-            Queue<EventData> events = data.get(filter);
+        // Get the queue associated with fitler
+        ConcurrentLinkedQueue<EventData> events = data.get(filter);
 
-            // If the queue exists an
-            if (events == null || events.peek() == null) {
-                return null;
+        // If the queue exists or contains nothing, return null
+        if (events == null || events.size() == 0) {
+            return null;
 
-            }
-
-            // get and remove first item
-            return events.get();
-            
         }
+
+        // get and remove first item
+        return events.poll();
+        
+        
 
     }
 
@@ -103,6 +98,12 @@ public class InputEventFilterer implements Runnable {
         while (!stop) {
             // Get data and add to deque if passes filtering
             EventData eventData = reader.getEventData();
+            
+            // Event data will be null if the file reader has stopped due to 
+            // an error or is closed
+            if (eventData == null) {
+                break;
+            }
 
             // Iterate through the hashmap of data
             for (EventFilter filter : data.keySet()) {

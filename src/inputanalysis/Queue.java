@@ -33,7 +33,7 @@ public class Queue<T> {
      * 
      * @param item Item to be added to the queue
      */
-    public void add(T item) {
+    public synchronized void add(T item) {
         queue.addLast(item);
     }
 
@@ -42,7 +42,7 @@ public class Queue<T> {
      * 
      * @return item at the front of the queue
      */
-    public T get() {
+    public synchronized T get() {
         return queue.pollFirst();
 
     }
@@ -53,7 +53,7 @@ public class Queue<T> {
      * 
      * @return item at from of queue 
      */
-    public T peek() {
+    public synchronized T peek() {
         return queue.peekFirst();
 
     }
@@ -63,7 +63,7 @@ public class Queue<T> {
      * 
      * @return size of queue
      */
-    public int size() {
+    public synchronized int size() {
         return queue.size();
 
     }

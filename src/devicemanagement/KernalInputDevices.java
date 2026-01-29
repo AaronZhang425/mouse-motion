@@ -4,6 +4,7 @@ import eventclassification.EventTypes;
 import eventclassification.eventcodes.EventCode;
 import eventclassification.eventcodes.Rep;
 import eventclassification.eventcodes.Syn;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -36,23 +37,29 @@ public class KernalInputDevices {
         // event type and event code
         ArrayList<InputDevice> filtered = new ArrayList<>();
         
-        ArrayList<EventTypes> eventTypeFilter = new ArrayList<>(fullCapabilitiesFilter.keySet());
+        // Gets the set of keys to filter by as an array list
+        Set<EventTypes> eventTypeFilter = fullCapabilitiesFilter.keySet();
         
         // Input devices filtered only by event type, not including event codes
         ArrayList<InputDevice> eventTypeFiltered = getDevices(eventTypeFilter);
 
-        // Loop through each device
+        // Loop through each device after typefiltering
         for (InputDevice inputDevice : eventTypeFiltered) {
             boolean matches = true;
 
             // Loop through each event type capability
-            for (int i = 0; i < eventTypeFilter.size(); i++) {
+            for (EventTypes eventTypeKey : eventTypeFilter) {
                 // Get the event code capabilities for a single event type key
-                EventTypes eventTypeKey = eventTypeFilter.get(i);
+                // EventTypes eventTypeKey = eventTypeFilter.get(i);
 
-                // If the event code array is null, interpret as wild card
+                // Convert event codes filter to a hashset
+                HashSet<EventCode> eventCodeFilter = new HashSet<>(
+                    Arrays.asList(fullCapabilitiesFilter.get(eventTypeKey))
+                );
+
+                // If the event code array is null or of length 0, interpret as wild card
                 // Essentially filter by only event type if event code is null
-                if (fullCapabilitiesFilter.get(eventTypeKey) == null) {
+                if (eventCodeFilter == null || eventCodeFilter.size() == 0) {
                     continue;
                 }
 
@@ -62,22 +69,17 @@ public class KernalInputDevices {
                     Arrays.asList(inputDevice.getCapabilities().get(eventTypeKey))
                 );
 
-                // Convert the event codes to filter to a hash set
-                HashSet<EventCode> eventCodeFilter = new HashSet<>(
-                    Arrays.asList(fullCapabilitiesFilter.get(eventTypeKey))
-                );
-
-                // Set<EventCode> eventCodeFilter = fullCapabilitiesFilter.get(eventTypeKey);
-
+                // If the capable event codes does not include all elements 
+                // of the filter, there is no match.
                 if (!capableEventCodes.containsAll(eventCodeFilter)) {
                     matches = false;
                 }
 
             }
 
-
             if (matches) {
                 filtered.add(inputDevice);
+
             }
         
         }

@@ -1,13 +1,12 @@
 package inputanalysis;
 
-import devicemanagement.EventData;
+import java.util.concurrent.atomic.AtomicIntegerArray;
+
 import devicemanagement.InputReader;
 import devicemanagement.Mouse;
 import eventclassification.EventTypes;
 import eventclassification.eventcodes.Rel;
 
-
-// TODO: Rework class so that system to collect xValues and yValues do not conflict
 // In original system, they consume data, leading to inaccuracies in both.
 
 public class MouseMotionTracker implements Runnable {
@@ -29,8 +28,18 @@ public class MouseMotionTracker implements Runnable {
     // private final Thread xValuesThread;
     // private final Thread yValuesThread;
 
+    /**
+     * First element represents mouse counts in the x direction. Second element
+     * represents mouse counts in the y direction. These numbers do not directly
+     * represent physical measurements.
+     */
+    private final AtomicIntegerArray mouseCounts = new AtomicIntegerArray(
+        new int[]{0, 0}
+    );
+
     // outer: first array is displacement seconds is velocity; third is acceleration
     // inner: components of  the vector (x, y)
+    // Temporarily unused
     private final double[][] motionData = new double[3][2];
 
     public MouseMotionTracker(Mouse mouse, double[] start) {
@@ -48,8 +57,6 @@ public class MouseMotionTracker implements Runnable {
         eventFilterer.addFilter(xFilter);
         eventFilterer.addFilter(yFilter);
         
-        
-
         // If start is null, set initial displacement to 0
         // Otherwise, set it to the values of the array
         if (start == null) {
@@ -62,7 +69,7 @@ public class MouseMotionTracker implements Runnable {
 
         }
 
-        readerRunner = new Thread(eventFilterer);
+        readerRunner = new Thread(eventFilterer, "Mouse Data Getter");
         readerRunner.start();
 
     }
@@ -73,14 +80,32 @@ public class MouseMotionTracker implements Runnable {
 
     public void terminate() {
         stop = true;
+
+        eventFilterer.terminate();
+
+        try {
+            // Time bound termination; can be adjusted as needed
+            readerRunner.join(500);
+
+        } catch (InterruptedException e) {
+            System.out.print("Event file reader terminated");
+            System.out.print(e);
+            
+
+        }
+
     }
 
     public boolean isTerminated() {
         return stop;
     }
 
-    public double[][] getMotionData() {
-        return motionData.clone();
+    public double[] getDisplacement() {
+        return new double[]{
+            mouseCountsToMeters(mouseCounts.get(0)),
+            mouseCountsToMeters(mouseCounts.get(1))
+        };
+
     }
 
     @Override
@@ -90,9 +115,15 @@ public class MouseMotionTracker implements Runnable {
             if (eventFilterer.hasNext(xFilter)) {
                 // Convert the value of the event associated with the x filter
                 // to meters and add to x displacement
-                motionData[0][0] += mouseCountsToMeters(
+                mouseCounts.getAndAdd(
+                    0,
                     eventFilterer.getData(xFilter).getValue()
                 );
+
+
+                // mouseCounts[0] += mouseCountsToMeters(
+                //     eventFilterer.getData(xFilter).getValue()
+                // );
 
             }
             
@@ -100,12 +131,23 @@ public class MouseMotionTracker implements Runnable {
             if (eventFilterer.hasNext(yFilter)) {
                 // Convert the value of the event associated with the y filter
                 // to meters and add to y displacement
-                motionData[0][1] += mouseCountsToMeters(
+                mouseCounts.getAndAdd(
+                    1,
                     eventFilterer.getData(yFilter).getValue()
                 );
                 
+                // mouseCounts[1] += mouseCountsToMeters(
+                //     eventFilterer.getData(yFilter).getValue()
+                // );
+                
             }
-        
+            
+        }
+
+
+
+        System.out.print("Thread ended");
+
             // Output to console the displacement in terms of meters
             // System.out.printf(
             //     "X displacement: %5.4f \t Y displacement: %5.4f\n",
@@ -113,7 +155,6 @@ public class MouseMotionTracker implements Runnable {
             //     motionData[0][1]
             // );
 
-        }
     }
 
     private double mouseCountsToMeters(int counts, int dpi) {
@@ -130,74 +171,74 @@ public class MouseMotionTracker implements Runnable {
         // return (1.0 * counts / mouse.dpi()) * 0.0254;
     }
 
-    // TODO: Reimplement
-    private double totalDisplacement(EventData[] event) {
-        double displacement = 0;
+    // // TODO: Reimplement
+    // private double totalDisplacement(EventData[] event) {
+    //     double displacement = 0;
 
-        for (EventData data : event) {
-            displacement += getDisplacement(data);
-        }
+    //     for (EventData data : event) {
+    //         displacement += getDisplacement(data);
+    //     }
 
-        return displacement;
+    //     return displacement;
 
-    }
+    // }
 
-    // TODO: Reimplement
-    private double getDisplacement(EventData event) {
-        return mouseCountsToMeters(event.getValue());
+    // // TODO: Reimplement
+    // private double getDisplacement(EventData event) {
+    //     return mouseCountsToMeters(event.getValue());
 
-    }
+    // }
 
-    // TODO: Reimplement
-    private double getVelocity(
-            double displacementDifference,
-            double timeDifference) {
+    // // TODO: Reimplement
+    // private double getVelocity(
+    //         double displacementDifference,
+    //         double timeDifference) {
 
-        return displacementDifference / timeDifference;
+    //     return displacementDifference / timeDifference;
 
-    }
+    // }
 
-    // TODO: Reimplement
-    private double getVelocity(
-            double intialDisplacement,
-            double finalDisplacemenet,
-            double timeDifference) {
+    // // TODO: Reimplement
+    // private double getVelocity(
+    //         double intialDisplacement,
+    //         double finalDisplacemenet,
+    //         double timeDifference) {
 
-        return (finalDisplacemenet - intialDisplacement) / timeDifference;
+    //     return (finalDisplacemenet - intialDisplacement) / timeDifference;
 
-    }
+    // }
 
-    // data is a parameter that represents an initial and final component
-    // of a vector
-    // TODO: Reimplement
-    private double getAcceleration(
-            double intialVelocity,
-            double finalVelocity,
-            double timeDifference) {
-        return (finalVelocity - intialVelocity) / timeDifference;
+    // // data is a parameter that represents an initial and final component
+    // // of a vector
+    // // TODO: Reimplement
+    // private double getAcceleration(
+    //         double intialVelocity,
+    //         double finalVelocity,
+    //         double timeDifference) {
+    //     return (finalVelocity - intialVelocity) / timeDifference;
 
-    }
+    // }
 
-    // TODO: Reimplement
-    private double getTimeDifference(EventData intialData, EventData finalData) {
-        long initialSeconds = intialData.getTime()[0];
-        long initialMicroseconds = intialData.getTime()[1];
+    // // TODO: Reimplement
+    // private double getTimeDifference(EventData intialData, EventData finalData) {
+    //     long initialSeconds = intialData.getTime()[0];
+    //     long initialMicroseconds = intialData.getTime()[1];
 
-        long finalSeconds = finalData.getTime()[0];
-        long finalMicroseconds = finalData.getTime()[1];
+    //     long finalSeconds = finalData.getTime()[0];
+    //     long finalMicroseconds = finalData.getTime()[1];
 
-        // long initialSeconds = data[0].time()[0];
-        // long intialMicroseconds = data[0].time()[1];
+    //     // long initialSeconds = data[0].time()[0];
+    //     // long intialMicroseconds = data[0].time()[1];
 
-        // long finalSeconds = data[1].time()[0];
-        // long finalMicroseconds = data[1].time()[1];
+    //     // long finalSeconds = data[1].time()[0];
+    //     // long finalMicroseconds = data[1].time()[1];
 
-        // in seconds
-        double timeDifference = ((finalSeconds - initialSeconds) +
-                (finalMicroseconds - initialMicroseconds) / 1.0E60);
+    //     // in seconds
+    //     double timeDifference = ((finalSeconds - initialSeconds) +
+    //             (finalMicroseconds - initialMicroseconds) / 1.0E60);
 
-        return timeDifference;
+    //     return timeDifference;
 
-    }
+    // }
 
 }

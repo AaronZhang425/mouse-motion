@@ -13,9 +13,17 @@ public class EventFilter {
     public EventFilter(EventTypes eventType, EventCode eventCode) {
         // this.eventType = eventType;
         // this.eventCode = eventCode;
-        EventCode[] eventCodes = {eventCode};
+        
+        if (eventCode != null) {
+            // Add event type and an associated event code array of size 1
+            filter.put(eventType, new EventCode[]{eventCode});
 
-        filter.put(eventType, eventCodes);
+        } else {
+            // Add empyt event code array if the event code is null    
+            filter.put(eventType, new EventCode[0]);
+
+        }
+
 
 
         // eventFilter = configFilter();
@@ -27,6 +35,28 @@ public class EventFilter {
 
     public EventFilter(HashMap<EventTypes, EventCode[]> filter) {
         this.filter = filter;
+    }
+
+    public void addCondition(EventTypes eventType, EventCode[] eventCodes) {
+        if (eventCodes != null) {
+            filter.put(eventType, eventCodes);
+
+        } else {
+            filter.put(eventType, new EventCode[0]);
+
+        }
+        
+    }
+
+    public void addCondition(EventTypes eventType, EventCode eventCode) {
+        if (eventCode != null) {
+            filter.put(eventType, new EventCode[]{eventCode});
+
+        } else {
+            filter.put(eventType, new EventCode[0]);
+
+        }
+
     }
 
     public boolean isMatch(EventData inputEvent) {
@@ -43,8 +73,13 @@ public class EventFilter {
 
         // If no array of accpetable event codes exists, filter only by
         // event type
-        if (acceptedEventCodes == null || acceptedEventCodes[0] == null) {
+        if (
+            acceptedEventCodes.length == 0 ||
+            acceptedEventCodes[0] == null ||
+            acceptedEventCodes == null
+        ) {
             return true;
+        
         }
 
         // If accepted event codes contains the event code of the input event
