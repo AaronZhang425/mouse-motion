@@ -11,9 +11,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class InputReader {
-    // Input file is intialized in the constructor
-    // Represents the pseudofile that contains the input events of a device
+    /**
+     * Represents the path of the event file to read
+     */
     private File inputFile;
+
+    /**
+     * Buffered file reader object to read the stream of the event file
+     */
     private BufferedInputStream reader;
 
     public InputReader(int eventNum) {
@@ -132,6 +137,7 @@ public class InputReader {
             while (bufferIndexOffset < buffer.length) {
                 bytesRead = reader.read(buffer, bufferIndexOffset, maxBytesRead);
 
+                // The read method returns -1 if the stream has ended
                 if (bytesRead == -1) {
                     return null;
                 }
