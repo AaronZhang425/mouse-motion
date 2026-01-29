@@ -132,14 +132,20 @@ public class InputReader {
             while (bufferIndexOffset < buffer.length) {
                 bytesRead = reader.read(buffer, bufferIndexOffset, maxBytesRead);
 
+                if (bytesRead == -1) {
+                    return null;
+                }
+                
                 bufferIndexOffset += bytesRead;
                 maxBytesRead -= bytesRead;
+
             }
 
             
         
         } catch(IOException e) {
             System.out.println(e);
+            return null;
 
         }
         

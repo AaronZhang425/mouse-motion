@@ -130,7 +130,7 @@ public class InputDevice {
             "Version: " + id[3] + "\n" +
             "Name: " + name + "\n" +
             "Physical Path: " + physicalPath + "\n" +
-            "System File Path" + systemFileSystem + "\n" +
+            "System File Path: " + systemFileSystem + "\n" +
             "Handler: " + handlerFile
 
         );
