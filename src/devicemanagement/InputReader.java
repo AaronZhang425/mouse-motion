@@ -62,8 +62,13 @@ public class InputReader {
 
     public EventData getEventData() {
         byte[] buffer = eventFileReader();
-        
-        // System.out.println();
+
+        // Buffer will be null if file stream has ended. If file stream
+        // ended, return null
+        if (buffer == null) {
+            return null;
+
+        }
 
         // Byte order of the buffer is assumed to be little endian
         long[] time = getEventTime(buffer);

@@ -16,6 +16,10 @@ import java.util.HashMap;
 //     HashMap<EventTypes, EventCode[]> capabilities
 // ) {}
 
+/**
+ * Class that wraps several pieces of data about a device. Do not replace with
+ * a record to maintain support for older versions of java
+ */
 public class InputDevice {
     private final int[] id;
     private final String name;
@@ -41,6 +45,12 @@ public class InputDevice {
 
     }
 
+    /**
+     * Gets the id of the device as an array. First element of the array is the
+     * bus ID; second is vendor ID; third is product ID; fourth is version ID
+     * 
+     * @return id array
+     */
     public int[] getId() {
         return id;
 
@@ -52,6 +62,11 @@ public class InputDevice {
 
     }
 
+    /**
+     * Get name of device as reported by the kernel
+     * 
+     * @return name of device
+     */
     public String getName() {
         return name;
 
@@ -85,6 +100,15 @@ public class InputDevice {
 
     }
 
+    /**
+     * Gets the handler file of an event. The location of an event handler file
+     * is most often located at /dev/input/eventX where X denotes any positive
+     * integer including 0. While some devices will have handlers not named
+     * eventX, this method will only get handlers named eventX and will return
+     * null otherwise.
+     * 
+     * @return device handler
+     */
     public File getHandlerFile() {
         return handlerFile;
 
