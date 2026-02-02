@@ -591,7 +591,14 @@ public enum Key implements EventCode {
     KEY_CLEARVU_SONAR(0x286),
     KEY_SIDEVU_SONAR(0x287),
     KEY_NAV_INFO(0x288),
-    KEY_BRIGHTNESS_MENU(0x289);
+    KEY_BRIGHTNESS_MENU(0x289),
+
+    KEY_MACRO_RECORD_START(0x2b0),
+    KEY_MACRO_RECORD_STOP(0x2b1),
+    KEY_MACRO_PRESET_CYCLE(0x2b2),
+    KEY_MACRO_PRESET1(0x2b3),
+    KEY_MACRO_PRESET2(0x2b4),
+    KEY_MACRO_PRESET3(0x2b5);
 
     private final int value;
     private static final HashMap<Integer, Key> VALUE_MAP;
