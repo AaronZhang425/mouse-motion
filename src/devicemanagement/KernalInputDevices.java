@@ -125,6 +125,11 @@ public class KernalInputDevices {
     }
 
 
+    /**
+     * Get all the devices detected by the kernel
+     * 
+     * @return Full device lists
+     */
     public static ArrayList<InputDevice> getDevices() {
         // Return a copy of arraylist to prevent external manipulation
         return new ArrayList<>(devices);
@@ -132,6 +137,10 @@ public class KernalInputDevices {
     }
 
     // update list of devices
+    /**
+     * Updates the lists of devices according to list of devices listed by
+     * the kerenel. Thid method modifies the devices field.
+     */
     public static void update() {
         // Clear arraylist to remove duplicate items being added
         devices.clear();
