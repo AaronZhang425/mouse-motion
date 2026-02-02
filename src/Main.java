@@ -11,15 +11,19 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Program running");
 
-        HashMap<EventTypes, EventCode[]> fullCapabilitiesFilter = new HashMap<>();
+        HashMap<EventTypes, EventCode[]> fullCapabilitiesFilter = (
+            new HashMap<>()
+        );
+
         EventCode[] filter = {Rel.REL_X, Rel.REL_Y};
         EventCode[] eventCodeFilterMsc = {};
         
         fullCapabilitiesFilter.put(EventTypes.REL, filter);
         fullCapabilitiesFilter.put(EventTypes.MSC, eventCodeFilterMsc);
 
-        ArrayList<InputDevice> filteredDeviceList = KernalInputDevices.getDevices(fullCapabilitiesFilter);
-        // System.out.println(filteredDeviceList.get(0));
+        ArrayList<InputDevice> filteredDeviceList = (
+            KernalInputDevices.getDevices(fullCapabilitiesFilter)
+        );
 
         MouseMotionTracker mouseTracker = new MouseMotionTracker(new Mouse(filteredDeviceList.get(0), DPI));
 
