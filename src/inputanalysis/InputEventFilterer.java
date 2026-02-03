@@ -59,6 +59,11 @@ public class InputEventFilterer implements Runnable {
 
     }
 
+    /**
+     * Gets the status if the thread is flagged to stop
+     * 
+     * @return running flag
+     */
     public boolean isTerminated() {
         return stop;
     }

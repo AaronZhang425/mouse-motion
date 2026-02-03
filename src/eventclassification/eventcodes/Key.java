@@ -598,7 +598,13 @@ public enum Key implements EventCode {
     KEY_MACRO_PRESET_CYCLE(0x2b2),
     KEY_MACRO_PRESET1(0x2b3),
     KEY_MACRO_PRESET2(0x2b4),
-    KEY_MACRO_PRESET3(0x2b5);
+    KEY_MACRO_PRESET3(0x2b5),
+    
+    KEY_KBD_LCD_MENU1(0x2b8),
+    KEY_KBD_LCD_MENU2(0x2b9),
+    KEY_KBD_LCD_MENU3(0x2ba),
+    KEY_KBD_LCD_MENU4(0x2bb),
+    KEY_KBD_LCD_MENU5(0x2bc);
 
     private final int value;
     private static final HashMap<Integer, Key> VALUE_MAP;
