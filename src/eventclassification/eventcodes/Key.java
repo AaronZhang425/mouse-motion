@@ -604,7 +604,9 @@ public enum Key implements EventCode {
     KEY_KBD_LCD_MENU2(0x2b9),
     KEY_KBD_LCD_MENU3(0x2ba),
     KEY_KBD_LCD_MENU4(0x2bb),
-    KEY_KBD_LCD_MENU5(0x2bc);
+    KEY_KBD_LCD_MENU5(0x2bc),
+    
+    KEY_PERFORMANCE(0x2bd);
 
     private final int value;
     private static final HashMap<Integer, Key> VALUE_MAP;
