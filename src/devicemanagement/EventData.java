@@ -69,6 +69,11 @@ public class EventData {
 
     }
 
+    /**
+     * Get the event type of the input event this object represents
+     * 
+     * @return event type of input event
+     */
     public EventTypes getEventType() {
         return eventType;
 
