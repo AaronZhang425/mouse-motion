@@ -30,18 +30,18 @@ public class Main {
         Thread mouseThread = new Thread(mouseTracker, "Mouse Data Processor");
         mouseThread.start();
 
-        // while (mouseTracker != null) {
-        //     double[] motionData = mouseTracker.getDisplacement();
+        while (mouseTracker != null) {
+            double[] motionData = mouseTracker.getDisplacement();
 
 
-        //     System.out.printf(
-        //         "X displacement: %5.4f \t Y displacement: %5.4f\n",
-        //         motionData[0],
-        //         motionData[1]
-        //     );
+            System.out.printf(
+                "X displacement: %5.4f \t Y displacement: %5.4f\n",
+                motionData[0],
+                motionData[1]
+            );
 
 
-        // }
+        }
 
         // // Thread termination testing
         // mouseTracker.terminate();
