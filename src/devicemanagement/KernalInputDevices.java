@@ -53,13 +53,17 @@ public class KernalInputDevices {
                 // EventTypes eventTypeKey = eventTypeFilter.get(i);
 
                 // Convert event codes filter to a hashset
-                HashSet<EventCode> eventCodeFilter = new HashSet<>(
+                List<EventCode> eventCodeFilter = (
                     Arrays.asList(fullCapabilitiesFilter.get(eventTypeKey))
                 );
 
                 // If the event code array is null or of length 0, interpret as wild card
                 // Essentially filter by only event type if event code is null
-                if (eventCodeFilter == null || eventCodeFilter.size() == 0) {
+                if (
+                    eventCodeFilter == null ||
+                    eventCodeFilter.size() == 0 ||
+                    eventCodeFilter.get(0) == null
+                ) {
                     continue;
                 }
 

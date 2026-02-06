@@ -79,6 +79,11 @@ public class EventData {
 
     }
 
+    /**
+     * Get the event code of the input event this object represents
+     * 
+     * @return event code of input event
+     */
     public EventCode getEventCode() {
         return eventCode;
 
