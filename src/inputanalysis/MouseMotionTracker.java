@@ -108,6 +108,11 @@ public class MouseMotionTracker implements Runnable {
 
     }
 
+    /**
+     * Get the state of the flag marking thread to end
+     * 
+     * @return termination flag
+     */
     public boolean isTerminated() {
         return stop;
     }
