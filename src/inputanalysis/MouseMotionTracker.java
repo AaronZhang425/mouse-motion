@@ -186,6 +186,12 @@ public class MouseMotionTracker implements Runnable {
         // counts inch
     }
 
+    /**
+     * Returns the results of converting counts to meters
+     * 
+     * @param counts The number of dots or counts the mouse has detected
+     * @return Displacement in meters based on mouse counts
+     */
     private double mouseCountsToMeters(int counts) {
         return mouseCountsToMeters(counts, mouse.getDpi());
         // return (1.0 * counts / mouse.dpi()) * 0.0254;
