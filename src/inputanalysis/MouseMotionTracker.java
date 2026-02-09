@@ -177,6 +177,14 @@ public class MouseMotionTracker implements Runnable {
 
     }
 
+    /**
+     * Given a DPI and mouse counts or dots, convert the number of counts to
+     * meters using the given DPI.
+     * 
+     * @param counts Number of counts recorded by the mouse
+     * @param dpi The DPI of the mouse
+     * @return The number of meters the counts is equivalent to given the dpi
+     */
     private double mouseCountsToMeters(int counts, int dpi) {
         // return (double) counts / 1000.0;
         // return (double) counts / dpi;
