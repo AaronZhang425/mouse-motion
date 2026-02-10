@@ -37,6 +37,13 @@ public class EventFilter {
         this.filter = filter;
     }
 
+    /**
+     * Adds an extra condition to the filter that any new objects passed into
+     * to isMatch filter must pass.
+     * 
+     * @param eventType Additional event type to filter by;
+     * @param eventCodes Additional event codes to filter by
+     */
     public void addCondition(EventTypes eventType, EventCode[] eventCodes) {
         if (eventCodes != null) {
             filter.put(eventType, eventCodes);
