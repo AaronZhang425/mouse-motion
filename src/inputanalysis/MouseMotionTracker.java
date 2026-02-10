@@ -133,10 +133,9 @@ public class MouseMotionTracker implements Runnable {
     }
 
     /**
-     * This method defines the runtime behavior of the thread during runtime.
-     * Do not run this method directly to start a thread. Create an object of
-     * the MouseMotionTracker class and pass it into the constructor of the 
-     * Thread constructor. On the thread object, call start().
+     * This method defines the runtime behavior of the thread. This will only
+     * run properly as a thread when an objects of this class is passed into
+     * a thread constructor and start() is called on the thread object
      */
     @Override
     public void run() {
