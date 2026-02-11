@@ -38,10 +38,11 @@ public class EventFilter {
     }
 
     /**
-     * Adds an extra condition to the filter that any new objects passed into
-     * to isMatch filter must pass.
+     * Adds an extra condition to the filter such that any new objects passed 
+     * into the isMatch() will be accepted based on the new set of filters
+     * defined
      * 
-     * @param eventType Additional event type to filter by;
+     * @param eventType Additional event type to filter by
      * @param eventCodes Additional event codes to filter by
      */
     public void addCondition(EventTypes eventType, EventCode[] eventCodes) {
@@ -55,6 +56,14 @@ public class EventFilter {
         
     }
 
+    /**
+     * Adds an extra condition to the filter such that any new objects passed 
+     * into the isMatch() will be accepted based on the new set of filters
+     * defined
+     * 
+     * @param eventType Additional eventtype to filter by
+     * @param eventCode Single additional event code to filter by
+     */
     public void addCondition(EventTypes eventType, EventCode eventCode) {
         if (eventCode != null) {
             filter.put(eventType, new EventCode[]{eventCode});
