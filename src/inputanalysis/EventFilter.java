@@ -75,6 +75,13 @@ public class EventFilter {
 
     }
 
+    /**
+     * Returns true if all the EventData argument passes all requirements 
+     * imposed by all filters.
+     * 
+     * @param inputEvent The input EventData to check if pass all filters
+     * @return True if pass all filters and false otherwise
+     */
     public boolean isMatch(EventData inputEvent) {
         EventTypes inputEventType = inputEvent.getEventType();
 
