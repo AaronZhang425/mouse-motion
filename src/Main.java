@@ -2,6 +2,8 @@ import devicemanagement.*;
 import eventclassification.*;
 import eventclassification.eventcodes.*;
 import inputanalysis.MouseMotionTracker;
+
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -25,11 +27,25 @@ public class Main {
             KernalInputDevices.getDevices(fullCapabilitiesFilter)
         );
 
-        MouseMotionTracker mouseTracker = new MouseMotionTracker(new Mouse(filteredDeviceList.get(0), DPI));
+        MouseMotionTracker mouseTracker = null;
 
-        Thread mouseThread = new Thread(mouseTracker, "Mouse Data Processor");
-        mouseThread.start();
+        try {
+            mouseTracker = new MouseMotionTracker(new Mouse(filteredDeviceList.get(0), DPI));
+            
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
+            
+        }
 
+        Thread mouseThread = null;
+
+        if (mouseTracker != null) {
+            mouseThread = new Thread(mouseTracker, "Mouse Data Processor");
+            mouseThread.start();
+
+        }
+
+        
         while (mouseTracker != null) {
             double[] motionData = mouseTracker.getDisplacement();
 

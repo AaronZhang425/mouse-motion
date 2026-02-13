@@ -21,25 +21,21 @@ public class InputReader {
      */
     private BufferedInputStream reader;
 
-    public InputReader(int eventNum) {
+    public InputReader(int eventNum) throws FileNotFoundException {
         this(new File("/dev/input/event" + eventNum));
 
     }
 
-    public InputReader(String filePath) {
+    public InputReader(String filePath) throws FileNotFoundException {
         this(new File(filePath));
     }
 
-    public InputReader(File file) {
+    public InputReader(File file) throws FileNotFoundException {
         inputFile = file;
         
-        try {
-            reader = new BufferedInputStream(new FileInputStream(inputFile));
+        reader = new BufferedInputStream(new FileInputStream(inputFile));
         
-        } catch(FileNotFoundException e) {
-            System.out.println(e);
 
-        }
     }
 
     public EventData[] getSynReport() {

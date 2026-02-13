@@ -1,5 +1,6 @@
 package inputanalysis;
 
+import java.io.FileNotFoundException;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
 import devicemanagement.InputReader;
@@ -48,7 +49,7 @@ public class MouseMotionTracker implements Runnable {
      */
     private final double[] positionOffset = new double[2];
 
-    public MouseMotionTracker(Mouse mouse, double[] positionOffset) {
+    public MouseMotionTracker(Mouse mouse, double[] positionOffset) throws FileNotFoundException {
         this.mouse = mouse;
         
         eventFilterer = new InputEventFilterer(
@@ -80,7 +81,7 @@ public class MouseMotionTracker implements Runnable {
 
     }
 
-    public MouseMotionTracker(Mouse mouse) {
+    public MouseMotionTracker(Mouse mouse) throws FileNotFoundException {
         this(mouse, null);
     }
 
