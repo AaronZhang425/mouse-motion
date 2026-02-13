@@ -11,6 +11,11 @@ public class Mouse {
         this.dpi = dpi;
     }
 
+    /**
+     * Gets the device that represents the mouse
+     * 
+     * @return Mouse device
+     */
     public InputDevice getDevice() {
         return device;
     
