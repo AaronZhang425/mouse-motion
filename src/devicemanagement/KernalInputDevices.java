@@ -213,7 +213,14 @@ public class KernalInputDevices {
         return null;
     }
 
-    // id methods
+    /**
+     * Gets the an array represents the ID of a device in which index 0 
+     * represents the bus; index 1 represents the vendor; index 2 represents
+     * the product; and index 3 represents the version.
+     * 
+     * @param eventDirName
+     * @return
+     */
     private static int[] getDeviceId(String eventDirName) {
         // Creates a file representing the file path of the id directory inside
         // event directory
