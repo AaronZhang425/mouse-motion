@@ -92,7 +92,12 @@ public class KernalInputDevices {
     
     }
 
-    // get devices with that have the event types listed in the parameters
+    /**
+     * Filters the list of devices detected by capable event types
+     * 
+     * @param eventTypesFilter Collection of event types to filter by
+     * @return ArrayList of devices that are capable of all listed event types
+     */
     public static ArrayList<InputDevice> getDevices(Collection<EventTypes> eventTypesFilter) {
         // Arraylist to be filled with each device that is capable of at least
         // all capabilities as specified by the parameter
