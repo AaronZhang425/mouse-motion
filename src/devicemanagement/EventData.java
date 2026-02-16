@@ -89,6 +89,11 @@ public class EventData {
 
     }
 
+    /**
+     * Get the value of the event
+     * 
+     * @return Value of event
+     */
     public int getValue() {
         return value;
     
