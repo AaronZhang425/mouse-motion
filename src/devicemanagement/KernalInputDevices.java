@@ -198,12 +198,7 @@ public class KernalInputDevices {
      * @return the name of device contained in the name file of the event
      */
     private static String getDeviceName(String eventDirName) {
-        File nameFile = new File(
-            INPUT_DEVICE_DIR +
-            "/" +
-            eventDirName +
-            "/device/name"
-        );
+        File nameFile = new File(INPUT_DEVICE_DIR, eventDirName + "/device/name");
 
         return readFileLine(nameFile);
     }
@@ -223,19 +218,14 @@ public class KernalInputDevices {
      * represents the bus; index 1 represents the vendor; index 2 represents
      * the product; and index 3 represents the version.
      * 
-     * @param eventDirName
-     * @return
+     * @param eventDirName Name of the event directory
+     * @return Array representing the id of the device
      */
     private static int[] getDeviceId(String eventDirName) {
         // Creates a file representing the file path of the id directory inside
         // event directory
-        File idDir = new File(
-            INPUT_DEVICE_DIR +
-            "/" +
-            eventDirName +
-            "/device/id"
-        );
-        
+        File idDir = new File(INPUT_DEVICE_DIR, eventDirName + "/device/id");
+
         int[] id = new int[4];
 
         id[0] = getBus(idDir);
@@ -248,7 +238,7 @@ public class KernalInputDevices {
     }
 
     private static int getBus(File idDir) {
-        File busFile = new File(idDir + "/bustype");
+        File busFile = new File(idDir, "/bustype");
         int busNum = Integer.parseInt(readFileLine(busFile), 16);
 
         return busNum;
@@ -256,28 +246,28 @@ public class KernalInputDevices {
     }
 
     private static int getVendor(File idDir) {
-        File vendorFile = new File(idDir + "/vendor");
+        File vendorFile = new File(idDir, "/vendor");
         int vendorNum = Integer.parseInt(readFileLine(vendorFile), 16);
 
         return vendorNum;
     }
     
     private static int getProduct(File idDir) {
-        File productFile = new File(idDir + "/product");
+        File productFile = new File(idDir, "/product");
         int productNum = Integer.parseInt(readFileLine(productFile), 16);
 
         return productNum;
     }
     
     private static int getVersion(File idDir) {
-        File versionFile = new File(idDir + "/version");
+        File versionFile = new File(idDir, "/version");
         int versionNum = Integer.parseInt(readFileLine(versionFile), 16);
 
         return versionNum;
     }
 
     private static File getHanderFile(String eventDirName) {
-        return new File("/dev/input/" + eventDirName);
+        return new File("/dev/input/", eventDirName);
 
     }
 
@@ -326,13 +316,9 @@ public class KernalInputDevices {
         */
         String eventTypeName = eventType.name().toLowerCase();
 
-        
         File eventCodeFile = new File(
-            INPUT_DEVICE_DIR +
-            "/" +
-            eventDirName +
-            "/device/capabilities/" +
-            eventTypeName
+            INPUT_DEVICE_DIR,
+            eventDirName + "/device/capabilities" + eventTypeName
         );
         
         // Put each hex number in an array
