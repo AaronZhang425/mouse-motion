@@ -8,8 +8,6 @@ import devicemanagement.Mouse;
 import eventclassification.EventTypes;
 import eventclassification.eventcodes.Rel;
 
-// In original system, they consume data, leading to inaccuracies in both.
-
 public class MouseMotionTracker implements Runnable {
     /**
      * Use this variable to control the termination of thread. Set to true
@@ -23,9 +21,20 @@ public class MouseMotionTracker implements Runnable {
      */
     private final Mouse mouse;
 
+    /**
+     * Reads input and creates a hashmap of filters to map to a concurrent queue
+     * that holds events that match the filter
+     */
     private final InputEventFilterer eventFilterer;
 
+    /**
+     * Filter that filters for relative x values of the mouse
+     */
     private final EventFilter xFilter;
+
+    /**
+     * Filter that filters for relative y values of the mouse
+     */
     private final EventFilter yFilter;
     
     /**
