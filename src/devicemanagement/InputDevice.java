@@ -23,23 +23,17 @@ import java.util.HashMap;
 public class InputDevice {
     private final int[] id;
     private final String name;
-    private final File physicalPath;
-    private final File systemFileSystem;
     private final File handlerFile;
     private final HashMap<EventTypes, EventCode[]> capabilities;
 
     public InputDevice(
         int[] id,
         String name,
-        File physicalPath,
-        File systemFileSystem,
         File handlerFile,
         HashMap<EventTypes, EventCode[]> capabilities
     ) {
         this.id = id;
         this.name = name;
-        this.physicalPath = physicalPath;
-        this.systemFileSystem = systemFileSystem;
         this.handlerFile = handlerFile;
         this.capabilities = capabilities;
 
@@ -56,12 +50,6 @@ public class InputDevice {
 
     }
 
-    @Deprecated
-    public int[] id() {
-        return getId();
-
-    }
-
     /**
      * Get name of device as reported by the kernel
      * 
@@ -69,34 +57,6 @@ public class InputDevice {
      */
     public String getName() {
         return name;
-
-    }
-
-    @Deprecated
-    public String name() {
-        return getName();
-
-    }
-    
-    public File getPhysicalPath() {
-        return physicalPath;
-
-    }
-
-    @Deprecated
-    public File physicalPath() {
-        return getPhysicalPath();
-
-    }
-    
-    public File getSystemFileSystem() {
-        return systemFileSystem;
-
-    }
-    
-    @Deprecated
-    public File systemFileSystem() {
-        return getSystemFileSystem();
 
     }
 
@@ -114,20 +74,8 @@ public class InputDevice {
 
     }
 
-    @Deprecated
-    public File handlerFile() {
-        return getHandlerFile();
-
-    }
-
     public HashMap<EventTypes, EventCode[]> getCapabilities() {
         return capabilities;
-    }
-
-    @Deprecated
-    public HashMap<EventTypes, EventCode[]> capabilities() {
-        return getCapabilities();
-
     }
 
     public boolean equals(InputDevice other) {
@@ -138,8 +86,6 @@ public class InputDevice {
         return (
             Arrays.equals(id, other.id) &&
             name.equals(other.name) &&
-            physicalPath.equals(other.physicalPath) &&
-            systemFileSystem.equals(other.systemFileSystem) &&
             handlerFile.equals(other.handlerFile) &&
             capabilities.equals(other.capabilities)
         );
@@ -153,8 +99,6 @@ public class InputDevice {
             "Product: " + id[2] + "\n" +
             "Version: " + id[3] + "\n" +
             "Name: " + name + "\n" +
-            "Physical Path: " + physicalPath + "\n" +
-            "System File Path: " + systemFileSystem + "\n" +
             "Handler: " + handlerFile
 
         );
