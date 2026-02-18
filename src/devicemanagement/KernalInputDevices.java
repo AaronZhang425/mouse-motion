@@ -156,8 +156,6 @@ public class KernalInputDevices {
 
         int[] id;
         String name;
-        File physicalPath = null; // unimplemented
-        File systemFileSystem = null; // unimplemented
         File eventFile;
         HashMap<EventTypes, EventCode[]> capabilities;
     
@@ -172,8 +170,6 @@ public class KernalInputDevices {
             devices.add(new InputDevice(
                 id,
                 name,
-                physicalPath,
-                systemFileSystem,
                 eventFile,
                 capabilities
             ));
@@ -201,16 +197,6 @@ public class KernalInputDevices {
         File nameFile = new File(INPUT_DEVICE_DIR, eventDirName + "/device/name");
 
         return readFileLine(nameFile);
-    }
-
-    // TODO: implement
-    private static File getPhysicalPath(String eventDirString) {
-        return null;
-    }
-
-    // TODO: implement
-    private static File getSystemFileSystem(String eventDirString) {
-        return null;
     }
 
     /**
