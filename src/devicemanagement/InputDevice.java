@@ -67,13 +67,21 @@ public class InputDevice {
      * eventX, this method will only get handlers named eventX and will return
      * null otherwise.
      * 
-     * @return device handler
+     * @return device handler file
      */
     public File getHandlerFile() {
         return handlerFile;
 
     }
 
+    /**
+     * Get the capabilities of device with event types mapping to an array
+     * of event codes that the device is capable of. If the device is not 
+     * capable of producing an event type, it will not be included in the keys
+     * of the hashmap.
+     * 
+     * @return Mapping of capable event types to respective capable event codes 
+     */
     public HashMap<EventTypes, EventCode[]> getCapabilities() {
         return capabilities;
     }
