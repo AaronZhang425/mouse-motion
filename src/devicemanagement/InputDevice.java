@@ -86,6 +86,13 @@ public class InputDevice {
         return capabilities;
     }
 
+    /**
+     * Returns true if 2 InputDevices have the same ID, name, handler file, and
+     * capabilities
+     * 
+     * @param other Input device to compare to
+     * @return Equality of the 2 input devices
+     */
     public boolean equals(InputDevice other) {
         if (other == null) {
             return false;
