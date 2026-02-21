@@ -1,5 +1,6 @@
 package inputanalysis;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -69,7 +70,18 @@ public class InputEventFilterer implements Runnable {
     }
 
     public void terminate() {
-        reader.stop(); // Stop file reader to prevent resource leaks
+        try {
+            reader.close(); // Stop file reader to prevent resource leaks
+            
+        } catch (IOException e) {
+            System.out.println(e);
+
+        } catch (NullPointerException e) {
+            System.out.println(e);
+            System.out.println("Check permissions in /dev/input/");
+
+        }
+
         stop = true; // Stop thread runtime loop
 
     }

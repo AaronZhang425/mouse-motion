@@ -161,14 +161,13 @@ public class InputReader {
                     
     }
 
-    public void stop() {
-        try {
-            reader.close();
-
-        } catch (IOException e) {
-            System.out.println(e);
-
-        }
+    /**
+     * Closes the BufferedInputStream to prevent resource leak
+     * 
+     * @throws IOException Throws IOException if IO error occurs
+     */
+    public void close() throws IOException {
+        reader.close();
 
     }
 
