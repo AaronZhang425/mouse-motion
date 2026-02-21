@@ -129,7 +129,12 @@ public enum EventTypes implements EventCategory{
         return EVENTCODES_MAP.get(this).apply(num);
     }
 
-    
+    /**
+     * Maps the event type value back to the respective event type
+     * 
+     * @param value Value of event type
+     * @return Event type corresponding to value
+     */
     public static EventTypes byValue(int value) {
         return (EventTypes) VALUE_MAP.get(value);
     }

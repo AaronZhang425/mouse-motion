@@ -6,16 +6,6 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 
-// Record to store device details provided by linux
-// public record InputDevice(
-//     int[] id,
-//     String name,
-//     File physicalPath,
-//     File systemFileSystem,
-//     File handlerFile,
-//     HashMap<EventTypes, EventCode[]> capabilities
-// ) {}
-
 /**
  * Class that wraps several pieces of data about a device. Do not replace with
  * a record to maintain support for older versions of java
