@@ -120,7 +120,12 @@ public enum EventTypes implements EventCategory{
         // this.eventCodeSet = eventCodeSet;
     }
 
-    @Override
+    /**
+     * Get the value of the event type
+     * 
+     * @return value of event type
+    */
+   @Override
     public int getValue() {
         return VALUE;
     }
