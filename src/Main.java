@@ -6,7 +6,6 @@ import inputanalysis.MouseMotionTracker;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 
 public class Main {
     public static int DPI = 1000;

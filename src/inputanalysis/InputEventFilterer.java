@@ -69,6 +69,9 @@ public class InputEventFilterer implements Runnable {
         return stop;
     }
 
+    /**
+     * Prepares the thread to stop and finish the thread loop
+     */
     public void terminate() {
         try {
             reader.close(); // Stop file reader to prevent resource leaks
@@ -110,6 +113,11 @@ public class InputEventFilterer implements Runnable {
 
     }
 
+    /**
+     * Defines the the behavior of the thread. Constantly get event data and 
+     * add to the queues associated with any filters the event data matches
+     * with
+     */
     @Override
     public void run() {
         while (!stop) {
