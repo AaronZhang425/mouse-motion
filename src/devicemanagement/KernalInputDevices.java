@@ -304,7 +304,7 @@ public class KernalInputDevices {
 
         File eventCodeFile = new File(
             INPUT_DEVICE_DIR,
-            eventDirName + "/device/capabilities" + eventTypeName
+            eventDirName + "/device/capabilities/" + eventTypeName
         );
         
         // Put each hex number in an array
@@ -416,6 +416,12 @@ public class KernalInputDevices {
 
         // for each bit of a long:
         for (int i = 0; i < Long.SIZE; i++) {
+            // If the number is 0, it is guarunteed to have no 1's in the binary
+            // number
+            if (bitMap == 0) {
+                break;
+            }
+
             // if the rightmost bit is 1 (i.e. the 1's bit is 1):
             if ((bitMap & 1) == 1) {
                 // Add the index of that bit into the array list
