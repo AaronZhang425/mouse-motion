@@ -81,6 +81,8 @@ public class KernalInputDevices {
 
             }
 
+            // if the device has met all filters, add the input device to the
+            /// list of devices
             if (matches) {
                 filtered.add(inputDevice);
 
@@ -154,9 +156,16 @@ public class KernalInputDevices {
         // Clear arraylist to remove duplicate items being added
         devices.clear();
 
+        // device id
         int[] id;
+
+        // device name
         String name;
+
+        // data stream located at /dev/input/eventX where x is a number
         File eventFile;
+
+        // maps the event type to array of event codes possiable
         HashMap<EventTypes, EventCode[]> capabilities;
     
         String[] eventDirs = getEventDirectories(INPUT_DEVICE_DIR);
