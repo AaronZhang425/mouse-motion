@@ -170,6 +170,7 @@ public class KernalInputDevices {
     
         String[] eventDirs = getEventDirectories(INPUT_DEVICE_DIR);
 
+        // For every directory named event[0-9]+
         for (String eventDir : eventDirs) {
             id = getDeviceId(eventDir);
             eventFile = getHanderFile(eventDir);
@@ -190,7 +191,9 @@ public class KernalInputDevices {
     private static String[] getEventDirectories(File dirToFilter) {
         // Get the files within the directory and only get subdirectoreis
         // of /sys/class/input that start with event followed by a number
-        String[] files = dirToFilter.list((File dir, String name) -> name.toLowerCase().matches("event[0-9]+"));
+        String[] files = dirToFilter.list(
+            (File dir, String name) -> name.toLowerCase().matches("event[0-9]+")
+        );
 
         return files;
     }
@@ -223,6 +226,7 @@ public class KernalInputDevices {
 
         int[] id = new int[4];
 
+        // Construct the id array
         id[0] = getBus(idDir);
         id[1] = getVendor(idDir);
         id[2] = getProduct(idDir);
