@@ -21,20 +21,8 @@ public class Mouse {
     
     }
 
-    @Deprecated
-    public InputDevice device() {
-        return getDevice();
-    
-    }
-
     public int getDpi() {
         return dpi;
-    
-    }
-
-    @Deprecated
-    public int dpi() {
-        return getDpi();
     
     }
 
