@@ -15,7 +15,16 @@ public class ByteArrayConverson {
         return num;
     }
     
-    // Given an array and a start and end index, convert the number to a int
+    /**
+     * Convert several bytes in a byte array to an integer. If the start index
+     * is less than the end index, big endian will be applied. Otherwise,
+     * the number will be interpeted as little endian
+     * 
+     * @param arr The array containing bytes
+     * @param startIdx the start index at which the byte has the highest value
+     * @param endIdx the end index
+     * @return the integer represented by the byte array
+     */
     public static int toInt(
         byte[] arr,
         int startIdx,
