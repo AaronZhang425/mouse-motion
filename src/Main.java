@@ -12,6 +12,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Program running");
 
+        // Get mouse using filter
         HashMap<EventTypes, EventCode[]> fullCapabilitiesFilter = (
             new HashMap<>()
         );
@@ -40,13 +41,14 @@ public class Main {
 
         Thread mouseThread = null;
 
+        // Create and start thread
         if (mouseTracker != null) {
             mouseThread = new Thread(mouseTracker, "Mouse Data Processor");
             mouseThread.start();
 
         }
 
-        
+        // Output mouse data
         while (mouseTracker != null) {
             double[] motionData = mouseTracker.getDisplacement();
 
