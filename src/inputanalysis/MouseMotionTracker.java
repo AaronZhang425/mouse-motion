@@ -177,6 +177,7 @@ public class MouseMotionTracker implements Runnable {
 
 
         System.out.print("Thread ended");
+        System.out.println();
 
             // Output to console the displacement in terms of meters
             // System.out.printf(
