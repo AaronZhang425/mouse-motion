@@ -10,10 +10,10 @@ import eventclassification.eventcodes.Rel;
 
 public class MouseMotionTracker implements Runnable {
     /**
-     * Use this variable to control the termination of thread. Set to true
-     * to stop thread.
+     * Use this variable to control the termination of thread. Set to false
+     * to stop thread. Denotes if thread is to run.
      */
-    private volatile boolean stop = false;
+    private volatile boolean run = true;
     
     /**
      * Represents a mouse object that wraps a InputDevice object and has a 
@@ -100,7 +100,7 @@ public class MouseMotionTracker implements Runnable {
      */
     public void terminate() {
         // Set this data processor thread to stop
-        stop = true;
+        run = false;
 
         // Stop data getter thread
         eventFilterer.terminate();
@@ -119,12 +119,13 @@ public class MouseMotionTracker implements Runnable {
     }
 
     /**
-     * Get the state of the flag marking thread to end
+     * Get the state of the flag marking thread to run. Thread can be not 
+     * running.
      * 
      * @return termination flag
      */
-    public boolean isTerminated() {
-        return stop;
+    public boolean isRunning() {
+        return run;
     }
 
     /**
@@ -150,7 +151,7 @@ public class MouseMotionTracker implements Runnable {
     @Override
     public void run() {
         // Loop if the method has not been marked to stop
-        while (!stop) {
+        while (run) {
             // If there is any data associated with the x filter
             if (eventFilterer.hasNext(xFilter)) {
                 // Add mouse counts to the x value of the atomic integer array
