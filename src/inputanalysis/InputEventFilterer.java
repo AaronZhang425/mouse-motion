@@ -11,9 +11,9 @@ import devicemanagement.InputReader;
 public class InputEventFilterer implements Runnable {
 
     /**
-     * Denotes if thread should stop
+     * Flag that represents if thread can run
      */
-    private volatile boolean stop = false;
+    private volatile boolean run = true;
 
     /**
      * File reader that reads input events found in the file /dev/input/eventX
@@ -61,12 +61,12 @@ public class InputEventFilterer implements Runnable {
     }
 
     /**
-     * Gets the status if the thread is flagged to stop
+     * Gets the status if the thread is flagged to run
      * 
      * @return running flag
      */
-    public boolean isTerminated() {
-        return stop;
+    public boolean isRunning() {
+        return run;
     }
 
     /**
@@ -85,7 +85,7 @@ public class InputEventFilterer implements Runnable {
 
         }
 
-        stop = true; // Stop thread runtime loop
+        run = false; // Stop thread runtime loop
 
     }
 
@@ -120,7 +120,7 @@ public class InputEventFilterer implements Runnable {
      */
     @Override
     public void run() {
-        while (!stop) {
+        while (run) {
             // Get data and add to deque if passes filtering
             EventData eventData = reader.getEventData();
             
