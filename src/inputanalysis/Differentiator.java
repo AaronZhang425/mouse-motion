@@ -1,5 +1,6 @@
 package inputanalysis;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -10,6 +11,8 @@ public class Differentiator<T extends Collection<Double>> implements Runnable{
 
     private T collectionToTrack;
     private int samplingRate;
+
+    private ArrayList<Double> derivative;
 
 
     /**
@@ -35,15 +38,74 @@ public class Differentiator<T extends Collection<Double>> implements Runnable{
         this.samplingRate = 1000;
     }
 
+    /**
+     * Gets the sampling rate of the differentiator
+     * 
+     * @return The rate at which the differentiator gets data
+     */
+    public int getSamplingRate() {
+        return samplingRate;
+    
+    }
+
+    /**
+     * Gets an array representing the difference of each element over time
+     * 
+     * @return An ArrayList of doubles of which element is the derivative
+     */
+    public ArrayList<Double> getDerivative() {
+        return derivative;
+    
+    }
+
+    /**
+     * Continuously get the derivative of the data
+     */
     @Override
     public void run() {
-        T intialDataPoint;
-        T finalDataPoint;
-        
+        // Reserave memory for the intial and final data points
+        ArrayList<Double> initialDataPoint = null;
+        ArrayList<Double> finalDataPoint = null;
 
-        while (run) {
-            // TODO: Do something
-            throw new UnsupportedOperationException("Unimplemented method 'run'");
+        while (run) {   
+            initialDataPoint = new ArrayList<>(collectionToTrack);
+
+            try {
+                Thread.sleep(samplingRate);
+                
+            } catch (Exception e) {
+                System.out.println(e);
+                return;
+
+            }
+
+            finalDataPoint = new ArrayList<>(collectionToTrack);
+
+            if (initialDataPoint == null || finalDataPoint == null) {
+                continue;
+            }
+
+            int size = 0;
+
+            // Set size to the size of the smallest collection
+            if (initialDataPoint.size() > finalDataPoint.size()) {
+                size = finalDataPoint.size();
+
+            } else {
+                size = initialDataPoint.size();
+
+            }
+
+            derivative = new ArrayList<Double>(size);
+            for (int i = 0; i < size; i++) {
+                derivative.add(
+                    (finalDataPoint.get(i) - initialDataPoint.get(i)) /
+                    (samplingRate / 1000)
+                );
+
+            }
+
+
         }
 
     }
