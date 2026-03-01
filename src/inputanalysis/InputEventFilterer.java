@@ -78,10 +78,10 @@ public class InputEventFilterer implements Runnable {
             
         } catch (IOException e) {
             System.out.println(e);
+            System.out.println(e.getCause());
 
         } catch (NullPointerException e) {
-            System.out.println(e);
-            System.out.println("Check permissions in /dev/input/");
+            throw new NullPointerException("Check the permissions of /dev/input");
 
         }
 

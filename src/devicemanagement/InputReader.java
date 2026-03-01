@@ -12,6 +12,11 @@ import java.util.ArrayList;
 
 public class InputReader {
     /**
+     * Represents the availablity state of the reader
+     */
+    private volatile boolean closed = false;
+
+    /**
      * Represents the path of the event file to read
      */
     private File inputFile;
@@ -35,6 +40,11 @@ public class InputReader {
         
         reader = new BufferedInputStream(new FileInputStream(inputFile));
         
+
+    }
+
+    public boolean isClosed() {
+        return closed;
 
     }
 
@@ -119,6 +129,11 @@ public class InputReader {
     }
     
     public byte[] eventFileReader() {
+        if (closed) {
+            return null;
+        }
+
+
         // Each event is composed of 24 bytes and writes bytes to buffer
         // If buffer is smaller than 24 on 64 bit system, an error will happen
         // Buffer should be 16 bytes if on 32 architecture 
@@ -135,7 +150,7 @@ public class InputReader {
 
             // Ensure a single entire event is read
             // Prevent events being sheered and cut in half
-            while (bufferIndexOffset < buffer.length) {
+            while (bufferIndexOffset < buffer.length && closed) {
                 bytesRead = reader.read(buffer, bufferIndexOffset, maxBytesRead);
 
                 // The read method returns -1 if the stream has ended
@@ -167,6 +182,7 @@ public class InputReader {
      * @throws IOException Throws IOException if IO error occurs
      */
     public void close() throws IOException {
+        closed = true;
         reader.close();
 
     }
