@@ -96,8 +96,12 @@ public class Differentiator<T extends Collection<Double>> implements Runnable{
 
             }
 
+            // Assign array of doubles to represent the derivative of a 
+            // dimension with respect to time
             derivative = new ArrayList<Double>(size);
             for (int i = 0; i < size; i++) {
+                // Get the difference and divide by the sampling rate converted
+                // to seconds
                 derivative.add(
                     (finalDataPoint.get(i) - initialDataPoint.get(i)) /
                     (samplingRate / 1000)
