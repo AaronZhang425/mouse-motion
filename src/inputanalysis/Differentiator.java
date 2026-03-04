@@ -39,6 +39,15 @@ public class Differentiator<T extends Collection<Double>> implements Runnable{
     }
 
     /**
+     * Get the status of the flag marking the thread to run for long-term.
+     * 
+     * @return Status of runnable flag
+     */
+    public boolean isRunning() {
+        return run;
+    }
+
+    /**
      * Gets the sampling rate of the differentiator
      * 
      * @return The rate at which the differentiator gets data
@@ -67,7 +76,8 @@ public class Differentiator<T extends Collection<Double>> implements Runnable{
         ArrayList<Double> initialDataPoint = null;
         ArrayList<Double> finalDataPoint = null;
 
-        while (run) {   
+        // Thread run time loop
+        while (run) {
             initialDataPoint = new ArrayList<>(collectionToTrack);
 
             try {
@@ -81,10 +91,8 @@ public class Differentiator<T extends Collection<Double>> implements Runnable{
 
             finalDataPoint = new ArrayList<>(collectionToTrack);
 
-            if (initialDataPoint == null || finalDataPoint == null) {
-                continue;
-            }
-
+            // Represents the smallest size of the intial and final data
+            // points
             int size = 0;
 
             // Set size to the size of the smallest collection
