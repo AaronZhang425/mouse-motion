@@ -24,9 +24,6 @@ public class EventFilter {
 
         }
 
-
-
-        // eventFilter = configFilter();
     }
 
     public EventFilter(EventTypes eventType) {

@@ -21,6 +21,11 @@ public class Mouse {
     
     }
 
+    /**
+     * Gets the DPI of the mosue
+     * 
+     * @return Mouse DPI
+     */
     public int getDpi() {
         return dpi;
     
