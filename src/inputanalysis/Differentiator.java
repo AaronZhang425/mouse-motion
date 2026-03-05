@@ -12,7 +12,7 @@ public class Differentiator<T extends Collection<Double>> implements Runnable{
     private T collectionToTrack;
     private int samplingRate;
 
-    private ArrayList<Double> derivative;
+    private volatile ArrayList<Double> derivative;
 
 
     /**
@@ -78,17 +78,20 @@ public class Differentiator<T extends Collection<Double>> implements Runnable{
 
         // Thread run time loop
         while (run) {
+            // Get a sample
             initialDataPoint = new ArrayList<>(collectionToTrack);
 
+            // Wait 10 seconds
             try {
                 Thread.sleep(samplingRate);
                 
-            } catch (Exception e) {
-                System.out.println(e);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
                 return;
 
             }
 
+            // Get sample at at later time
             finalDataPoint = new ArrayList<>(collectionToTrack);
 
             // Represents the smallest size of the intial and final data
@@ -104,19 +107,22 @@ public class Differentiator<T extends Collection<Double>> implements Runnable{
 
             }
 
-            // Assign array of doubles to represent the derivative of a 
-            // dimension with respect to time
-            derivative = new ArrayList<Double>(size);
+            // Create temporary new ArrayList to represent the derivative to 
+            // prevent reads to derivative between the creation of a new array
+            // and adding data
+            ArrayList<Double> tempDerivative = new ArrayList<Double>(size);
+            
             for (int i = 0; i < size; i++) {
                 // Get the difference and divide by the sampling rate converted
                 // to seconds
-                derivative.add(
+                tempDerivative.add(
                     (finalDataPoint.get(i) - initialDataPoint.get(i)) /
                     (samplingRate / 1000)
                 );
 
             }
 
+            derivative = tempDerivative;
 
         }
 
