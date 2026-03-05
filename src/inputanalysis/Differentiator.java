@@ -122,6 +122,7 @@ public class Differentiator<T extends Collection<Double>> implements Runnable{
 
             }
 
+            // Update derivative by setting it temp derivative
             derivative = tempDerivative;
 
         }
