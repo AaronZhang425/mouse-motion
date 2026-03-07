@@ -1,10 +1,11 @@
 package devicemanagement;
 
-import eventclassification.EventTypes;
-import eventclassification.eventcodes.EventCode;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
+
+import eventclassification.EventTypes;
+import eventclassification.eventcodes.EventCode;
 
 /**
  * Class that wraps several pieces of data about a device. Do not replace with

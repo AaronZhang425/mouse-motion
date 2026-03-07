@@ -1,14 +1,15 @@
 package devicemanagement;
 
-import eventclassification.EventTypes;
-import eventclassification.eventcodes.EventCode;
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import eventclassification.EventTypes;
+import eventclassification.eventcodes.EventCode;
+
 
 public class InputReader {
     /**

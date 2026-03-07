@@ -1,10 +1,5 @@
 package devicemanagement;
 
-import eventclassification.EventTypes;
-import eventclassification.eventcodes.EventCode;
-import eventclassification.eventcodes.Rep;
-import eventclassification.eventcodes.Syn;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -16,6 +11,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import eventclassification.EventTypes;
+import eventclassification.eventcodes.EventCode;
+import eventclassification.eventcodes.Rep;
+import eventclassification.eventcodes.Syn;
+
 
 
 
