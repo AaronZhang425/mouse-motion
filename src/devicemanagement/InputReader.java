@@ -66,6 +66,11 @@ public class InputReader {
 
     }
 
+    /**
+     * Reads a single event reported by the /dev/inputx file
+     * 
+     * @return Single event
+     */
     public EventData getEventData() {
         byte[] buffer = eventFileReader();
 
@@ -166,7 +171,7 @@ public class InputReader {
             
         
         } catch(IOException e) {
-            System.out.println(e);
+            e.printStackTrace();
             return null;
 
         }
