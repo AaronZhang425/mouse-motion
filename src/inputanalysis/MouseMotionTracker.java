@@ -48,15 +48,20 @@ public class MouseMotionTracker implements Runnable {
      * represents mouse counts in the y direction. These numbers do not directly
      * represent physical measurements.
      */
-    private final AtomicIntegerArray mouseCounts = new AtomicIntegerArray(
-        new int[]{0, 0}
+    private final int[] mouseCounts = {0, 0};
+    
+    /**
+     * Represents the actual mouse displacement of the mouse in meters
+     */
+    private final AtomicDoubleArray displacement = new AtomicDoubleArray(
+        new double[]{0, 0}
     );
 
     /**
      * Fisrt element holds the position offset in the x direction. The second
      * element represents the offset in the y direction.
      */
-    private final double[] positionOffset = new double[2];
+    private final double[] positionOffset = {0.0, 0.0};
 
     public MouseMotionTracker(Mouse mouse, double[] positionOffset) throws FileNotFoundException {
         this.mouse = mouse;
@@ -75,14 +80,9 @@ public class MouseMotionTracker implements Runnable {
         
         // If start is null, set initial displacement to 0
         // Otherwise, set it to the values of the array
-        if (positionOffset == null) {
-            this.positionOffset[0] = 0;
-            this.positionOffset[1] = 0;
-
-        } else {
+        if (positionOffset != null) {
             this.positionOffset[0] = positionOffset[0];
             this.positionOffset[1] = positionOffset[1];
-
         }
 
         readerRunner = new Thread(eventFilterer, "Mouse Data Getter");
@@ -92,6 +92,17 @@ public class MouseMotionTracker implements Runnable {
 
     public MouseMotionTracker(Mouse mouse) throws FileNotFoundException {
         this(mouse, null);
+    }
+
+    /**
+     * Gets the mouse object that describes the mouse from which data is being
+     * retrieved from
+     * 
+     * @return Mouse being read from
+     */
+    public Mouse getMouse() {
+        return mouse;
+        
     }
 
     /**
@@ -137,9 +148,15 @@ public class MouseMotionTracker implements Runnable {
         // Convert mouse counts to meters and add the original offsets to 
         // position
         return new double[]{
-            mouseCountsToMeters(mouseCounts.get(0)) + positionOffset[0],
-            mouseCountsToMeters(mouseCounts.get(1)) + positionOffset[1]
+            displacement.get(0),
+            displacement.get(1)
         };
+
+
+        // return new double[]{
+        //     mouseCountsToMeters(mouseCounts.get(0)) + positionOffset[0],
+        //     mouseCountsToMeters(mouseCounts.get(1)) + positionOffset[1]
+        // };
 
     }
 
@@ -155,19 +172,25 @@ public class MouseMotionTracker implements Runnable {
             // If there is any data associated with the x filter
             if (eventFilterer.hasNext(xFilter)) {
                 // Add mouse counts to the x value of the atomic integer array
-                mouseCounts.getAndAdd(
-                    0,
-                    eventFilterer.getData(xFilter).getValue()
-                );
+                mouseCounts[0] += eventFilterer.getData(xFilter).getValue();
 
+                // Recalculate displacement with new mouse counts
+                displacement.set(
+                    0,
+                    mouseCountsToMeters(mouseCounts[0]) + positionOffset[0]
+                );
+                
             }
             
             // If there is any data associated with the y filter
             if (eventFilterer.hasNext(yFilter)) {
                 // Add mouse counts to the y value of the atomic integer array
-                mouseCounts.getAndAdd(
+                mouseCounts[1] += eventFilterer.getData(yFilter).getValue();
+
+                // Recalculate displacement with new mouse counts
+                displacement.set(
                     1,
-                    eventFilterer.getData(yFilter).getValue()
+                    mouseCountsToMeters(mouseCounts[1]) + positionOffset[1]
                 );
                 
             }
