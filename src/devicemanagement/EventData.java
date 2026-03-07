@@ -1,8 +1,9 @@
 package devicemanagement;
 
+import java.util.Arrays;
+
 import eventclassification.EventTypes;
 import eventclassification.eventcodes.EventCode;
-import java.util.Arrays;
 
 /**
  * This class holds data of each event created by the device. The structure of 

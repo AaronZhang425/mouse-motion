@@ -1,7 +1,5 @@
 package devicemanagement;
 
-// public record Mouse(InputDevice device, int dpi) {}
-
 public class Mouse {
     private final InputDevice device;
     private final int dpi;

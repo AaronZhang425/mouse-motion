@@ -1,8 +1,9 @@
 package eventclassification;
 
-import eventclassification.eventcodes.*;
 import java.util.HashMap;
 import java.util.function.Function;
+
+import eventclassification.eventcodes.*;
 
 public enum EventTypes implements EventCategory{
     SYN(0x00),

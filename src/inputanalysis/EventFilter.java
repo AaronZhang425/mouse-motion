@@ -1,11 +1,12 @@
 package inputanalysis;
 
+import java.util.Arrays;
+import java.util.HashMap;
+
 import eventclassification.eventcodes.EventCode;
 import eventclassification.EventTypes;
 import devicemanagement.EventData;
 
-import java.util.Arrays;
-import java.util.HashMap;
 
 public class EventFilter {
     private HashMap<EventTypes, EventCode[]> filter = new HashMap<>();

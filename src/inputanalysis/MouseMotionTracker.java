@@ -1,7 +1,6 @@
 package inputanalysis;
 
 import java.io.FileNotFoundException;
-import java.util.concurrent.atomic.AtomicIntegerArray;
 
 import devicemanagement.InputReader;
 import devicemanagement.Mouse;
