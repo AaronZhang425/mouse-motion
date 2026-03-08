@@ -104,6 +104,16 @@ public class MouseMotionTracker implements Runnable {
         
     }
 
+    public void trackVelocity() {
+        
+
+    }
+
+    public void trackAcceleration() {
+
+
+    }
+
     /**
      * Flag the mouse data processor to stop and clean up the data getter
      * thread.
