@@ -50,7 +50,9 @@ public class MouseMotionTracker implements Runnable {
     private final int[] mouseCounts = {0, 0};
     
     /**
-     * Represents the actual mouse displacement of the mouse in meters
+     * Represents the actual mouse displacement of the mouse in meters.
+     * AtomicDoubleArray is used instead of a volatile double[] becuase must be
+     * final to ensure differentiator objects on this array work.
      */
     private final AtomicDoubleArray displacement = new AtomicDoubleArray(
         new double[]{0, 0}
