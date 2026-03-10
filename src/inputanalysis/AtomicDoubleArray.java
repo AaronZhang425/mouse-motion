@@ -11,7 +11,7 @@ public class AtomicDoubleArray implements Collection<Double>{
     /**
      * Represents doubles by putting the bits into a long
      */
-    private AtomicLongArray atmoicArr;
+    private AtomicLongArray atomicArr;
 
     /**
      * Creates a wrapper of an AtomicLongArray to store doubles
@@ -26,11 +26,11 @@ public class AtomicDoubleArray implements Collection<Double>{
 
         for (int i = 0; i < length; i++) {
             // Convert doubles to longs using the bits
-            doubleBitRepresentations[i] = Double.doubleToLongBits(arr[i]);
+            doubleBitRepresentations[i] = Double.doubleToRawLongBits(arr[i]);
         }
 
         // Assign new atomic arr that contains the bits of the doubles
-        atmoicArr = new AtomicLongArray(doubleBitRepresentations);
+        atomicArr = new AtomicLongArray(doubleBitRepresentations);
 
     }
 
@@ -40,8 +40,8 @@ public class AtomicDoubleArray implements Collection<Double>{
      * @return Long array wrapped by the object
      */
     public AtomicLongArray getRawArray() {
-        return atmoicArr;
-        
+        return atomicArr;
+
     }
 
     /**
@@ -51,7 +51,7 @@ public class AtomicDoubleArray implements Collection<Double>{
      * @return The item at the index
      */
     public double get(int index) {
-        return Double.longBitsToDouble(atmoicArr.get(index));
+        return Double.longBitsToDouble(atomicArr.get(index));
 
     }
 
@@ -64,7 +64,7 @@ public class AtomicDoubleArray implements Collection<Double>{
      * @return The original value at the index
      */
     public double set(int index, double value) {
-        return atmoicArr.getAndSet(index, Double.doubleToLongBits(value));
+        return atomicArr.getAndSet(index, Double.doubleToRawLongBits(value));
 
     }
 
@@ -77,26 +77,32 @@ public class AtomicDoubleArray implements Collection<Double>{
      */
     @Override
     public boolean addAll(Collection<? extends Double> otherCollection) {
+        // Create new array to accomdate for the combinded size of the original
+        // array and the new collection
         AtomicLongArray newArr = new AtomicLongArray(
-            atmoicArr.length() +
+            atomicArr.length() +
             otherCollection.size()
         );
 
+        // Index to add elements in the new array
         int newArrIndex = 0;
 
-        while (newArrIndex < atmoicArr.length()) {
-            newArr.set(newArrIndex, atmoicArr.get(newArrIndex));
+        // Add all the elements of the original array to the new array
+        while (newArrIndex < atomicArr.length()) {
+            newArr.set(newArrIndex, atomicArr.get(newArrIndex));
             newArrIndex++;
 
         }
 
+        // Add the new elements to the end
         for (Double elem : otherCollection) {
-            newArr.set(newArrIndex, Double.doubleToLongBits(elem));
+            newArr.set(newArrIndex, Double.doubleToRawLongBits(elem));
             newArrIndex++;
 
         }
 
-        atmoicArr = newArr;
+        // Set the atomic array to the new array with all the new additions
+        atomicArr = newArr;
 
         return true;
     }
@@ -109,18 +115,18 @@ public class AtomicDoubleArray implements Collection<Double>{
      */
     @Override
     public boolean add(Double num) {
-        int length = atmoicArr.length();
+        int length = atomicArr.length();
 
         AtomicLongArray newArr = new AtomicLongArray(length + 1);
         
         for (int i = 0; i < length; i++) {
-            newArr.set(i, atmoicArr.get(i));
+            newArr.set(i, atomicArr.get(i));
 
         }
 
-        newArr.set(length + 1, Double.doubleToLongBits(num));
+        newArr.set(length + 1, Double.doubleToRawLongBits(num));
 
-        atmoicArr = newArr;
+        atomicArr = newArr;
 
         return true;
     }
@@ -131,26 +137,76 @@ public class AtomicDoubleArray implements Collection<Double>{
      */
     @Override
     public void clear() {
-        atmoicArr = new AtomicLongArray(0);
+        atomicArr = new AtomicLongArray(0);
 
     }
 
+    /**
+     * Returns if the object is in the array
+     * 
+     * @param otherObject Object to check if contained within the double array
+     * @return True if object is in array
+     */
     @Override
-    public boolean contains(Object o) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'contains'");
+    public boolean contains(Object otherObject) {
+        // If the object passed in is not a double, fail it
+        if (!(otherObject instanceof Double)) {
+            return false;
+        }
+
+        // Search through each item. If found, return true
+        for (int i = 0; i < atomicArr.length(); i++) {
+            if (otherObject.equals(
+                Double.longBitsToDouble(atomicArr.get(i))
+            )) {
+                return true;
+
+            }
+
+        }
+
+        // Return false if not found
+        return false;
+
+    
     }
 
+    /**
+     * Determines if all elements in the collection are in the array
+     * 
+     * @param collection Collection of objects to check for occurances in array
+     * @return True if all collection elements are in array, including 0 sized
+     */
     @Override
-    public boolean containsAll(Collection c) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'containsAll'");
+    public boolean containsAll(Collection<?> collection) {
+        // Always true if empty like other collections
+        if (collection.isEmpty()) {
+            return true;
+        
+        }
+
+        // Check if each item in the collection is in the array
+        for (Object item : collection) {
+            for (int i = 0; i < atomicArr.length(); i++) {
+                if (!item.equals(Double.longBitsToDouble(atomicArr.get(i)))) {
+                    return false;
+
+                }
+            }
+
+        }
+
+        return true;
+
     }
 
+    /**
+     * Returns whether the array is empty or not
+     */
     @Override
     public boolean isEmpty() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isEmpty'");
+        return (atomicArr.length() == 0);
+
     }
 
     @Override
@@ -184,7 +240,7 @@ public class AtomicDoubleArray implements Collection<Double>{
      */
     @Override
     public int size() {
-        return atmoicArr.length();
+        return atomicArr.length();
 
     }    
 
