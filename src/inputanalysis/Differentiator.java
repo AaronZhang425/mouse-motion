@@ -9,7 +9,7 @@ import java.util.Collection;
 public class Differentiator<T extends Collection<Double>> implements Runnable{
     private volatile boolean run = true;
 
-    private T collectionToTrack;
+    private final T collectionToTrack;
     private int samplingRate;
 
     private volatile ArrayList<Double> derivative;
