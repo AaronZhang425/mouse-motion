@@ -11,7 +11,7 @@ public class AtomicDoubleArray implements Collection<Double>{
     /**
      * Represents doubles by putting the bits into a long
      */
-    private AtomicLongArray atomicArr;
+    private volatile AtomicLongArray atomicArr;
 
     /**
      * Creates a wrapper of an AtomicLongArray to store doubles
@@ -76,7 +76,7 @@ public class AtomicDoubleArray implements Collection<Double>{
      * @return Status of operation
      */
     @Override
-    public boolean addAll(Collection<? extends Double> otherCollection) {
+    public synchronized boolean addAll(Collection<? extends Double> otherCollection) {
         // Create new array to accomdate for the combinded size of the original
         // array and the new collection
         AtomicLongArray newArr = new AtomicLongArray(
@@ -114,17 +114,17 @@ public class AtomicDoubleArray implements Collection<Double>{
      * @return Status of operation
      */
     @Override
-    public boolean add(Double num) {
-        int length = atomicArr.length();
+    public synchronized boolean add(Double num) {
+        int originalLength = atomicArr.length();
 
-        AtomicLongArray newArr = new AtomicLongArray(length + 1);
+        AtomicLongArray newArr = new AtomicLongArray(originalLength + 1);
         
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < originalLength; i++) {
             newArr.set(i, atomicArr.get(i));
 
         }
 
-        newArr.set(length + 1, Double.doubleToRawLongBits(num));
+        newArr.set(originalLength, Double.doubleToRawLongBits(num));
 
         atomicArr = newArr;
 
@@ -136,7 +136,7 @@ public class AtomicDoubleArray implements Collection<Double>{
      * atomic array
      */
     @Override
-    public void clear() {
+    public synchronized void clear() {
         atomicArr = new AtomicLongArray(0);
 
     }
@@ -216,19 +216,19 @@ public class AtomicDoubleArray implements Collection<Double>{
     }
 
     @Override
-    public boolean remove(Object o) {
+    public synchronized boolean remove(Object o) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'remove'");
     }
 
     @Override
-    public boolean removeAll(Collection c) {
+    public synchronized boolean removeAll(Collection c) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'removeAll'");
     }
 
     @Override
-    public boolean retainAll(Collection c) {
+    public synchronized boolean retainAll(Collection c) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'retainAll'");
     }
