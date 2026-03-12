@@ -215,10 +215,47 @@ public class AtomicDoubleArray implements Collection<Double>{
         throw new UnsupportedOperationException("Unimplemented method 'iterator'");
     }
 
+    /**
+     * Removes the object from the array.
+     * 
+     * @param otherObject Item to remove
+     * @return True if item was found and removed
+     */
     @Override
-    public synchronized boolean remove(Object o) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'remove'");
+    public synchronized boolean remove(Object otherObject) {
+        if (!(otherObject instanceof Double)) {
+            return false;
+
+        }
+        
+        int length = atomicArr.length();
+        int index = 0;
+        
+        while (index < length) {
+            if (otherObject.equals(Double.longBitsToDouble(atomicArr.get(index)))) {
+                AtomicLongArray newArr = new AtomicLongArray(atomicArr.length() - 1);
+
+                for (int i = 0; i < index; i++) {
+                    newArr.set(i, atomicArr.get(index));
+                }
+
+                for (int i = index + 1; i < newArr.length(); i++) {
+                    newArr.set(i, atomicArr.get(i));
+
+                }
+
+                atomicArr = newArr;
+
+                return true;
+
+            }
+
+            index++;
+
+        }
+
+        return false;
+
     }
 
     @Override
