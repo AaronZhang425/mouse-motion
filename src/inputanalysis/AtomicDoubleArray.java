@@ -281,10 +281,21 @@ public class AtomicDoubleArray implements Collection<Double>{
 
     }    
 
+    /**
+     * Creates a representation of the atomic array as a standard array.
+     * 
+     * @return The atomic array represented as a Double array
+     */
     @Override
     public Object[] toArray() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toArray'");
+        int length = atomicArr.length();
+        Double[] arr = new Double[length];
+
+        for (int i = 0; i < length; i++) {
+            arr[i] = Double.longBitsToDouble(atomicArr.get(i));
+        }
+
+        return arr;
     }
 
     @Override
