@@ -6,6 +6,7 @@ import java.util.Collection;
 /**
  * Class to track a collection overtime and calculate the difference
  */
+@Deprecated
 public class Differentiator<T extends Collection<Double>> implements Runnable{
     private volatile boolean run = true;
 

@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicLongArray;
 /**
  * An AtomicLongArray wrapper to represent atomic double arrays.
  */
+@Deprecated
 public class AtomicDoubleArray implements Collection<Double>{
     /**
      * Represents doubles by putting the bits into a long
