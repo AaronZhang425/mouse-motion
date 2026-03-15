@@ -47,6 +47,16 @@ public class AtomicDoubleArrayVarHandles {
 
     }
 
+    public String toString() {
+        String representation = "";
+        
+        for (int i = 0; i < arr.length; i++) {
+            representation += Double.longBitsToDouble(arr[i]) + " ";
 
+        }
+
+        return representation;
+
+    }
     
 }
