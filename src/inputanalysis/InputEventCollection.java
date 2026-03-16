@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import devicemanagement.EventData;
 import devicemanagement.InputReader;
 
-public class InputEventFilterer implements Runnable {
+public class InputEventCollection implements Runnable {
 
     /**
      * Flag that represents if thread can run
@@ -30,17 +30,17 @@ public class InputEventFilterer implements Runnable {
         new ConcurrentHashMap<>()
     );
 
-    public InputEventFilterer(InputReader reader) {
+    public InputEventCollection(InputReader reader) {
         this.reader = reader;
 
     }
 
-    public InputEventFilterer(InputReader reader, EventFilter filter) {
+    public InputEventCollection(InputReader reader, EventFilter filter) {
         this.reader = reader;
         data.put(filter, new ConcurrentLinkedQueue<>());
     }
 
-    public InputEventFilterer(InputReader reader, Collection<EventFilter> filters) {
+    public InputEventCollection(InputReader reader, Collection<EventFilter> filters) {
         this.reader = reader;
 
         for (EventFilter filter : filters) {

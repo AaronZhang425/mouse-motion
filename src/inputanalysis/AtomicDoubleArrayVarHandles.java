@@ -1,6 +1,7 @@
 package inputanalysis;
 
 import java.lang.invoke.VarHandle;
+import java.util.Arrays;
 import java.lang.invoke.MethodHandles;
 
 public class AtomicDoubleArrayVarHandles {
@@ -27,13 +28,29 @@ public class AtomicDoubleArrayVarHandles {
 
     }
 
+    // public long[] rawCopy() {
+    //     return Arrays.copyOf(arr, arr.length);
+
+    // }
+
+    // public double[] copy() {
+    //     long[] rawCopy = Arrays.copyOf(arr, arr.length);
+    //     double[] copy = new double[rawCopy.length];
+        
+    //     for (int i = 0; i < copy.length; i++) {
+    //         copy[i] = Double.longBitsToDouble(rawCopy[i]);
+    //     }
+
+    //     return copy;
+    // }
+
     public double get(int index) {
         return Double.longBitsToDouble((long) ELEM_HANDLE.getVolatile(arr, index));
 
     }
 
     public void set(int index, double newValue) {
-        ELEM_HANDLE.setVolatile(arr, index, newValue);
+        ELEM_HANDLE.setVolatile(arr, index, Double.doubleToRawLongBits(newValue));
 
     }
 
@@ -48,15 +65,13 @@ public class AtomicDoubleArrayVarHandles {
     }
 
     public String toString() {
-        String representation = "";
-        
-        for (int i = 0; i < arr.length; i++) {
-            representation += Double.longBitsToDouble(arr[i]) + " ";
+        StringBuilder builder = new StringBuilder();
 
+        for (int i = 0; i < arr.length; i++) {
+            builder.append(Double.longBitsToDouble(arr[i])).append(" ");
         }
 
-        return representation;
-
+        return builder.toString();
     }
     
 }
