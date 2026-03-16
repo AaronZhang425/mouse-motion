@@ -24,7 +24,7 @@ public class MouseMotionTracker implements Runnable {
      * Reads input and creates a hashmap of filters to map to a concurrent queue
      * that holds events that match the filter
      */
-    private final InputEventFilterer eventFilterer;
+    private final InputEventCollection evemtCollection;
 
     /**
      * Filter that filters for relative x values of the mouse
@@ -67,7 +67,7 @@ public class MouseMotionTracker implements Runnable {
     public MouseMotionTracker(Mouse mouse, double[] positionOffset) throws FileNotFoundException {
         this.mouse = mouse;
         
-        eventFilterer = new InputEventFilterer(
+        evemtCollection = new InputEventCollection(
             new InputReader(this.mouse.getDevice().getHandlerFile())
         );
 
@@ -76,8 +76,8 @@ public class MouseMotionTracker implements Runnable {
         yFilter = new EventFilter(EventTypes.REL, Rel.REL_Y);
 
         // Add and register filters to event reader
-        eventFilterer.addFilter(xFilter);
-        eventFilterer.addFilter(yFilter);
+        evemtCollection.addFilter(xFilter);
+        evemtCollection.addFilter(yFilter);
         
         // If start is null, set initial displacement to 0
         // Otherwise, set it to the values of the array
@@ -86,7 +86,7 @@ public class MouseMotionTracker implements Runnable {
             this.positionOffset[1] = positionOffset[1];
         }
 
-        readerRunner = new Thread(eventFilterer, "Mouse Data Getter");
+        readerRunner = new Thread(evemtCollection, "Mouse Data Getter");
         readerRunner.start();
 
     }
@@ -125,7 +125,7 @@ public class MouseMotionTracker implements Runnable {
         run = false;
 
         // Stop data getter thread
-        eventFilterer.terminate();
+        evemtCollection.terminate();
 
         try {
             // Time bound termination; can be adjusted as needed
@@ -181,9 +181,9 @@ public class MouseMotionTracker implements Runnable {
         // Loop if the method has not been marked to stop
         while (run) {
             // If there is any data associated with the x filter
-            if (eventFilterer.hasNext(xFilter)) {
+            if (evemtCollection.hasNext(xFilter)) {
                 // Add mouse counts to the x value of the atomic integer array
-                mouseCounts[0] += eventFilterer.getData(xFilter).getValue();
+                mouseCounts[0] += evemtCollection.getData(xFilter).getValue();
 
                 // Recalculate displacement with new mouse counts
                 displacement.set(
@@ -194,9 +194,9 @@ public class MouseMotionTracker implements Runnable {
             }
             
             // If there is any data associated with the y filter
-            if (eventFilterer.hasNext(yFilter)) {
+            if (evemtCollection.hasNext(yFilter)) {
                 // Add mouse counts to the y value of the atomic integer array
-                mouseCounts[1] += eventFilterer.getData(yFilter).getValue();
+                mouseCounts[1] += evemtCollection.getData(yFilter).getValue();
 
                 // Recalculate displacement with new mouse counts
                 displacement.set(

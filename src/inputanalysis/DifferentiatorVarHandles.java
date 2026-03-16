@@ -17,6 +17,12 @@ public class DifferentiatorVarHandles implements Runnable {
 
     @Override
     public void run() {
+        
+        
+        while (run) {
+            
+        }
+        
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'run'");
     }
