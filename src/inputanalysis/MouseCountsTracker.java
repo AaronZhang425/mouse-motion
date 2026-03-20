@@ -48,7 +48,7 @@ public class MouseCountsTracker extends InputEventConsumer {
 
         totalMouseCounts += relativeMouseCounts;
         velocity = (
-            mouseCountsToMeters(inputEvent.getValue()) /
+            displacement /
             inputEvent.getTotalSeconds()
         );
 
