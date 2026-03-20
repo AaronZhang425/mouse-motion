@@ -31,66 +31,66 @@ public class Main {
 
         MouseMotionTracker mouseTracker = null;
 
-        try {
-            Mouse mouse = new Mouse(filteredDeviceList.get(0), DPI);
-            mouse.getDevice().getName();
-            mouseTracker = new MouseMotionTracker(mouse);
+        // try {
+        //     Mouse mouse = new Mouse(filteredDeviceList.get(0), DPI);
+        //     mouse.getDevice().getName();
+        //     mouseTracker = new MouseMotionTracker(mouse);
             
-        } catch (FileNotFoundException e) {
-            System.out.println(e);
+        // } catch (FileNotFoundException e) {
+        //     System.out.println(e);
             
-        }
+        // }
 
-        Thread mouseThread = null;
+        // Thread mouseThread = null;
 
-        // Create and start thread
-        if (mouseTracker != null) {
-            mouseThread = new Thread(mouseTracker, "Mouse Data Processor");
-            mouseThread.start();
-
-        }
-
-        // Output mouse data
-        // while (mouseTracker != null) {
-        //     double[] motionData = mouseTracker.getDisplacement();
-
-
-        //     System.out.printf(
-        //         "X displacement: %5.4f \t Y displacement: %5.4f\n",
-        //         motionData[0],
-        //         motionData[1]
-        //     );
-
+        // // Create and start thread
+        // if (mouseTracker != null) {
+        //     mouseThread = new Thread(mouseTracker, "Mouse Data Processor");
+        //     mouseThread.start();
 
         // }
 
+        // // Output mouse data
+        // // while (mouseTracker != null) {
+        // //     double[] motionData = mouseTracker.getDisplacement();
+
+
+        // //     System.out.printf(
+        // //         "X displacement: %5.4f \t Y displacement: %5.4f\n",
+        // //         motionData[0],
+        // //         motionData[1]
+        // //     );
+
+
+        // // }
+
     
-        Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
+        // Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
 
-        System.out.println("Original Threads:");
-        for (Thread thread : threadSet) {
-            System.out.println(thread.getName());
-        }
+        // System.out.println("Original Threads:");
+        // for (Thread thread : threadSet) {
+        //     System.out.println(thread.getName());
+        // }
 
-        System.out.println();
-        // Thread termination testing
-        mouseTracker.terminate();
+        // System.out.println();
+        // // Thread termination testing
+        // mouseTracker.terminate();
 
-        try {
-            // Time bound termination; can be adjusted as needed
-            mouseThread.join(500);
+        // try {
+        //     // Time bound termination; can be adjusted as needed
+        //     mouseThread.join(500);
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        // } catch (InterruptedException e) {
+        //     e.printStackTrace();
+        // }
 
-        threadSet = Thread.getAllStackTraces().keySet();
+        // threadSet = Thread.getAllStackTraces().keySet();
 
-        System.out.println();
-        System.out.println("Threads After Termination:");
-        for (Thread thread : threadSet) {
-            System.out.println(thread.getName());
-        }
+        // System.out.println();
+        // System.out.println("Threads After Termination:");
+        // for (Thread thread : threadSet) {
+        //     System.out.println(thread.getName());
+        // }
     
 
     }
