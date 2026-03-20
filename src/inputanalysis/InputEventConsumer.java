@@ -4,6 +4,9 @@ import devicemanagement.EventData;
 import eventclassification.eventcodes.EventCode;
 
 public abstract class InputEventConsumer {
+    /**
+     * Represents the category of event code to check
+     */
     private EventCode eventCode;
     
     public InputEventConsumer(EventCode eventCode) {
