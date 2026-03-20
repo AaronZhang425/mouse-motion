@@ -4,7 +4,7 @@ import devicemanagement.EventData;
 import eventclassification.eventcodes.EventCode;
 
 public abstract class InputEventConsumer {
-    private EventCode eventCode;
+    protected EventCode eventCode;
     
     public InputEventConsumer(EventCode eventCode) {
         this.eventCode = eventCode;
