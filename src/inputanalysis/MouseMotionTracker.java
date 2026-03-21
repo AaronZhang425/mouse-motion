@@ -48,15 +48,6 @@ public class MouseMotionTracker implements Runnable {
      * represent physical measurements.
      */
     private final int[] mouseCounts = {0, 0};
-    
-    /**
-     * Represents the actual mouse displacement of the mouse in meters.
-     * AtomicDoubleArray is used instead of a volatile double[] becuase must be
-     * final to ensure differentiator objects on this array work.
-     */
-    private final AtomicDoubleArray displacement = new AtomicDoubleArray(
-        new double[]{0, 0}
-    );
 
     /**
      * Fisrt element holds the position offset in the x direction. The second
@@ -156,18 +147,10 @@ public class MouseMotionTracker implements Runnable {
      * @return displacement of mouse in meters
      */
     public double[] getDisplacement() {
-        // Convert mouse counts to meters and add the original offsets to 
-        // position
         return new double[]{
-            displacement.get(0),
-            displacement.get(1)
+            mouseCountsToMeters(mouseCounts[0]) + positionOffset[0],
+            mouseCountsToMeters(mouseCounts[1]) + positionOffset[1]
         };
-
-
-        // return new double[]{
-        //     mouseCountsToMeters(mouseCounts.get(0)) + positionOffset[0],
-        //     mouseCountsToMeters(mouseCounts.get(1)) + positionOffset[1]
-        // };
 
     }
 
@@ -185,11 +168,11 @@ public class MouseMotionTracker implements Runnable {
                 // Add mouse counts to the x value of the atomic integer array
                 mouseCounts[0] += evemtCollection.getData(xFilter).getValue();
 
-                // Recalculate displacement with new mouse counts
-                displacement.set(
-                    0,
-                    mouseCountsToMeters(mouseCounts[0]) + positionOffset[0]
-                );
+                // // Recalculate displacement with new mouse counts
+                // displacement.set(
+                //     0,
+                //     mouseCountsToMeters(mouseCounts[0]) + positionOffset[0]
+                // );
                 
             }
             
@@ -198,11 +181,11 @@ public class MouseMotionTracker implements Runnable {
                 // Add mouse counts to the y value of the atomic integer array
                 mouseCounts[1] += evemtCollection.getData(yFilter).getValue();
 
-                // Recalculate displacement with new mouse counts
-                displacement.set(
-                    1,
-                    mouseCountsToMeters(mouseCounts[1]) + positionOffset[1]
-                );
+                // // Recalculate displacement with new mouse counts
+                // displacement.set(
+                //     1,
+                //     mouseCountsToMeters(mouseCounts[1]) + positionOffset[1]
+                // );
                 
             }
             
