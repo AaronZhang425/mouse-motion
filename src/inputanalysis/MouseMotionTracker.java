@@ -8,9 +8,11 @@ import eventclassification.eventcodes.EventCode;
 import eventclassification.eventcodes.Rel;
 
 public class MouseMotionTracker {
-    MouseCountsTracker xTracker;
-    MouseCountsTracker yTracker;
-    EventBroker eventBroker;
+    private MouseCountsTracker xTracker;
+    private MouseCountsTracker yTracker;
+
+    private EventBroker eventBroker;
+    private Thread eventBrokerThread;
 
     public MouseMotionTracker(Mouse mouse) throws FileNotFoundException {
         xTracker = new MouseCountsTracker(mouse, Rel.REL_X);
@@ -19,11 +21,49 @@ public class MouseMotionTracker {
         HashMap<EventCode, InputEventConsumer> eventConsumers = new HashMap<>();
 
         eventConsumers.put(Rel.REL_X, xTracker);
-        eventConsumers.put(Rel.REL_X, yTracker);
+        eventConsumers.put(Rel.REL_Y, yTracker);
 
         eventBroker = new EventBroker(
             new InputReader(mouse.getDevice().getHandlerFile()),
             eventConsumers
         );
+
+        eventBrokerThread = new Thread(eventBroker, "Event Broker");
+        eventBrokerThread.start();
+
+    }
+
+    public EventBroker getEventBroker() {
+        return eventBroker;
+        
+    }
+
+    public double[] getDisplacement() {
+        return new double[]{
+            xTracker.getDisplacement(),
+            yTracker.getDisplacement()
+        };
+    
+    }
+
+    public int[] getTotalMouseCounts() {
+        return new int[]{
+            xTracker.getTotalMouseCounts(),
+            yTracker.getTotalMouseCounts()
+        };
+
+    }
+
+    public double[] getVelocity() {
+        return new double[]{
+            xTracker.getVelocity(),
+            yTracker.getVelocity()
+        };
+
+    }
+
+    public void terminate() {
+        eventBroker.terminate();
+
     }
 }

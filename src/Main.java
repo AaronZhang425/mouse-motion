@@ -31,38 +31,28 @@ public class Main {
 
         MouseMotionTracker mouseTracker = null;
 
-        // try {
-        //     Mouse mouse = new Mouse(filteredDeviceList.get(0), DPI);
-        //     mouse.getDevice().getName();
-        //     mouseTracker = new MouseMotionTracker(mouse);
+        try {
+            Mouse mouse = new Mouse(filteredDeviceList.get(0), DPI);
+            mouse.getDevice().getName();
+            mouseTracker = new MouseMotionTracker(mouse);
             
-        // } catch (FileNotFoundException e) {
-        //     System.out.println(e);
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
             
-        // }
+        }
 
-        // Thread mouseThread = null;
+        // Output mouse data
+        while (mouseTracker != null) {
+            double[] motionData = mouseTracker.getDisplacement();
 
-        // // Create and start thread
-        // if (mouseTracker != null) {
-        //     mouseThread = new Thread(mouseTracker, "Mouse Data Processor");
-        //     mouseThread.start();
-
-        // }
-
-        // // Output mouse data
-        // // while (mouseTracker != null) {
-        // //     double[] motionData = mouseTracker.getDisplacement();
+            System.out.printf(
+                "X displacement: %5.4f \t Y displacement: %5.4f\n",
+                motionData[0],
+                motionData[1]
+            );
 
 
-        // //     System.out.printf(
-        // //         "X displacement: %5.4f \t Y displacement: %5.4f\n",
-        // //         motionData[0],
-        // //         motionData[1]
-        // //     );
-
-
-        // // }
+        }
 
     
         // Set<Thread> threadSet = Thread.getAllStackTraces().keySet();

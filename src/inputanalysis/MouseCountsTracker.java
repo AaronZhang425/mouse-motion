@@ -13,7 +13,7 @@ public class MouseCountsTracker extends InputEventConsumer {
     public MouseCountsTracker(Mouse mouse, Rel eventCode) {
         super(eventCode);
 
-        if (eventCode.equals(Rel.REL_X) || eventCode.equals(Rel.REL_Y)) {
+        if (!eventCode.equals(Rel.REL_X) && !eventCode.equals(Rel.REL_Y)) {
             throw new IllegalArgumentException(
                 "Event code must either Rel.REL_X or Rel.REL_Y"
             );
@@ -41,12 +41,20 @@ public class MouseCountsTracker extends InputEventConsumer {
     }
 
     @Override
-    public void consume(EventData inputEvent) {
-        // TODO Auto-generated method stub
+    public void consume(EventData inputEvent) throws IllegalArgumentException {
+        if (!inputEvent.getEventCode().equals(eventCode)) {
+            throw new IllegalArgumentException(
+                "EventData argument eventCode must match that of the tracker"
+            );
+
+        }
+
+
         int relativeMouseCounts = inputEvent.getValue();
         double displacement = mouseCountsToMeters(relativeMouseCounts);
 
         totalMouseCounts += relativeMouseCounts;
+
         velocity = (
             displacement /
             inputEvent.getTotalSeconds()
