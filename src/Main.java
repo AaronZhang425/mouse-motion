@@ -41,19 +41,9 @@ public class Main {
             
         }
 
-        Thread mouseThread = null;
-
-        // Create and start thread
-        if (mouseTracker != null) {
-            mouseThread = new Thread(mouseTracker, "Mouse Data Processor");
-            mouseThread.start();
-
-        }
-
         // Output mouse data
         while (mouseTracker != null) {
             double[] motionData = mouseTracker.getDisplacement();
-
 
             System.out.printf(
                 "X displacement: %5.4f \t Y displacement: %5.4f\n",
