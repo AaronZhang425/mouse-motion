@@ -71,6 +71,17 @@ public class EventData {
     }
 
     /**
+     * Gets the total time in seconds. Since calculation is done on seconds
+     * and microseconds represented as a long since epoch, this method is
+     * susceptible to breaking in the future
+     * 
+     * @return
+     */
+    public double getTotalSeconds() {
+        return time[0] + ((double) time[1] / 1e-6);
+    }
+
+    /**
      * Get the event type of the input event this object represents
      * 
      * @return event type of input event
