@@ -156,7 +156,7 @@ public class InputReader {
 
             // Ensure a single entire event is read
             // Prevent events being sheered and cut in half
-            while (bufferIndexOffset < buffer.length && closed) {
+            while (bufferIndexOffset < buffer.length && !closed) {
                 bytesRead = reader.read(buffer, bufferIndexOffset, maxBytesRead);
 
                 // The read method returns -1 if the stream has ended
