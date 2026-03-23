@@ -77,7 +77,7 @@ public class InputReader {
 
         // Buffer will be null if file stream has ended. If file stream
         // ended, return null
-        if (buffer == null) {
+        if (buffer == null || buffer.length == 0) {
             return null;
 
         }
@@ -156,7 +156,12 @@ public class InputReader {
 
             // Ensure a single entire event is read
             // Prevent events being sheered and cut in half
-            while (bufferIndexOffset < buffer.length && !closed) {
+            while (bufferIndexOffset < buffer.length) {
+                if (closed) {
+                    reader.close();
+                    return null;
+                }
+
                 bytesRead = reader.read(buffer, bufferIndexOffset, maxBytesRead);
 
                 // The read method returns -1 if the stream has ended
@@ -168,9 +173,7 @@ public class InputReader {
                 maxBytesRead -= bytesRead;
 
             }
-
-            
-        
+                   
         } catch(IOException e) {
             e.printStackTrace();
             return null;
@@ -183,13 +186,12 @@ public class InputReader {
     }
 
     /**
-     * Closes the BufferedInputStream to prevent resource leak
+     * Closes the BufferedInputStream to prevent resource leak.
      * 
      * @throws IOException Throws IOException if IO error occurs
      */
     public void close() throws IOException {
         closed = true;
-        reader.close();
 
     }
 
