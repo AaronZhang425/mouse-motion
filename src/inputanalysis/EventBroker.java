@@ -54,6 +54,11 @@ public class EventBroker implements Runnable{
         while (run) {
             data = reader.getEventData();
 
+            if (data == null) {
+                continue;
+            }
+
+
             InputEventConsumer eventConsumer = consumerMap.get(data.getEventCode());
 
             if (eventConsumer != null) {
