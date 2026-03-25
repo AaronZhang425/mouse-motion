@@ -54,6 +54,12 @@ public class MouseMotionTracker {
 
     }
 
+    /**
+     * Gets the velocity vector of the mouse in x and y direction. The magnitude
+     * of the vectors will never be 0.
+     * 
+     * @return Array representing components of the vector
+     */
     public double[] getVelocity() {
         return new double[]{
             xTracker.getVelocity(),
