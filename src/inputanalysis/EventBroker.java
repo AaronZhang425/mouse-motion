@@ -7,7 +7,7 @@ import devicemanagement.EventData;
 import devicemanagement.InputReader;
 import eventclassification.eventcodes.EventCode;
 
-public class EventBroker implements Runnable{
+public class EventBroker implements Runnable {
     private volatile boolean run = true;
 
     private HashMap<EventCode, InputEventConsumer> consumerMap;
