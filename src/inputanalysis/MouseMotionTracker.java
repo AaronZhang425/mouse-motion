@@ -46,6 +46,12 @@ public class MouseMotionTracker {
     
     }
 
+    /**
+     * Gets the total mouse counts as componenets of a vector with x being
+     * index 0 and y being index 1.
+     * 
+     * @return Array of {x mouse counts, y mouse counts}
+     */
     public int[] getTotalMouseCounts() {
         return new int[]{
             xTracker.getTotalMouseCounts(),
