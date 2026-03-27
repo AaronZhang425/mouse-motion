@@ -38,6 +38,11 @@ public class MouseMotionTracker {
         
     }
 
+    /**
+     * Gets the displacement of the mouse in meters
+     * 
+     * @return An array with index 0 representing x component and 1 the y
+     */
     public double[] getDisplacement() {
         return new double[]{
             xTracker.getDisplacement(),
