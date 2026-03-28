@@ -8,10 +8,25 @@ import eventclassification.eventcodes.EventCode;
 import eventclassification.eventcodes.Rel;
 
 public class MouseMotionTracker {
+    /**
+     * Tracker for x mouse counts.
+     */
     private MouseCountsTracker xTracker;
+
+    /**
+     * Tracker for y mouse counts
+     */
     private MouseCountsTracker yTracker;
 
+    /**
+     * System to read mouse events and distribute events that correspond to
+     * the mouse trackers to handle
+     */
     private EventBroker eventBroker;
+
+    /**
+     * The thread that runs the event broker
+     */
     private Thread eventBrokerThread;
 
     public MouseMotionTracker(Mouse mouse) throws FileNotFoundException {
@@ -33,6 +48,12 @@ public class MouseMotionTracker {
 
     }
 
+    /**
+     * Gets the event broker of the mouse tracker that governs the distribution
+     * of events to handlers
+     * 
+     * @return Event broker handling mouse data
+     */
     public EventBroker getEventBroker() {
         return eventBroker;
         
