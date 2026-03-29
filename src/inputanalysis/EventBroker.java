@@ -1,10 +1,12 @@
 package inputanalysis;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 
 import devicemanagement.EventData;
 import devicemanagement.InputReader;
+import devicemanagement.Mouse;
 import eventclassification.eventcodes.EventCode;
 
 public class EventBroker implements Runnable {
@@ -13,9 +15,23 @@ public class EventBroker implements Runnable {
     private HashMap<EventCode, InputEventConsumer> consumerMap;
     private InputReader reader;
 
-    public EventBroker(InputReader reader, HashMap<EventCode, InputEventConsumer> consumerMap) {
+    public EventBroker(
+        InputReader reader,
+        HashMap<EventCode, InputEventConsumer> consumerMap
+    ) {
         this.consumerMap = consumerMap;
         this.reader = reader;
+
+    }
+
+    public EventBroker(
+        Mouse mouse,
+        HashMap<EventCode, InputEventConsumer> consumerHashMap
+    ) throws FileNotFoundException {
+
+        this.consumerMap = consumerHashMap;
+        
+        reader = new InputReader(mouse.getDevice().getHandlerFile());
 
     }
 
@@ -57,7 +73,6 @@ public class EventBroker implements Runnable {
             if (data == null) {
                 continue;
             }
-
 
             InputEventConsumer eventConsumer = consumerMap.get(data.getEventCode());
 
