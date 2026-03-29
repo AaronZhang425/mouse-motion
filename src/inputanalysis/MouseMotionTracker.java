@@ -29,20 +29,33 @@ public class MouseMotionTracker {
      */
     private Thread eventBrokerThread;
 
+    /**
+     * Creates a tracker for a mouse that tracks x and y movement and converts
+     * the mouse counts into physical measurements for displacement in meters
+     * and velocity in meters per second
+     * 
+     * @param mouse
+     * @throws FileNotFoundException
+     */
     public MouseMotionTracker(Mouse mouse) throws FileNotFoundException {
+        // Create the trackers
         xTracker = new MouseCountsTracker(mouse, Rel.REL_X);
         yTracker = new MouseCountsTracker(mouse, Rel.REL_Y);
 
+        // Map an event code to a tracker that tracks the event code for a 
+        // device
         HashMap<EventCode, InputEventConsumer> eventConsumers = new HashMap<>();
 
         eventConsumers.put(Rel.REL_X, xTracker);
         eventConsumers.put(Rel.REL_Y, yTracker);
 
+        // Read from a device and map its input to a event consumer to handle
         eventBroker = new EventBroker(
             new InputReader(mouse.getDevice().getHandlerFile()),
             eventConsumers
         );
 
+        // Run the EventBroker in a seperate thread
         eventBrokerThread = new Thread(eventBroker, "Event Broker");
         eventBrokerThread.start();
 
