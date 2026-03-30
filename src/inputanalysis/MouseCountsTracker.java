@@ -5,7 +5,11 @@ import devicemanagement.Mouse;
 import eventclassification.eventcodes.Rel;
 
 public class MouseCountsTracker extends InputEventConsumer {
+    /**
+     * Represents total mouse counts that have been counted
+     */
     private volatile int totalMouseCounts = 0;
+    
     private volatile double velocity = 0.0;
     
     private Mouse mouse;
