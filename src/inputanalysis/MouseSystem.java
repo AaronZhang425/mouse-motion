@@ -18,13 +18,38 @@ public class MouseSystem {
     }
 
     /**
+     * Determines if the given mice are going opposite directions. Such a case
+     * can occur if either the mice are traveling in opposite directions 
+     * linearly or if the mice are both rotating about a point
+     * 
+     * @param mouse1 A mouse tracker
+     * @param mouse2 A mouse tracker for a different mouse
+     * @return True if the mice are going in oppsite directions
+     */
+    public boolean isGoingOppositeDirection(
+        MouseMotionTracker mouse1,
+        MouseMotionTracker mouse2
+    ) {
+        return getVelocityDotProduct(mouse1, mouse2) < 0;
+
+    }
+
+    public double getVelocityDotProduct(
+        MouseMotionTracker mouse1,
+        MouseMotionTracker mouse2
+    ) {
+        return getDotProduct(mouse1.getVelocity(), mouse2.getDisplacement());
+
+    }
+
+    /**
      * Gets the dot product of the total displacement of the mice
      * 
      * @param mouse1 A mouse tracker
      * @param mouse2 A mouse tracker representing another mouse
      * @return Dot product of the total displacement of the mice
      */
-    private double getTotalDisplacementDotProduct(
+    public double getTotalDisplacementDotProduct(
         MouseMotionTracker mouse1,
         MouseMotionTracker mouse2
     ) {
