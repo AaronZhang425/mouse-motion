@@ -2,6 +2,9 @@ package inputanalysis;
 
 import java.util.HashMap;
 
+import eventclassification.eventcodes.EventCode;
+import eventclassification.eventcodes.Rel;
+
 public class MouseSystem {
     private HashMap<MouseMotionTracker, double[]> mouseArrangement;
 
@@ -28,9 +31,26 @@ public class MouseSystem {
      */
     public boolean isGoingOppositeDirection(
         MouseMotionTracker mouse1,
-        MouseMotionTracker mouse2
+        MouseMotionTracker mouse2,
+        double tolerance,
+        EventCode axis
     ) {
-        return getVelocityDotProduct(mouse1, mouse2) < 0;
+        if (!axis.equals(Rel.REL_X) && !axis.equals(Rel.REL_Y)) {
+            throw new IllegalArgumentException(
+                "Axis must be Rel.REL_X or Rel.REL_Y"
+            );
+
+        }
+
+        int axisIdx = axis.getValue();
+
+        double[] mouse1Velocity = mouse1.getVelocity();
+        double[] mouse2Velocity = mouse2.getVelocity();
+
+        return (
+            Math.abs(mouse1Velocity[axisIdx] + mouse2Velocity[axisIdx]) <=
+            tolerance
+        );
 
     }
 
@@ -38,7 +58,7 @@ public class MouseSystem {
         MouseMotionTracker mouse1,
         MouseMotionTracker mouse2
     ) {
-        return getDotProduct(mouse1.getVelocity(), mouse2.getDisplacement());
+        return getDotProduct2D(mouse1.getVelocity(), mouse2.getVelocity());
 
     }
 
@@ -53,7 +73,7 @@ public class MouseSystem {
         MouseMotionTracker mouse1,
         MouseMotionTracker mouse2
     ) {
-        return getDotProduct(
+        return getDotProduct2D(
             mouse1.getDisplacement(),
             mouse2.getDisplacement()
         );
@@ -63,11 +83,11 @@ public class MouseSystem {
     /**
      * Gets the dot product of 2 vectors that are 2D
      * 
-     * @param vector1
-     * @param vector2
-     * @return
+     * @param vector1 A 2 element array representing a vector
+     * @param vector2 A 2 element array representing a vector
+     * @return The dot product of the two inputted vectors
      */
-    private double getDotProduct(double[] vector1, double[] vector2) {
+    private double getDotProduct2D(double[] vector1, double[] vector2) {
         return vector1[0] * vector2[0] + vector1[1] + vector2[1];
 
     }
