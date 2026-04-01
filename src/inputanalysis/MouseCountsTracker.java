@@ -9,7 +9,7 @@ public class MouseCountsTracker extends InputEventConsumer {
      * Represents total mouse counts that have been counted
      */
     private volatile int totalMouseCounts = 0;
-    
+
     private volatile double velocity = 0.0;
     
     private Mouse mouse;
@@ -44,6 +44,11 @@ public class MouseCountsTracker extends InputEventConsumer {
         return (double) mouseCounts / mouse.getDpi() * 0.0254;
     }
 
+    /**
+     * Defines how an InputEventConsumer should handle input events
+     * 
+     * @throws IllegalArgumentException Thrown if event event code mismatch
+     */
     @Override
     public void consume(EventData inputEvent) throws IllegalArgumentException {
         if (!inputEvent.getEventCode().equals(eventCode)) {
@@ -52,7 +57,6 @@ public class MouseCountsTracker extends InputEventConsumer {
             );
 
         }
-
 
         int relativeMouseCounts = inputEvent.getValue();
         double displacement = mouseCountsToMeters(relativeMouseCounts);
