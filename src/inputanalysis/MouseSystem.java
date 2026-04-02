@@ -2,7 +2,6 @@ package inputanalysis;
 
 import java.util.HashMap;
 
-import eventclassification.eventcodes.EventCode;
 import eventclassification.eventcodes.Rel;
 
 public class MouseSystem {
@@ -33,8 +32,9 @@ public class MouseSystem {
         MouseMotionTracker mouse1,
         MouseMotionTracker mouse2,
         double tolerance,
-        EventCode axis
-    ) {
+        Rel axis
+    ) throws IllegalArgumentException {
+        // Only axis to be checked is x and y direction
         if (!axis.equals(Rel.REL_X) && !axis.equals(Rel.REL_Y)) {
             throw new IllegalArgumentException(
                 "Axis must be Rel.REL_X or Rel.REL_Y"
@@ -42,6 +42,8 @@ public class MouseSystem {
 
         }
 
+        // The value of the event code is equivalent to the index in the 
+        // velocity array
         int axisIdx = axis.getValue();
 
         double[] mouse1Velocity = mouse1.getVelocity();
@@ -57,7 +59,7 @@ public class MouseSystem {
     public boolean isGoingOppositeDirection(
         MouseMotionTracker mouse1,
         MouseMotionTracker mouse2,
-        EventCode axis
+        Rel axis
     ) throws IllegalArgumentException {
         // If the axis is not x or y, throw error
         if (!axis.equals(Rel.REL_X) && !axis.equals(Rel.REL_Y)) {
@@ -119,7 +121,5 @@ public class MouseSystem {
         return vector1[0] * vector2[0] + vector1[1] + vector2[1];
 
     }
-
-    
 
 }
