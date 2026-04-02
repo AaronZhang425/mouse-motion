@@ -54,6 +54,34 @@ public class MouseSystem {
 
     }
 
+    public boolean isGoingOppositeDirection(
+        MouseMotionTracker mouse1,
+        MouseMotionTracker mouse2,
+        EventCode axis
+    ) throws IllegalArgumentException {
+        // If the axis is not x or y, throw error
+        if (!axis.equals(Rel.REL_X) && !axis.equals(Rel.REL_Y)) {
+            throw new IllegalArgumentException(
+                "Axis must be Rel.REL_X or Rel.REL_Y"
+            );
+
+        }
+
+        // The numeric axis of the event code is the same as the index of
+        // the vector that should be used in calculations
+        int axisIdx = axis.getValue();
+
+        // Represents velocity vector of mouse 1
+        double[] mouse1Velocity = mouse1.getVelocity();
+
+        // Represents velocity vector of mouse 2
+        double[] mouse2Velocity = mouse2.getVelocity();
+
+        // Return if the velocities are going in opposite directions
+        return (mouse1Velocity[axisIdx] * mouse2Velocity[axisIdx]) < 0;
+
+    }   
+
     public double getVelocityDotProduct(
         MouseMotionTracker mouse1,
         MouseMotionTracker mouse2
