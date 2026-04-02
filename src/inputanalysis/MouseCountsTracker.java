@@ -1,5 +1,7 @@
 package inputanalysis;
 
+import java.util.function.Function;
+
 import devicemanagement.EventData;
 import devicemanagement.Mouse;
 import eventclassification.eventcodes.Rel;
@@ -10,8 +12,20 @@ public class MouseCountsTracker extends InputEventConsumer {
      */
     private volatile int totalMouseCounts = 0;
 
+    /**
+     * Represents the velocity of the mouse. Once the mouse moves, velocity
+     * will never return to 0. At best, the velocity will approach 0
+     */
     private volatile double velocity = 0.0;
     
+    /**
+     * Represents a the transformation of the displacement. Used for adjusting
+     * axis when turning
+     */
+    private volatile Function<Double, Double> transformationFunction = (
+        (Double num) -> num
+    );
+
     private Mouse mouse;
 
     public MouseCountsTracker(Mouse mouse, Rel eventCode) {
@@ -26,6 +40,17 @@ public class MouseCountsTracker extends InputEventConsumer {
 
         this.mouse = mouse;
 
+    }
+
+    /**
+     * Sets the transformation function
+     * 
+     * @param transformationFunction Function that transform the displacement
+     */
+    public void setTransformationFunction(
+        Function<Double, Double> transformationFunction
+    ) {
+        this.transformationFunction = transformationFunction;
     }
 
     public int getTotalMouseCounts() {
@@ -51,6 +76,7 @@ public class MouseCountsTracker extends InputEventConsumer {
      */
     @Override
     public void consume(EventData inputEvent) throws IllegalArgumentException {
+        // If the event codes do not match, throw error
         if (!inputEvent.getEventCode().equals(eventCode)) {
             throw new IllegalArgumentException(
                 "EventData argument eventCode must match that of the tracker"
