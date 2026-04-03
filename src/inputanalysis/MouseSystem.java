@@ -121,5 +121,20 @@ public class MouseSystem {
         return vector1[0] * vector2[0] + vector1[1] + vector2[1];
 
     }
+    
+    /**
+     * Given a mouse, get its radius from the center of rotation.
+     * 
+     * @param mouse The mouse to get the radius of
+     * @return The radius or distance of the mouse to the center
+     */
+    public double getRadius(MouseMotionTracker mouse) {
+        double[] mousePos = mouseArrangement.get(mouse);
+        return Math.sqrt(
+            (mousePos[0] * mousePos[0]) +
+            (mousePos[1] * mousePos[1])
+        );
+
+    }
 
 }
