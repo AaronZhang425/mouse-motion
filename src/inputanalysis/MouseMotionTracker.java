@@ -9,6 +9,11 @@ import eventclassification.eventcodes.Rel;
 
 public class MouseMotionTracker {
     /**
+     * The mouse being tracked
+     */
+    private Mouse mouse;
+
+    /**
      * Tracker for x mouse counts.
      */
     private MouseCountsTracker xTracker;
@@ -38,6 +43,8 @@ public class MouseMotionTracker {
      * @throws FileNotFoundException
      */
     public MouseMotionTracker(Mouse mouse) throws FileNotFoundException {
+        this.mouse = mouse;
+
         // Create the trackers
         xTracker = new MouseCountsTracker(mouse, Rel.REL_X);
         yTracker = new MouseCountsTracker(mouse, Rel.REL_Y);
@@ -56,9 +63,23 @@ public class MouseMotionTracker {
         );
 
         // Run the EventBroker in a seperate thread
-        eventBrokerThread = new Thread(eventBroker, "Event Broker");
+        eventBrokerThread = new Thread(
+            eventBroker,
+            mouse.getDevice().getName() + " Event Broker"
+        );
+
         eventBrokerThread.start();
 
+    }
+
+    /**
+     * Gets the mouse that is being tracked
+     * 
+     * @return A mouse object representing the mouse being tracked
+     */
+    public Mouse getMouse() {
+        return mouse;
+    
     }
 
     /**

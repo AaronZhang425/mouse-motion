@@ -1,21 +1,48 @@
 package inputanalysis;
 
-import java.util.HashMap;
 
+import java.io.FileNotFoundException;
+import java.io.UncheckedIOException;
+import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.function.BiConsumer;
+
+import devicemanagement.Mouse;
 import eventclassification.eventcodes.Rel;
 
 public class MouseSystem {
-    private HashMap<MouseMotionTracker, double[]> mouseArrangement;
+    private HashMap<MouseMotionTracker, double[]> mouseTrackerArrangement;
 
-    public MouseSystem(HashMap<MouseMotionTracker, double[]> mouseArrangement) {
-        this.mouseArrangement = (
-            new HashMap<MouseMotionTracker, double[]>(mouseArrangement)
+    public MouseSystem(
+        HashMap<Mouse, double[]> rawMouseArrangement
+    ) throws UncheckedIOException {
+        mouseTrackerArrangement = new HashMap<>();
+        
+        // For each entry within the raw mouse arrangement
+        rawMouseArrangement.forEach(
+            (Mouse mouse, double[] positions) -> {
+                // Try to create a tracker for each mouse and place it the 
+                // mouse tracker map with its respective position
+                try {
+                    MouseMotionTracker tracker = new MouseMotionTracker(mouse);
+                    mouseTrackerArrangement.put(tracker, positions);
+                    
+                } catch (FileNotFoundException e) {
+                    // If file not found, throw rethrow as unchecked 
+                    throw new UncheckedIOException(
+                        new FileNotFoundException(e.getMessage())
+                    );
+
+                }
+
+            }
+
         );
 
     }
 
     public HashMap<MouseMotionTracker, double[]> getMouseArrangement() {
-        return new HashMap<>(mouseArrangement);
+        return new HashMap<>(mouseTrackerArrangement);
         
     }
 
@@ -129,7 +156,7 @@ public class MouseSystem {
      * @return The radius or distance of the mouse to the center
      */
     public double getRadius(MouseMotionTracker mouse) {
-        double[] mousePos = mouseArrangement.get(mouse);
+        double[] mousePos = mouseTrackerArrangement.get(mouse);
         return Math.sqrt(
             (mousePos[0] * mousePos[0]) +
             (mousePos[1] * mousePos[1])
