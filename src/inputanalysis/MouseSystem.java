@@ -4,8 +4,6 @@ package inputanalysis;
 import java.io.FileNotFoundException;
 import java.io.UncheckedIOException;
 import java.util.HashMap;
-import java.util.Map.Entry;
-import java.util.function.BiConsumer;
 
 import devicemanagement.Mouse;
 import eventclassification.eventcodes.Rel;
