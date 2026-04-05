@@ -110,6 +110,12 @@ public class InputReader {
 
     }
 
+    /**
+     * Get the time of a given event report
+     * 
+     * @param buffer
+     * @return
+     */
     private long[] getEventTime(byte[] buffer) {
         // bytes 8-15 represent fractions of a second in microseconds
         // assumed to be little endian (least significant byte on the left)
@@ -134,6 +140,11 @@ public class InputReader {
         return new long[]{seconds, microSeconds};
     }
     
+    /**
+     * Reads a single event report from the event file
+     * 
+     * @return Event report represented as a byte array
+     */
     public byte[] eventFileReader() {
         if (closed) {
             return null;
