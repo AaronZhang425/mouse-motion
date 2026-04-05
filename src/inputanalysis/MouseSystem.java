@@ -9,7 +9,19 @@ import devicemanagement.Mouse;
 import eventclassification.eventcodes.Rel;
 
 public class MouseSystem {
+    /**
+     * Represents the arangement of mice being tracked as a map with the key
+     * being the tracker and the value being the distance from the center
+     * of the system as components of a vector 
+     */
     private HashMap<MouseMotionTracker, double[]> mouseTrackerArrangement;
+
+    /**
+     * Represents the angle of the system from the starting position with 
+     * counterclockwise being the positive direction and clockwise being the 
+     * negative direction in radians
+     */
+    private double heading = 0;
 
     public MouseSystem(
         HashMap<Mouse, double[]> rawMouseArrangement
@@ -42,6 +54,17 @@ public class MouseSystem {
     public HashMap<MouseMotionTracker, double[]> getMouseArrangement() {
         return new HashMap<>(mouseTrackerArrangement);
         
+    }
+
+    /**
+     * Prepares all the tracker threads to stop.
+     */
+    public void terminate() {
+        for (MouseMotionTracker tracker : mouseTrackerArrangement.keySet()) {
+            tracker.terminate();
+
+        }
+
     }
 
     /**
