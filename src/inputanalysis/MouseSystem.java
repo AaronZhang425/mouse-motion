@@ -51,9 +51,19 @@ public class MouseSystem {
 
     }
 
+    /**
+     * Get a copy of mouse arrangement hashmap
+     * 
+     * @return Copy of hashmap mapping mouse trackers to positions
+     */
     public HashMap<MouseMotionTracker, double[]> getMouseArrangement() {
         return new HashMap<>(mouseTrackerArrangement);
         
+    }
+
+    public double getHeading() {
+        return heading;
+    
     }
 
     /**
