@@ -10,9 +10,19 @@ import devicemanagement.Mouse;
 import eventclassification.eventcodes.EventCode;
 
 public class EventBroker implements Runnable {
+    /**
+     * Flag to signal if running or preparing to stop
+     */
     private volatile boolean run = true;
 
+    /**
+     * Maps event codes to a consumer
+     */
     private HashMap<EventCode, InputEventConsumer> consumerMap;
+    
+    /**
+     * Reads input events
+     */
     private InputReader reader;
 
     public EventBroker(
@@ -35,6 +45,12 @@ public class EventBroker implements Runnable {
 
     }
 
+    /**
+     * Returns the hashmap that maps event codes to their respective event 
+     * consumers
+     * 
+     * @return
+     */
     public HashMap<EventCode, InputEventConsumer> getConsumers() {
         return consumerMap;
     

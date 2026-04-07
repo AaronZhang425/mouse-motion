@@ -61,6 +61,13 @@ public class MouseSystem {
         
     }
 
+    /**
+     * Gets the heading of the mouse system. Counter-clockwise rotation is 
+     * represented by a positive heading. Clockwise rotation is represented by
+     * negative heading.
+     * 
+     * @return
+     */
     public double getHeading() {
         return heading;
     

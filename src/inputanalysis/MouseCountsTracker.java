@@ -26,6 +26,9 @@ public class MouseCountsTracker extends InputEventConsumer {
         (Double num) -> num
     );
 
+    /**
+     * Represents the mouse being tracked
+     */
     private Mouse mouse;
 
     public MouseCountsTracker(Mouse mouse, Rel eventCode) {
@@ -88,7 +91,7 @@ public class MouseCountsTracker extends InputEventConsumer {
         double displacement = mouseCountsToMeters(relativeMouseCounts);
 
         totalMouseCounts += relativeMouseCounts;
-        
+
         velocity = (
             displacement /
             inputEvent.getTotalSeconds()
