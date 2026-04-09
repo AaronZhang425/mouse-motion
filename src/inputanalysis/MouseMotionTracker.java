@@ -112,10 +112,10 @@ public class MouseMotionTracker {
      * 
      * @return Array of {x mouse counts, y mouse counts}
      */
-    public int[] getTotalMouseCounts() {
+    public int[] getLifetimeCounts() {
         return new int[]{
-            xTracker.getTotalMouseCounts(),
-            yTracker.getTotalMouseCounts()
+            xTracker.getLifetimeCounts(),
+            yTracker.getLifetimeCounts()
         };
 
     }

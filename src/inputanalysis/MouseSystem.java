@@ -21,7 +21,7 @@ public class MouseSystem {
      * counterclockwise being the positive direction and clockwise being the 
      * negative direction in radians
      */
-    private double heading = 0;
+    private double angle = 0;
 
     public MouseSystem(
         HashMap<Mouse, double[]> rawMouseArrangement
@@ -66,10 +66,10 @@ public class MouseSystem {
      * represented by a positive heading. Clockwise rotation is represented by
      * negative heading.
      * 
-     * @return
+     * @return The angle from its original position to the current position
      */
-    public double getHeading() {
-        return heading;
+    public double getAngle() {
+        return angle;
     
     }
 
