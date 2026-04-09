@@ -10,7 +10,12 @@ public class MouseCountsTracker extends InputEventConsumer {
     /**
      * Represents total mouse counts that have been counted
      */
-    private volatile int totalMouseCounts = 0;
+    private volatile int lifetimeCounts = 0;
+
+    /**
+     * Represents displacement in the axis the object was assigned to
+     */
+    private volatile double displacement = 0;
 
     /**
      * Represents the velocity of the mouse. Once the mouse moves, velocity
@@ -56,8 +61,8 @@ public class MouseCountsTracker extends InputEventConsumer {
         this.transformationFunction = transformationFunction;
     }
 
-    public int getTotalMouseCounts() {
-        return totalMouseCounts;
+    public int getLifetimeCounts() {
+        return lifetimeCounts;
     }
 
     public double getVelocity() {
@@ -65,7 +70,7 @@ public class MouseCountsTracker extends InputEventConsumer {
     }
 
     public double getDisplacement() {
-        return mouseCountsToMeters(totalMouseCounts);
+        return displacement;
     }
 
     private double mouseCountsToMeters(int mouseCounts) {
@@ -88,9 +93,9 @@ public class MouseCountsTracker extends InputEventConsumer {
         }
 
         int relativeMouseCounts = inputEvent.getValue();
-        double displacement = mouseCountsToMeters(relativeMouseCounts);
+        displacement += mouseCountsToMeters(relativeMouseCounts);
 
-        totalMouseCounts += relativeMouseCounts;
+        lifetimeCounts += relativeMouseCounts;
 
         velocity = (
             displacement /
