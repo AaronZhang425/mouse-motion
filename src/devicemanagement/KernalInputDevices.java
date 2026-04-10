@@ -17,9 +17,6 @@ import eventclassification.eventcodes.EventCode;
 import eventclassification.eventcodes.Rep;
 import eventclassification.eventcodes.Syn;
 
-
-
-
 public class KernalInputDevices { 
     // This file lists all devices and their details
     // private static final File INPUT_DEVICE_INFO = new File("/proc/bus/input/devices");

@@ -93,7 +93,10 @@ public class MouseCountsTracker extends InputEventConsumer {
         }
 
         int relativeMouseCounts = inputEvent.getValue();
-        displacement += mouseCountsToMeters(relativeMouseCounts);
+        
+        displacement += transformationFunction.apply(
+            mouseCountsToMeters(relativeMouseCounts)
+        );
 
         lifetimeCounts += relativeMouseCounts;
 
