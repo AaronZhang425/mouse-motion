@@ -144,8 +144,13 @@ public class MouseSystem {
         // Represents velocity vector of mouse 2
         double[] mouse2Velocity = mouse2.getVelocity();
 
+        if (mouse1Velocity[axisIdx] + mouse2Velocity[axisIdx] == 0) {
+            return false;
+
+        }
+
         // Return if the velocities are going in opposite directions
-        return (mouse1Velocity[axisIdx] * mouse2Velocity[axisIdx]) < 0;
+        return (mouse1Velocity[axisIdx] * mouse2Velocity[axisIdx]) <= 0;
 
     }   
 
