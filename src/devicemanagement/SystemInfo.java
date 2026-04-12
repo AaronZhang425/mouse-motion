@@ -18,11 +18,6 @@ public class SystemInfo {
 
         }
 
-        public int getIndexFactor() {
-            return indexFactor;
-        
-        }
-
         public int getLeastSignificantByteIndex(byte[] arr) {
             return (arr.length - 1) * indexFactor;
 
@@ -33,6 +28,7 @@ public class SystemInfo {
             int index1,
             int index2
         ) {
+            // Throw error if either number is negative
             if (
                 (index1 < 0 || index2 < 0) && 
                 (Math.max(index1, index2) < arr.length)
@@ -68,16 +64,31 @@ public class SystemInfo {
         }
     }
 
+    /**
+     * Gets the assigned endianness of the system
+     * 
+     * @return
+     */
     public static Endianness getEndianness() {
         return endianness;
 
     }
 
+    /**
+     * Sets the endianness of the system
+     * 
+     * @param endianness Endianness to set
+     */
     public static void setEndianness(Endianness endianness) {
         SystemInfo.endianness = endianness;
     
     }
 
+    /**
+     * Gets the bit architecture of the machine
+     * 
+     * @return Bit architecture
+     */
     public static BitArchitecture getArchitecture() {
         return architecture;
 
