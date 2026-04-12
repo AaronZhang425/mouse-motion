@@ -1,8 +1,11 @@
 package devicemanagement;
 
+import java.beans.EventHandler;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import eventclassification.EventTypes;
 import eventclassification.eventcodes.EventCode;
@@ -27,6 +30,27 @@ public class InputDevice {
         this.name = name;
         this.handlerFile = handlerFile;
         this.capabilities = capabilities;
+
+    }
+
+    public EventCode[] getEventCodes() {
+        ArrayList<EventCode> eventCodeList = new ArrayList<>();
+
+        for (Entry<EventTypes, EventCode[]> pair : capabilities.entrySet()) {
+            for (EventCode eventCodes : pair.getValue()) {
+                eventCodeList.add(eventCodes);
+
+            }
+
+        }
+
+        return eventCodeList.toArray(new EventCode[0]);
+
+    }
+
+
+    public EventTypes[] getEventTypes() {
+        return capabilities.keySet().toArray(new EventTypes[0]);
 
     }
 
