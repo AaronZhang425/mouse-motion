@@ -1,7 +1,5 @@
 package devicemanagement;
 
-import javax.sound.midi.InvalidMidiDataException;
-
 public class SystemInfo {
     private static Endianness endianness = null;
 
