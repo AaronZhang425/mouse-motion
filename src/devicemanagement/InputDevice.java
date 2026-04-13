@@ -1,6 +1,5 @@
 package devicemanagement;
 
-import java.beans.EventHandler;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -102,8 +101,8 @@ public class InputDevice {
     }
 
     /**
-     * Returns true if 2 InputDevices have the same ID, name, handler file, and
-     * capabilities
+     * Returns true if both InputDevices have the same ID, name, handler file, 
+     * and capabilities
      * 
      * @param other Input device to compare to
      * @return Equality of the 2 input devices

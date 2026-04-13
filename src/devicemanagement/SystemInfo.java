@@ -44,6 +44,11 @@ public class SystemInfo {
 
         }
 
+        public int getMostSignificantByteIndex(byte[] arr) {
+            return (arr.length - 1) * (indexFactor - 1) * -1;
+            
+        }
+
     }
 
     public enum BitArchitecture {

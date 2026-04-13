@@ -23,6 +23,15 @@ public class MouseSystem {
      */
     private double angle = 0;
 
+    /**
+     * Creates a MouseSystem given a hashmap representing the arrangment of 
+     * mice and stores a hashmap with mouse trackers and positions relative to
+     * the center of rotation. Starts every mouse tracker immediately upon 
+     * object creation.
+     * 
+     * @param rawMouseArrangement
+     * @throws UncheckedIOException
+     */
     public MouseSystem(
         HashMap<Mouse, double[]> rawMouseArrangement
     ) throws UncheckedIOException {
