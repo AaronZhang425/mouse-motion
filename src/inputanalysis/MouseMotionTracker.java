@@ -37,7 +37,7 @@ public class MouseMotionTracker {
     /**
      * Creates a tracker for a mouse that tracks x and y movement and converts
      * the mouse counts into physical measurements for displacement in meters
-     * and velocity in meters per second
+     * and velocity in meters per second. Begins reading mouse data immediately.
      * 
      * @param mouse
      * @throws FileNotFoundException

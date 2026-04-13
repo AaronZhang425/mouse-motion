@@ -13,7 +13,7 @@ public class MouseCountsTracker extends InputEventConsumer {
     private volatile int lifetimeCounts = 0;
 
     /**
-     * Represents displacement in the axis the object was assigned to
+     * Represents the total displacement in the axis the object was assigned to
      */
     private volatile double displacement = 0;
 
@@ -22,6 +22,11 @@ public class MouseCountsTracker extends InputEventConsumer {
      * will never return to 0. At best, the velocity will approach 0
      */
     private volatile double velocity = 0.0;
+
+    /**
+     * Represents the number of mouse counts reported in the latest read
+     */
+    private volatile int lastCountReading = 0;
     
     /**
      * Represents a the transformation of the displacement. Used for adjusting
@@ -69,8 +74,23 @@ public class MouseCountsTracker extends InputEventConsumer {
         return velocity;
     }
 
+    /**
+     * Gets the displacement of the mouse and accounts for transformations
+     * such as those applied to account for rotation
+     * 
+     * @return Displacement from original position. Accounts for transformations
+     */
     public double getDisplacement() {
         return displacement;
+    }
+
+    /**
+     * Converts the last counts reading from the mouse into displacement
+     * 
+     * @return The displacement from only the latest reading.
+     */
+    public double lastDisplacementReading() {
+        return mouseCountsToMeters(lastCountReading);
     }
 
     private double mouseCountsToMeters(int mouseCounts) {
@@ -92,13 +112,13 @@ public class MouseCountsTracker extends InputEventConsumer {
 
         }
 
-        int relativeMouseCounts = inputEvent.getValue();
+        lastCountReading = inputEvent.getValue();
         
         displacement += transformationFunction.apply(
-            mouseCountsToMeters(relativeMouseCounts)
+            mouseCountsToMeters(lastCountReading)
         );
 
-        lifetimeCounts += relativeMouseCounts;
+        lifetimeCounts += lastCountReading;
 
         velocity = (
             displacement /
