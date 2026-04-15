@@ -32,21 +32,43 @@ public class SystemInfo {
                 (Math.max(index1, index2) < arr.length)
             ) {
                 throw new IllegalArgumentException(
-                    "Both indexes must be positive"
+                    "Both indexes must be positive and less than array length"
                 );
 
             }
 
             return (
-                (Math.abs(index2 - index1) * indexFactor) +
-                Math.min(index1, index2)
+                (Math.abs(index2 - index1) * indexFactor)
+                + Math.min(index1, index2)
             );
 
         }
 
         public int getMostSignificantByteIndex(byte[] arr) {
             return (arr.length - 1) * (indexFactor - 1) * -1;
-            
+
+        }
+
+        public int getMostSignificantByteIndex(
+            byte[] arr,
+            int index1,
+            int index2
+        ) throws IllegalArgumentException {
+            if (
+                (index1 < 0 || index2 < 0) 
+                || (Math.max(index1, index2) < arr.length)
+            ) {
+                throw new IllegalArgumentException(
+                    "Both indexes must be positive and less than array length"
+                );
+
+            }
+
+            return (
+                Math.abs(index2 - index1) * (indexFactor - 1) * -1 
+                + Math.min(index1, index2)
+            ); 
+
         }
 
     }
@@ -97,6 +119,11 @@ public class SystemInfo {
 
     }
 
+    /**
+     * Sets the bit architecture of the machine
+     * 
+     * @param architecture
+     */
     public static void setArchitecture(BitArchitecture architecture) {
         SystemInfo.architecture = architecture;
 

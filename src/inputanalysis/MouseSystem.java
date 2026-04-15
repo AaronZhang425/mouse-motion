@@ -124,8 +124,8 @@ public class MouseSystem {
         double[] mouse2Velocity = mouse2.getVelocity();
 
         return (
-            Math.abs(mouse1Velocity[axisIdx] + mouse2Velocity[axisIdx]) <=
-            tolerance
+            Math.abs(mouse1Velocity[axisIdx] + mouse2Velocity[axisIdx]) 
+            <= tolerance
         );
 
     }
@@ -210,8 +210,8 @@ public class MouseSystem {
     public double getRadius(MouseMotionTracker mouse) {
         double[] mousePos = mouseTrackerArrangement.get(mouse);
         return Math.sqrt(
-            (mousePos[0] * mousePos[0]) +
-            (mousePos[1] * mousePos[1])
+            (mousePos[0] * mousePos[0])
+            + (mousePos[1] * mousePos[1])
         );
 
     }
