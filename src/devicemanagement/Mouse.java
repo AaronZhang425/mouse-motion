@@ -1,10 +1,10 @@
 package devicemanagement;
 
 public class Mouse {
-    private final InputDevice device;
+    private final EventDevice device;
     private final int dpi;
 
-    public Mouse(InputDevice device, int dpi) {
+    public Mouse(EventDevice device, int dpi) {
         this.device = device;
         this.dpi = dpi;
     }
@@ -14,7 +14,7 @@ public class Mouse {
      * 
      * @return Mouse device
      */
-    public InputDevice getDevice() {
+    public EventDevice getDevice() {
         return device;
     
     }

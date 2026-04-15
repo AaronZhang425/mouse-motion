@@ -25,15 +25,15 @@ public class Main {
         fullCapabilitiesFilter.put(EventTypes.REL, filter);
         fullCapabilitiesFilter.put(EventTypes.MSC, eventCodeFilterMsc);
 
-        ArrayList<InputDevice> filteredDeviceList = (
-            KernalInputDevices.getDevices(fullCapabilitiesFilter)
+        ArrayList<EventDevice> filteredDeviceList = (
+            EventDevicesManager.getDevices(fullCapabilitiesFilter)
         );
 
         MouseMotionTracker mouseTracker = null;
 
         try {
             Mouse mouse = new Mouse(filteredDeviceList.get(0), DPI);
-            mouse.getDevice().getName();
+            System.out.println(mouse.getDevice().getName());
             mouseTracker = new MouseMotionTracker(mouse);
             
         } catch (FileNotFoundException e) {
