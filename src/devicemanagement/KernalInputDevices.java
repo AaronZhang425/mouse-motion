@@ -58,9 +58,9 @@ public class KernalInputDevices {
                 // If the event code array is null or of length 0, interpret as wild card
                 // Essentially filter by only event type if event code is null
                 if (
-                    eventCodeFilter == null ||
-                    eventCodeFilter.size() == 0 ||
-                    eventCodeFilter.get(0) == null
+                    eventCodeFilter == null 
+                    || eventCodeFilter.size() == 0 
+                    || eventCodeFilter.get(0) == null
                 ) {
                     continue;
                 }
