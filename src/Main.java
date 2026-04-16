@@ -14,6 +14,9 @@ public class Main {
         System.out.println("Program running");
         System.out.println();
 
+        SystemInfo.setArchitecture(SystemInfo.BitArchitecture.ARCH_64_BIT);
+        SystemInfo.setEndianness(SystemInfo.Endianness.LITTLE_ENDIAN);
+
         // Get mouse using filter
         HashMap<EventTypes, EventCode[]> fullCapabilitiesFilter = (
             new HashMap<>()

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import devicemanagement.Mouse;
 import eventclassification.eventcodes.Rel;
 
+// TODO: Handle displacement in a rotating system
 public class MouseSystem {
     /**
      * Represents the arangement of mice being tracked as a map with the key

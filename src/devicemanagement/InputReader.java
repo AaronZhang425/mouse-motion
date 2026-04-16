@@ -73,7 +73,10 @@ public class InputReader {
      * @return Single event
      */
     public EventData getEventData() {
+        // TODO: Handle different byte architectures and endianness
         byte[] buffer = eventFileReader();
+
+        int bufferSize = buffer.length;
 
         // Buffer will be null if file stream has ended. If file stream
         // ended, return null
@@ -81,7 +84,7 @@ public class InputReader {
             return null;
 
         }
-
+        
         // Byte order of the buffer is assumed to be little endian
         long[] time = getEventTime(buffer);
         
@@ -151,6 +154,14 @@ public class InputReader {
         }
 
 
+        int bufferSize = (
+            SystemInfo.getArchitecture().equals(
+                SystemInfo.BitArchitecture.ARCH_64_BIT
+            )
+            ? 24 
+            : 16
+        );
+
         // Each event is composed of 24 bytes and writes bytes to buffer
         // If buffer is smaller than 24 on 64 bit system, an error will happen
         // Buffer should be 16 bytes if on 32 architecture 
@@ -161,13 +172,13 @@ public class InputReader {
         
         try {
             int bytesRead;
-            int maxBytesRead = buffer.length;
+            int maxBytesRead = bufferSize;
 
             int bufferIndexOffset = 0;
 
             // Ensure a single entire event is read
             // Prevent events being sheered and cut in half
-            while (bufferIndexOffset < buffer.length) {
+            while (bufferIndexOffset < bufferSize) {
                 if (closed) {
                     reader.close();
                     return null;
