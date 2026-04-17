@@ -9,13 +9,10 @@ public class SystemInfo {
     private static BitArchitecture architecture = null;
 
     public enum Endianness {
-        LITTLE_ENDIAN(0),
-        BIG_ENDIAN(1);
+        LITTLE_ENDIAN(),
+        BIG_ENDIAN();
 
-        private final int indexFactor;
-
-        private Endianness(int indexFactor) {
-            this.indexFactor = indexFactor;
+        private Endianness() {
 
         }
 
