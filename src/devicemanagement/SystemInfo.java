@@ -1,5 +1,8 @@
 package devicemanagement;
 
+import devicemanagement.SystemInfo.BitArchitecture;
+import devicemanagement.SystemInfo.Endianness;
+
 public class SystemInfo {
     private static Endianness endianness = null;
 
@@ -17,7 +20,8 @@ public class SystemInfo {
         }
 
         public int getLeastSignificantByteIndex(byte[] arr) {
-            return (arr.length - 1) * indexFactor;
+            return equals(BIG_ENDIAN) ? arr.length - 1 : 0;
+            // return (arr.length - 1) * indexFactor;
 
         }
 
@@ -37,15 +41,21 @@ public class SystemInfo {
 
             }
 
-            return (
-                (Math.abs(index2 - index1) * indexFactor)
-                + Math.min(index1, index2)
-            );
+            int maxIndex = Math.max(index1, index2);
+            int minIndex =  Math.min(index1, index2);
+
+            return equals(BIG_ENDIAN) ? maxIndex : minIndex;
+
+            // return (
+            //     (Math.abs(index2 - index1) * indexFactor)
+            //     + Math.min(index1, index2)
+            // );
 
         }
 
         public int getMostSignificantByteIndex(byte[] arr) {
-            return (arr.length - 1) * (indexFactor - 1) * -1;
+            return equals(BIG_ENDIAN) ? 0 : arr.length - 1;
+            // return (arr.length - 1) * (indexFactor - 1) * -1;
 
         }
 
@@ -64,10 +74,15 @@ public class SystemInfo {
 
             }
 
-            return (
-                Math.abs(index2 - index1) * (indexFactor - 1) * -1 
-                + Math.min(index1, index2)
-            ); 
+            int maxIndex = Math.max(index1, index2);
+            int minIndex =  Math.min(index1, index2);
+
+            return equals(BIG_ENDIAN) ? minIndex : maxIndex;
+
+            // return (
+            //     Math.abs(index2 - index1) * (indexFactor - 1) * -1 
+            //     + Math.min(index1, index2)
+            // ); 
 
         }
 
