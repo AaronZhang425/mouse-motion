@@ -6,4 +6,6 @@ This program needs to part of the input user group to access the system files it
 
 To run this program, first run build.sh to compile and then run run.sh to run it.
 
-If measurements are off, try adjusting the DPI constant in main or try placing the mosue on a different surface.
+If measurements are off, try adjusting the DPI constant in main or try placing the mouse on a different surface.
+
+Configure system in Main.java file
