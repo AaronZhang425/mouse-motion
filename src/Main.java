@@ -1,4 +1,5 @@
 import devicemanagement.*;
+import devicemanagement.system.*;
 import eventclassification.*;
 import eventclassification.eventcodes.*;
 import inputanalysis.MouseMotionTracker;
@@ -14,8 +15,10 @@ public class Main {
         System.out.println("Program running");
         System.out.println();
 
-        SystemInfo.setArchitecture(SystemInfo.BitArchitecture.ARCH_64_BIT);
-        SystemInfo.setEndianness(SystemInfo.Endianness.LITTLE_ENDIAN);
+        SystemInfo.setUpInfo(
+            BitArchitecture.ARCH_64_BIT,
+            Endian.LITTLE_ENDIAN
+        );
 
         // Get mouse using filter
         HashMap<EventTypes, EventCode[]> fullCapabilitiesFilter = (
