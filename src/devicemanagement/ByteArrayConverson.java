@@ -27,8 +27,8 @@ public class ByteArrayConverson {
      */
     public static int toInt(
         byte[] arr,
-        int mostSignificantByteIndex,
-        int endIdx
+        int msbIndex,
+        int lsbIndex
     ) {
         // Assumed endianness is dependent on the start index relative to the
         // end index

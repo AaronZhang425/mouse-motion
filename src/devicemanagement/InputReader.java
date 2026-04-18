@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import devicemanagement.system.*;
 import eventclassification.EventTypes;
 import eventclassification.eventcodes.EventCode;
 
@@ -124,7 +125,7 @@ public class InputReader {
      * @return A jagged 2D array with each inner array representing a member
      */
     private byte[][] splitEventData(byte[] buffer) {
-        int bufferLength = buffer.length
+        int bufferLength = buffer.length;
         
         // Enforce buffer length to be 24 for 64 bit systems and 16 for 
         // 32 bit systems.
@@ -135,19 +136,21 @@ public class InputReader {
         }
 
         // Define array size constants
-        final int timeElementSize = (bufferLength - 8) / 2;
+        final int timeMemberSize = (bufferLength - 8) / 2;
         final int eventTypeSize = 2;
         final int eventCodeSize = 2;
         final int eventValueSize = 4;
 
         // Member collection
-        byte[][] splitEventData = new byte[5]{
-            new byte[timePartSize],
-            new byte[timePartSize],
+        byte[][] splitEventData = new byte[][]{
+            new byte[timeMemberSize],
+            new byte[timeMemberSize],
             new byte[eventTypeSize],
             new byte[eventCodeSize],
             new byte[eventValueSize]
         };
+
+        int bufferIndex = 0;
 
         // Copy original buffer data into the inner arrays
         for (int row = 0; row < splitEventData.length; row++) {
@@ -158,7 +161,7 @@ public class InputReader {
 
         }
 
-        return splitEventData
+        return splitEventData;
 
     }
 
@@ -205,8 +208,8 @@ public class InputReader {
 
         // Each event is 24 bytes for 64 bit systesms. 16 for 32 bit systems
         int bufferSize = (
-            SystemInfo.getArchitecture().equals(
-                SystemInfo.BitArchitecture.ARCH_64_BIT
+            SystemInfo.getSystemInfo().getArchitecture().equals(
+                BitArchitecture.ARCH_64_BIT
             )
             ? 24 
             : 16
