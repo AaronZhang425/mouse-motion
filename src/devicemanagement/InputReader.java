@@ -84,6 +84,9 @@ public class InputReader {
             return null;
 
         }
+
+        int lsbIndex = 0;
+        int msbIndex = 0;
         
         // Byte order of the buffer is assumed to be little endian
         long[] time = getEventTime(buffer);
@@ -110,6 +113,52 @@ public class InputReader {
             eventCode,
             value
         );
+
+    }
+
+    /**
+     * Splits an input event into memebers of the input_event struct in input.h
+     * linux file.
+     * 
+     * @param buffer The buffer containing the data read
+     * @return A jagged 2D array with each inner array representing a member
+     */
+    private byte[][] splitEventData(byte[] buffer) {
+        int bufferLength = buffer.length
+        
+        // Enforce buffer length to be 24 for 64 bit systems and 16 for 
+        // 32 bit systems.
+        if (bufferLength != 24 || bufferLength != 16) {
+            throw new IllegalArgumentException(
+                "Buffer size must be 24 or 16"
+            );
+        }
+
+        // Define array size constants
+        final int timeElementSize = (bufferLength - 8) / 2;
+        final int eventTypeSize = 2;
+        final int eventCodeSize = 2;
+        final int eventValueSize = 4;
+
+        // Member collection
+        byte[][] splitEventData = new byte[5]{
+            new byte[timePartSize],
+            new byte[timePartSize],
+            new byte[eventTypeSize],
+            new byte[eventCodeSize],
+            new byte[eventValueSize]
+        };
+
+        // Copy original buffer data into the inner arrays
+        for (int row = 0; row < splitEventData.length; row++) {
+            for (int col = 0; col < splitEventData[row].length; col++) {
+                splitEventData[row][col] = buffer[bufferIndex];
+                bufferIndex++;
+            }
+
+        }
+
+        return splitEventData
 
     }
 
@@ -154,6 +203,7 @@ public class InputReader {
         }
 
 
+        // Each event is 24 bytes for 64 bit systesms. 16 for 32 bit systems
         int bufferSize = (
             SystemInfo.getArchitecture().equals(
                 SystemInfo.BitArchitecture.ARCH_64_BIT
@@ -162,10 +212,7 @@ public class InputReader {
             : 16
         );
 
-        // Each event is composed of 24 bytes and writes bytes to buffer
-        // If buffer is smaller than 24 on 64 bit system, an error will happen
-        // Buffer should be 16 bytes if on 32 architecture 
-        byte[] buffer = new byte[24];
+        byte[] buffer = new byte[bufferSize];
         
         
         // try to get the event data from the file

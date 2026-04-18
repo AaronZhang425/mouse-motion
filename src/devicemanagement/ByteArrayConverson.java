@@ -21,21 +21,21 @@ public class ByteArrayConverson {
      * the number will be interpeted as little endian
      * 
      * @param arr The array containing bytes
-     * @param startIdx the index of the most significant byte
-     * @param endIdx the index of the least significant byte
+     * @param msbIndex the index of the most significant byte
+     * @param lsbIndex the index of the least significant byte
      * @return the integer represented by the byte array
      */
     public static int toInt(
         byte[] arr,
-        int startIdx,
+        int mostSignificantByteIndex,
         int endIdx
     ) {
         // Assumed endianness is dependent on the start index relative to the
         // end index
         return (
-            startIdx < endIdx 
-            ? toIntBigEndian(arr, startIdx, endIdx)
-            : toIntLittleEndian(arr, startIdx, endIdx)
+            msbIndex < lsbIndex 
+            ? toIntBigEndian(arr, msbIndex, lsbIndex)
+            : toIntLittleEndian(arr, msbIndex, lsbIndex)
         );
 
     }
