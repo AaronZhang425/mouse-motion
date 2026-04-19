@@ -86,30 +86,21 @@ public class InputReader {
 
         }
 
-        int lsbIndex = 0;
-        int msbIndex = 0;
-        
-        // Byte order of the buffer is assumed to be little endian
-        long[] time = getEventTime(buffer);
-        
-        // Event types are represented by bytes 16-17 and are unsigned
-        int eventTypeValue = ByteArrayConverson.toInt(buffer, 17, 16);
-        
-        // Event codes are represented by bytes 18-19 and are unsigned
-        int eventCodeValue = ByteArrayConverson.toInt(buffer, 19, 18);
+        byte[][] splitBuffer = splitEventData(buffer);
 
-        // The value of the event are represented by bytes 20-23 and are signed
-        int value = ByteArrayConverson.toInt(buffer, 23, 20);
+        long seconds = ByteArrayConversions.toLong(splitBuffer[0]);
+        long microsecond = ByteArrayConversions.toLong(splitBuffer[1]);
+        int eventTypeValue = ByteArrayConversions.toInt(splitBuffer[2]);
+        int eventCodeValue = ByteArrayConversions.toInt(splitBuffer[3]);
+        int value = ByteArrayConversions.toInt(splitBuffer[4]);
 
-
-        // Get event type constant by the event value obtained from event
         EventTypes eventType = EventTypes.byValue(eventTypeValue);
 
         // Get event code based on the event code value and the event type 
         EventCode eventCode = eventType.eventCodeByValue(eventCodeValue);
 
-        return new EventData(
-            time,
+        return new EventData (
+            new long[]{seconds, microsecond},
             eventType,
             eventCode,
             value
@@ -129,7 +120,7 @@ public class InputReader {
         
         // Enforce buffer length to be 24 for 64 bit systems and 16 for 
         // 32 bit systems.
-        if (bufferLength != 24 || bufferLength != 16) {
+        if (bufferLength != 24 && bufferLength != 16) {
             throw new IllegalArgumentException(
                 "Buffer size must be 24 or 16"
             );
@@ -163,36 +154,6 @@ public class InputReader {
 
         return splitEventData;
 
-    }
-
-    /**
-     * Get the time of a given event report
-     * 
-     * @param buffer
-     * @return
-     */
-    private long[] getEventTime(byte[] buffer) {
-        // bytes 8-15 represent fractions of a second in microseconds
-        // assumed to be little endian (least significant byte on the left)
-        long microSeconds = ByteArrayConverson.toLong(
-            buffer,
-            15,
-            8
-        );
-
-        // bytes 0-7 represent unix time in seconds
-        // assumed to be little endian (least significant byte on the left)
-        long seconds = ByteArrayConverson.toLong(
-            buffer,
-            7,
-            0
-        );
-
-        // put the unix seconds and microseconds representing fractions of a 
-        // second as a long[] array and return
-        // long[] time = {seconds, microSeconds};
-        // return time;
-        return new long[]{seconds, microSeconds};
     }
     
     /**
