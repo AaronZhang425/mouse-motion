@@ -17,8 +17,9 @@ public class SystemInfo {
         Endian endian
     ) {
         if (instance != null) {
-            throw new InstantiationException(
-                "System properties cannot be set up more than once"
+            throw new UnsupportedOperationException(
+                "System properties cannot be set up more than once",
+                new InstantiationError("SystemInfo is a singleton")
             );
             
         }
