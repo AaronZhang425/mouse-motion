@@ -35,16 +35,10 @@ public enum Endian {
 
         return equals(BIG_ENDIAN) ? maxIndex : minIndex;
 
-        // return (
-        //     (Math.abs(index2 - index1) * indexFactor)
-        //     + Math.min(index1, index2)
-        // );
-
     }
 
     public int getMostSignificantByteIndex(byte[] arr) {
         return equals(BIG_ENDIAN) ? 0 : arr.length - 1;
-        // return (arr.length - 1) * (indexFactor - 1) * -1;
 
     }
 
@@ -67,11 +61,6 @@ public enum Endian {
         int minIndex =  Math.min(index1, index2);
 
         return equals(BIG_ENDIAN) ? minIndex : maxIndex;
-
-        // return (
-        //     Math.abs(index2 - index1) * (indexFactor - 1) * -1 
-        //     + Math.min(index1, index2)
-        // ); 
 
     }
 
