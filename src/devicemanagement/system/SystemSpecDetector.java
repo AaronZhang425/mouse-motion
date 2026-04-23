@@ -5,18 +5,33 @@ import java.io.IOException;
 import java.util.stream.Stream;
 
 public class SystemSpecDetector {
-    public static Stream<String> runCommand (
-        String... commandTokens
-    ) throws IOException {
-        ProcessBuilder commandRunner = new ProcessBuilder(commandTokens);
+    private static CommandRunner runner;
 
-        Process process = commandRunner.start();
-        BufferedReader reader = process.inputReader();
-        Stream<String> lines = reader.lines();
+    static {
+        runner = new CommandRunner();
+    }
 
-        process.destroyForcibly();
+    public static String getOs() {
+        return System.getProperty("os.name").toLowerCase();
 
-        return lines;
+    }
+
+    public static BitArchitecture getArchitecture() throws IOException {
+        String os = getOs();
+        
+        if (os.contains("win")) {
+            throw new UnsupportedOperationException();
+
+        } else if (os.equals("linux")) {
+            runner.setNewCommand("uname", "-m");
+            Stream<String> output = runner.runCommand();
+
+            // TODO: get cpu arch
+
+        }
+
+        // Remove later
+        return null;
 
     }
 
