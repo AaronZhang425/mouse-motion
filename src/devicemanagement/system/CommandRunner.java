@@ -16,6 +16,11 @@ public class CommandRunner {
 
     }
 
+    public void setNewCommand(String... commandTokens) {
+        builder = new ProcessBuilder(commandTokens);
+
+    }
+
     public Process getSubProcess() {
         return subProcess;
     
