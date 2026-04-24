@@ -26,6 +26,12 @@ public abstract class InputEventConsumer {
 
     }
 
+    /**
+     * Abstract method for methods that take EventData as an input and does 
+     * something with it.
+     * 
+     * @param inputEvent
+     */
     public abstract void consume(EventData inputEvent);
 
 }
