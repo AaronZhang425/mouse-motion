@@ -20,13 +20,19 @@ public class SystemSpecDetector {
         String os = getOs();
         
         if (os.contains("win")) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException(
+                "Windows not supported"
+            );
 
         } else if (os.equals("linux")) {
             runner.setNewCommand("uname", "-m");
-            Stream<String> output = runner.runCommand();
+            String[] output = runner.runCommand().toArray(String[]::new);
 
-            // TODO: get cpu arch
+            if (output.length > 0) {
+                // TODO: do something
+            }
+
+             
 
         }
 
