@@ -79,6 +79,11 @@ public class EventBroker implements Runnable {
         return run;
     }    
 
+    /**
+     * Runs the thread. Constantly reads data from an InputReader and 
+     * distributes the data to InputEventConsumers.
+     * 
+     */
     @Override
     public void run() {
         EventData data = null;

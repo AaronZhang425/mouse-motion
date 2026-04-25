@@ -35,6 +35,7 @@ public class EventDevice {
     public EventCode[] getEventCodes() {
         ArrayList<EventCode> eventCodeList = new ArrayList<>();
 
+        // Loop through hashmap and add event codes to list
         for (Entry<EventTypes, EventCode[]> pair : capabilities.entrySet()) {
             for (EventCode eventCodes : pair.getValue()) {
                 eventCodeList.add(eventCodes);
