@@ -49,6 +49,11 @@ public class EventDevice {
     }
 
 
+    /**
+     * Gets an array of all event types that are atleast partially supported.
+     * 
+     * @return Array of EventTypes paritally supported by device.
+     */
     public EventTypes[] getEventTypes() {
         return capabilities.keySet().toArray(new EventTypes[0]);
 
