@@ -1,7 +1,14 @@
 package devicemanagement;
 
 public class Mouse {
+    /**
+     * The EventDevice object that represents the mosue
+     */
     private final EventDevice device;
+
+    /**
+     * The dots/counts per inch of the mouse 
+     */
     private final int dpi;
 
     public Mouse(EventDevice device, int dpi) {
