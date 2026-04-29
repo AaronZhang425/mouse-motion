@@ -41,4 +41,15 @@ public class SystemSpecDetector {
 
     }
 
+    public static Endian getEndian() {
+        if (getOs().contains("win")) {
+            throw new UnsupportedOperationException("Windows not supported");
+            
+        }
+        
+        throw new UnsupportedOperationException("Not implemented yed");
+
+
+    }
+
 }
