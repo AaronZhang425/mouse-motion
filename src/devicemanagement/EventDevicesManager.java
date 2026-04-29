@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import eventclassification.EventTypes;
 import eventclassification.eventcodes.EventCode;
@@ -131,6 +132,20 @@ public class EventDevicesManager {
     public static ArrayList<EventDevice> getDevices(EventTypes[] eventTypesFilter) {
         return getDevices(new HashSet<>(Arrays.asList(eventTypesFilter)));
 
+    }
+
+    public static ArrayLIst<EventDevice> getDevices(Function<EventDevice, Boolean> filter) {
+        ArrayList<EventDevice> filtered = new ArrayList<>();
+
+        devices.forEach(
+            (device) -> {
+                if (Boolean.TRUE.equals(filter.apply(device))) {
+                    filtered.add(device);
+            
+                }
+
+            }
+        );
     }
 
 
