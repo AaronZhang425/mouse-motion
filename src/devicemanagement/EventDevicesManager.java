@@ -31,6 +31,7 @@ public class EventDevicesManager {
     }
     
     // get devices with that have the event types listed in the parameters
+    @Deprecated
     public static ArrayList<EventDevice> getDevices(HashMap<EventTypes, EventCode[]> fullCapabilitiesFilter) {
         // Arraylist containing a filtered list of devices by both
         // event type and event code
@@ -99,6 +100,7 @@ public class EventDevicesManager {
      * @param eventTypesFilter Collection of event types to filter by
      * @return ArrayList of devices that are capable of all listed event types
      */
+    @Deprecated
     public static ArrayList<EventDevice> getDevices(Collection<EventTypes> eventTypesFilter) {
         // Arraylist to be filled with each device that is capable of at least
         // all capabilities as specified by the parameter
@@ -124,17 +126,19 @@ public class EventDevicesManager {
         return filtered;
     }
 
+    @Deprecated
     public static ArrayList<EventDevice> getDevices(List<EventTypes> eventTypesFilter) {
         return getDevices(new HashSet<>(eventTypesFilter));
 
     }
 
+    @Deprecated
     public static ArrayList<EventDevice> getDevices(EventTypes[] eventTypesFilter) {
         return getDevices(new HashSet<>(Arrays.asList(eventTypesFilter)));
 
     }
 
-    public static ArrayLIst<EventDevice> getDevices(Function<EventDevice, Boolean> filter) {
+    public static ArrayList<EventDevice> getDevices(Function<EventDevice, Boolean> filter) {
         ArrayList<EventDevice> filtered = new ArrayList<>();
 
         devices.forEach(
@@ -146,6 +150,9 @@ public class EventDevicesManager {
 
             }
         );
+
+        return filtered;
+
     }
 
 

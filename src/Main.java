@@ -6,7 +6,9 @@ import inputanalysis.MouseMotionTracker;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 public class Main {
@@ -21,20 +23,26 @@ public class Main {
             Endian.LITTLE_ENDIAN
         );
 
-        // Get mouse using filter
-        HashMap<EventTypes, EventCode[]> fullCapabilitiesFilter = (
-            new HashMap<>()
-        );
-
-        EventCode[] filter = {Rel.REL_X, Rel.REL_Y};
-        EventCode[] eventCodeFilterMsc = {};
-        
-        fullCapabilitiesFilter.put(EventTypes.REL, filter);
-        fullCapabilitiesFilter.put(EventTypes.MSC, eventCodeFilterMsc);
-
         ArrayList<EventDevice> filteredDeviceList = (
-            EventDevicesManager.getDevices(fullCapabilitiesFilter)
+            EventDevicesManager.getDevices(
+                (device) -> {
+                    List<EventCode> eventCodes = Arrays.asList(device.getEventCodes());
+
+                    if (
+                        eventCodes.contains(Rel.REL_X) 
+                        && eventCodes.contains(Rel.REL_Y)
+                    ) {
+                        return true;
+
+                    }
+
+                    return false;
+
+                } 
+        
+            )
         );
+        
 
         MouseMotionTracker mouseTracker = null;
 
