@@ -47,9 +47,7 @@ public class SystemSpecDetector {
             
         }
         
-        throw new UnsupportedOperationException("Not implemented yed");
-
-        return null;
+        throw new UnsupportedOperationException("Not implemented yet");
 
     }
 
