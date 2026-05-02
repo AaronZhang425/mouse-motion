@@ -30,115 +30,15 @@ public class EventDevicesManager {
         update();
     }
     
-    // get devices with that have the event types listed in the parameters
-    @Deprecated
-    public static ArrayList<EventDevice> getDevices(HashMap<EventTypes, EventCode[]> fullCapabilitiesFilter) {
-        // Arraylist containing a filtered list of devices by both
-        // event type and event code
-        ArrayList<EventDevice> filtered = new ArrayList<>();
-        
-        // Gets the set of keys to filter by as an array list
-        Set<EventTypes> eventTypeFilter = fullCapabilitiesFilter.keySet();
-        
-        // Input devices filtered only by event type, not including event codes
-        ArrayList<EventDevice> eventTypeFiltered = getDevices(eventTypeFilter);
-
-        // Loop through each device after typefiltering
-        for (EventDevice inputDevice : eventTypeFiltered) {
-            boolean matches = true;
-
-            // Loop through each event type capability
-            for (EventTypes eventTypeKey : eventTypeFilter) {
-                // Get the event code capabilities for a single event type key
-                // EventTypes eventTypeKey = eventTypeFilter.get(i);
-
-                // Convert event codes filter to a hashset
-                List<EventCode> eventCodeFilter = (
-                    Arrays.asList(fullCapabilitiesFilter.get(eventTypeKey))
-                );
-
-                // If the event code array is null or of length 0, interpret as wild card
-                // Essentially filter by only event type if event code is null
-                if (
-                    eventCodeFilter == null 
-                    || eventCodeFilter.size() == 0 
-                    || eventCodeFilter.get(0) == null
-                ) {
-                    continue;
-                }
-
-
-                // Convert the event codes of the device to a hash set
-                HashSet<EventCode> capableEventCodes = new HashSet<>(
-                    Arrays.asList(inputDevice.getCapabilities().get(eventTypeKey))
-                );
-
-                // If the capable event codes does not include all elements 
-                // of the filter, there is no match.
-                if (!capableEventCodes.containsAll(eventCodeFilter)) {
-                    matches = false;
-                }
-
-            }
-
-            // if the device has met all filters, add the input device to the
-            /// list of devices
-            if (matches) {
-                filtered.add(inputDevice);
-
-            }
-        
-        }
-
-        return filtered;
-    
-    }
-
     /**
-     * Filters the list of devices detected by capable event types
+     * Gets a filtered list of event devices.
      * 
-     * @param eventTypesFilter Collection of event types to filter by
-     * @return ArrayList of devices that are capable of all listed event types
+     * @param filter Returns true if item should be added to filtered list
+     * @return List of devices that pass the filter
      */
-    @Deprecated
-    public static ArrayList<EventDevice> getDevices(Collection<EventTypes> eventTypesFilter) {
-        // Arraylist to be filled with each device that is capable of at least
-        // all capabilities as specified by the parameter
-        ArrayList<EventDevice> filtered = new ArrayList<>();
-        
-        for (EventDevice inputDevice : devices) {
-            // For every device, get the set of keys of the hashmap of
-            // capabilities
-            Set<EventTypes> possibleEventTypes = (
-                inputDevice.getCapabilities().keySet()
-            );
-            
-            // If the key set contains all elements of the specified set
-            // of capable event types, add the device to the array list.
-            if (possibleEventTypes.containsAll(eventTypesFilter)) {
-                filtered.add(inputDevice);
-
-            }
-
-        }
-
-        // Return the filtered array list after each device has been evaluated
-        return filtered;
-    }
-
-    @Deprecated
-    public static ArrayList<EventDevice> getDevices(List<EventTypes> eventTypesFilter) {
-        return getDevices(new HashSet<>(eventTypesFilter));
-
-    }
-
-    @Deprecated
-    public static ArrayList<EventDevice> getDevices(EventTypes[] eventTypesFilter) {
-        return getDevices(new HashSet<>(Arrays.asList(eventTypesFilter)));
-
-    }
-
-    public static ArrayList<EventDevice> getDevices(Function<EventDevice, Boolean> filter) {
+    public static ArrayList<EventDevice> getDevices(
+        Function<EventDevice, Boolean> filter
+    ) {
         ArrayList<EventDevice> filtered = new ArrayList<>();
 
         devices.forEach(
