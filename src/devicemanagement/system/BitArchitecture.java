@@ -54,4 +54,10 @@ public enum BitArchitecture {
         };
 
     }
+
+    public String toString() {
+        return this.name();
+
+    }
+    
 }

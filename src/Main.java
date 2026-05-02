@@ -17,7 +17,10 @@ public class Main {
         System.out.println("Program running");
         System.out.println();
 
-	// Set up information about machine
+        // System.out.println(SystemSpecDetector.getArchitecture());
+        // System.out.println(SystemSpecDetector.getEndian());
+
+	    // Set up information about machine
         SystemInfo.setUpInfo(
             BitArchitecture.ARCH_64_BIT,
             Endian.LITTLE_ENDIAN

@@ -12,15 +12,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import eventclassification.EventTypes;
 import eventclassification.eventcodes.EventCode;
 import eventclassification.eventcodes.Rep;
 import eventclassification.eventcodes.Syn;
 
-public class EventDevicesManager { 
+public class EventDevicesManager {
     // This file lists all devices and their details
-    // private static final File INPUT_DEVICE_INFO = new File("/proc/bus/input/devices");
+    // private static final File INPUT_DEVICE_INFO = new
+    // File("/proc/bus/input/devices");
     private static final File INPUT_DEVICE_DIR = new File("/sys/class/input");
 
     // List of devices
@@ -29,7 +31,7 @@ public class EventDevicesManager {
     static {
         update();
     }
-    
+
     /**
      * Gets a filtered list of event devices.
      * 
@@ -37,24 +39,21 @@ public class EventDevicesManager {
      * @return List of devices that pass the filter
      */
     public static ArrayList<EventDevice> getDevices(
-        Function<EventDevice, Boolean> filter
+            Predicate<EventDevice> filter
     ) {
         ArrayList<EventDevice> filtered = new ArrayList<>();
 
         devices.forEach(
             (device) -> {
-                if (Boolean.TRUE.equals(filter.apply(device))) {
+                if (filter.test(device)) {
                     filtered.add(device);
-            
                 }
-
             }
         );
 
         return filtered;
 
     }
-
 
     /**
      * Get all the devices detected by the kernel
@@ -87,7 +86,7 @@ public class EventDevicesManager {
 
         // maps the event type to array of event codes possiable
         HashMap<EventTypes, EventCode[]> capabilities;
-    
+
         String[] eventDirs = getEventDirectories(INPUT_DEVICE_DIR);
 
         // For every directory named event[0-9]+
@@ -98,22 +97,20 @@ public class EventDevicesManager {
             capabilities = getCapabilities(eventDir);
 
             devices.add(new EventDevice(
-                id,
-                name,
-                eventFile,
-                capabilities
-            ));
+                    id,
+                    name,
+                    eventFile,
+                    capabilities));
 
         }
-        
+
     }
 
     private static String[] getEventDirectories(File dirToFilter) {
         // Get the files within the directory and only get subdirectoreis
         // of /sys/class/input that start with event followed by a number
         String[] files = dirToFilter.list(
-            (File dir, String name) -> name.toLowerCase().matches("event[0-9]+")
-        );
+                (File dir, String name) -> name.toLowerCase().matches("event[0-9]+"));
 
         return files;
     }
@@ -132,7 +129,7 @@ public class EventDevicesManager {
     }
 
     /**
-     * Gets the an array represents the ID of a device in which index 0 
+     * Gets the an array represents the ID of a device in which index 0
      * represents the bus; index 1 represents the vendor; index 2 represents
      * the product; and index 3 represents the version.
      * 
@@ -170,14 +167,14 @@ public class EventDevicesManager {
 
         return vendorNum;
     }
-    
+
     private static int getProduct(File idDir) {
         File productFile = new File(idDir, "/product");
         int productNum = Integer.parseInt(readFileLine(productFile), 16);
 
         return productNum;
     }
-    
+
     private static int getVersion(File idDir) {
         File versionFile = new File(idDir, "/version");
         int versionNum = Integer.parseInt(readFileLine(versionFile), 16);
@@ -190,7 +187,6 @@ public class EventDevicesManager {
 
     }
 
-
     // capability methods
     private static HashMap<EventTypes, EventCode[]> getCapabilities(String eventDirname) {
         EventTypes[] possiableEventTypes = getPossibleEventTypes(eventDirname);
@@ -200,73 +196,71 @@ public class EventDevicesManager {
         HashMap<EventTypes, EventCode[]> fullCapabilities = new HashMap<>();
 
         // For each event type, get the array of possiable event codes and
-        // add the pair into the hash map 
+        // add the pair into the hash map
         for (EventTypes eventType : possiableEventTypes) {
             fullCapabilities.put(eventType, getPossibleEventCodes(eventDirname, eventType));
 
         }
-        
+
         // Return the hashmap that maps each possiable event type to their
         // respective array of possiable event codes
         return fullCapabilities;
     }
 
     private static EventCode[] getPossibleEventCodes(String eventDirName, EventTypes eventType) {
-        // Any device capable of SYN or REP are automatically capable of 
+        // Any device capable of SYN or REP are automatically capable of
         // every event code listed under the respective event type. Therefore,
         // a file that lists the possiable event codes for event types SYN and
-        // REP is not created by the linux system  
+        // REP is not created by the linux system
         if (eventType.equals(EventTypes.SYN)) {
             return Syn.values();
 
         } else if (eventType.equals(EventTypes.REP)) {
             return Rep.values();
-        
+
         }
 
         /*
-        In the directory /sys/class/input/eventX/device/capabilities where
-        eventX represents any directory starting with event and ending with
-        any number, there exists files specifying event codes the event
-        is capable of communicating. The files specifying the possiable
-        evnet codes are named after the respective event type in lower case.
-        For example, the bit flags indicating potential event codes for relative
-        input will be in the rel file, named after the event type rel
-        */
+         * In the directory /sys/class/input/eventX/device/capabilities where
+         * eventX represents any directory starting with event and ending with
+         * any number, there exists files specifying event codes the event
+         * is capable of communicating. The files specifying the possiable
+         * evnet codes are named after the respective event type in lower case.
+         * For example, the bit flags indicating potential event codes for relative
+         * input will be in the rel file, named after the event type rel
+         */
         String eventTypeName = eventType.name().toLowerCase();
 
         File eventCodeFile = new File(
-            INPUT_DEVICE_DIR,
-            eventDirName + "/device/capabilities/" + eventTypeName
-        );
-        
+                INPUT_DEVICE_DIR,
+                eventDirName + "/device/capabilities/" + eventTypeName);
+
         // Put each hex number in an array
         String[] hexNums = readFileLine(eventCodeFile).split(" ");
-        
+
         ArrayList<Integer> bitIndicies = new ArrayList<>();
-        
+
         // System.out.println(eventDirName);
 
         // for each hex number
         for (int i = 0; i < hexNums.length; i++) {
             // Get the bit indicies without of each hex number
             ArrayList<Integer> wordBitIndicies = getHexBitIndicies(hexNums[i]);
-            
-            // Factor the index of the hex number word 
+
+            // Factor the index of the hex number word
             // to get true bit index value
             for (int j = 0; j < wordBitIndicies.size(); j++) {
                 int bitIndexValue = wordBitIndicies.get(j) + i * Long.SIZE;
                 wordBitIndicies.set(j, bitIndexValue);
             }
-            
+
             bitIndicies.addAll(wordBitIndicies);
-            
-            
+
         }
-        
+
         // Create an array of the same size of bitIndicies
         EventCode[] eventCodeCapabilities = new EventCode[bitIndicies.size()];
-        
+
         for (int i = 0; i < eventCodeCapabilities.length; i++) {
             EventCode capability = eventType.eventCodeByValue(bitIndicies.get(i));
             eventCodeCapabilities[i] = capability;
@@ -275,7 +269,7 @@ public class EventDevicesManager {
 
         // System.out.println(eventTypeName);
         // for (EventCode test: eventCodeCapabilities) {
-        //     System.out.print(test + " ");
+        // System.out.print(test + " ");
         // }
 
         // System.out.println();
@@ -285,11 +279,10 @@ public class EventDevicesManager {
 
     private static EventTypes[] getPossibleEventTypes(String eventDirName) {
         File eventTypeCapabilitiesFile = new File(
-            INPUT_DEVICE_DIR + 
-            "/" +
-            eventDirName + 
-            "/device/capabilities/ev"
-        );
+                INPUT_DEVICE_DIR +
+                        "/" +
+                        eventDirName +
+                        "/device/capabilities/ev");
 
         // get get the hex number representing the possible event types
         // file containing possible event types will always use a single word
@@ -300,9 +293,9 @@ public class EventDevicesManager {
         try {
             // On most cases, the hex number can read into a long
             bitIndicies = getHexBitIndicies(hex);
-            
+
         } catch (NumberFormatException e) {
-            // In rare cases, the hex number will exceed a long when it is 
+            // In rare cases, the hex number will exceed a long when it is
             // 0xFFFFFFFFFFFFFFFF (16 F's)
             bitIndicies = getBigHexBitIndicies(hex);
 
@@ -323,9 +316,9 @@ public class EventDevicesManager {
     // utility methods
     /**
      * 
-     * All content in the files in the 
+     * All content in the files in the
      * /sys/class/input/eventX/device/capabilities directory are hexidecimal
-     * numbers. The position of each 1's bit signify flags that correspond to a 
+     * numbers. The position of each 1's bit signify flags that correspond to a
      * event code or event type. Position 0 is defined as the right most bit
      * (i.e. the 1's place of a binary number)
      * 
@@ -337,14 +330,14 @@ public class EventDevicesManager {
      */
     private static ArrayList<Integer> getHexBitIndicies(String hex) {
         Long bitMap = Long.parseUnsignedLong(hex, 16);
-        
-        // An array list to contain the indicies of each bit with index 0 being 
-        // the  1's place and index 1 being the 2's place of the binary number
+
+        // An array list to contain the indicies of each bit with index 0 being
+        // the 1's place and index 1 being the 2's place of the binary number
         ArrayList<Integer> indicies = new ArrayList<>();
 
-        // This loop goes through a long and adds the positions in which a 
+        // This loop goes through a long and adds the positions in which a
         // 1 is found in the binary number to the array list. After each check,
-        // the index count increases (i in this case) and the number is shifted 
+        // the index count increases (i in this case) and the number is shifted
         // rightwards.
 
         // for each bit of a long:
@@ -377,14 +370,14 @@ public class EventDevicesManager {
         // Number in linux will be given to be positive. BigInt constructor
         // will make positive number
         BigInteger bitMap = new BigInteger(hex, 16);
-        
-        // An array list to contain the indicies of each bit with index 0 being 
-        // the  1's place and index 1 being the 2's place of the binary number
+
+        // An array list to contain the indicies of each bit with index 0 being
+        // the 1's place and index 1 being the 2's place of the binary number
         ArrayList<Integer> indicies = new ArrayList<>();
 
-        // This loop goes through a long and adds the positions in which a 
+        // This loop goes through a long and adds the positions in which a
         // 1 is found in the binary number to the array list. After each check,
-        // the index count increases (i in this case) and the number is shifted 
+        // the index count increases (i in this case) and the number is shifted
         // rightwards.
 
         // for each bit of a long:
@@ -403,20 +396,18 @@ public class EventDevicesManager {
 
         // return the resulting indicies found
         return indicies;
-    }       
-    
+    }
+
     // reads a single line of a given file
     private static String readFileLine(File file) {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             return reader.readLine();
-            
-            
+
         } catch (Exception e) {
             System.out.println(e);
             return null;
-            
-        }
 
+        }
 
     }
 
