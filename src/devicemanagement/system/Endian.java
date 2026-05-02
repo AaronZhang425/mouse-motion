@@ -10,7 +10,7 @@ public enum Endian {
 
     public int getLeastSignificantByteIndex(byte[] arr) {
         return equals(BIG_ENDIAN) ? arr.length - 1 : 0;
-        // return (arr.length - 1) * indexFactor;
+
 
     }
 
@@ -21,8 +21,8 @@ public enum Endian {
     ) {
         // Throw error if either number is negative
         if (
-            (index1 < 0 || index2 < 0) && 
-            (Math.max(index1, index2) < arr.length)
+            (index1 < 0 || index2 < 0)
+            || (Math.max(index1, index2) >= arr.length)
         ) {
             throw new IllegalArgumentException(
                 "Both indexes must be positive and less than array length"
@@ -49,7 +49,7 @@ public enum Endian {
     ) throws IllegalArgumentException {
         if (
             (index1 < 0 || index2 < 0) 
-            || (Math.max(index1, index2) < arr.length)
+            || (Math.max(index1, index2) >= arr.length)
         ) {
             throw new IllegalArgumentException(
                 "Both indexes must be positive and less than array length"
@@ -61,6 +61,11 @@ public enum Endian {
         int minIndex =  Math.min(index1, index2);
 
         return equals(BIG_ENDIAN) ? minIndex : maxIndex;
+
+    }
+
+    public String toString() {
+        return this.name();
 
     }
 
