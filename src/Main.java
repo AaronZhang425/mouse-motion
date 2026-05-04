@@ -7,6 +7,7 @@ import inputanalysis.MouseMotionTracker;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.lang.reflect.UndeclaredThrowableException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -20,11 +21,13 @@ public class Main {
         System.out.println("Program running");
         System.out.println();
 
+        // Detect the cpu data
         try {
             SystemSpecDetector.runDetection();
             
         } catch (Exception e) {
             System.out.println(e);
+            throw new UndeclaredThrowableException(e);
 
         }
 
