@@ -2,12 +2,11 @@ package devicemanagement.system;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.util.concurrent.TimeUnit;
 import java.util.List;
 
 public class SystemSpecDetector {
-    private static CommandRunner runner;
+    private static CommandRunner runner = null;
 
     private static List<String> cpuInfo = null;
 
@@ -20,10 +19,12 @@ public class SystemSpecDetector {
     public static void runDetection() throws IOException, InterruptedException {
         runner = new CommandRunner("lscpu");
         
+        // run the lscpu command to list info about cpu
         cpuInfo = runner.runCommand();
 
         Process subProcess = runner.getSubProcess();
 
+        // If the process does not complete in 2 seconds, kill it.
         if (!subProcess.waitFor(2, TimeUnit.SECONDS)) {
             subProcess.destroyForcibly();
 
@@ -46,8 +47,8 @@ public class SystemSpecDetector {
     }
 
     private static void detectBitArchitecture() {
-        // Op-modes can include both 32 and 64 bits. If 64 bits exist, choose
-        // 64 bits. Otherwise, default to 32 bits.
+        // Op-modes can include both 32 and 64 bits. If 64-bit is listed,
+        // assign to 64 bit. If only 32 bit is listed, assign to 32 bit
         cpuInfo.forEach(
             (str) -> {
                 str = str.toLowerCase();
@@ -67,6 +68,8 @@ public class SystemSpecDetector {
     }
 
     private static void detectEndian() {
+        // Search through the cpu information for endian and set detected
+        // endian.
         cpuInfo.forEach(
             (str) -> {
                 str = str.toLowerCase();
