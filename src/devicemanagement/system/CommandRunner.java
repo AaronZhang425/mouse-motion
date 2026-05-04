@@ -33,16 +33,6 @@ public class CommandRunner {
         return builder;
     
     }
-
-    // public Optional<Stream<String>> getStdOut() {
-    //     return Optional.ofNullable(stdOut);
-
-    // }
-
-    // public Optional<List<String>> getStdErr() {
-    //     return Optional.ofNullable(stdErr);
-        
-    // }
     
     public List<String> runCommand() throws IOException, InterruptedException {
         subProcess = builder.start();
