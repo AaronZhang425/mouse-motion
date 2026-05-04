@@ -5,11 +5,14 @@ import eventclassification.eventcodes.*;
 import inputanalysis.MouseMotionTracker;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 public class Main {
     public static int DPI = 1000;
@@ -17,13 +20,21 @@ public class Main {
         System.out.println("Program running");
         System.out.println();
 
-        // System.out.println(SystemSpecDetector.getArchitecture());
-        // System.out.println(SystemSpecDetector.getEndian());
+        try {
+            SystemSpecDetector.runDetection();
+            
+        } catch (Exception e) {
+            System.out.println(e);
+
+        }
+
+        BitArchitecture detectedBits = SystemSpecDetector.getBitArchitecture();
+        Endian detectedEndian = SystemSpecDetector.getEndian();
 
 	    // Set up information about machine
         SystemInfo.setUpInfo(
-            BitArchitecture.ARCH_64_BIT,
-            Endian.LITTLE_ENDIAN
+            detectedBits,
+            detectedEndian
         );
 
         ArrayList<EventDevice> filteredDeviceList = (
