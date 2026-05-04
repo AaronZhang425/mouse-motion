@@ -3,74 +3,83 @@ package devicemanagement.system;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.util.stream.Stream;
+import java.util.concurrent.TimeUnit;
+import java.util.List;
 
 public class SystemSpecDetector {
     private static CommandRunner runner;
-    private static Stream<String> cpuInfo;
+
+    private static List<String> cpuInfo = null;
 
     private static BitArchitecture bitArchitecture = (
-        BitArchitecture.ARCH_32_BIT
+        null
     );
 
     private static Endian endian = null;
 
-    static {
+    public static void runDetection() throws IOException, InterruptedException {
         runner = new CommandRunner("lscpu");
         
-        try {
-            runner.runCommand();
-            
-        } catch (IOException e) {
-            // TODO: handle exception
-            throw new UncheckedIOException(e);
+        cpuInfo = runner.runCommand();
+
+        Process subProcess = runner.getSubProcess();
+
+        if (!subProcess.waitFor(2, TimeUnit.SECONDS)) {
+            subProcess.destroyForcibly();
 
         }
-        
-        
-        cpuInfo = runner.getStdOut();
-        runner.killForcibly();
+
+        detectBitArchitecture();
+        detectEndian();
 
     }
 
-    // public static BitArchitecture getArchitecture() {
-    //     // BitArchitecture bits;
+    public static BitArchitecture getBitArchitecture() {
+        return bitArchitecture;
 
-    //     // Op-modes can include both 32 and 64 bits. If 64 bits exist, choose
-    //     // 64 bits. Otherwise, default to 32 bits.
-    //     System.out.print(cpuInfo.count());
-    //     cpuInfo.forEach(
-    //         (str) -> {
-    //             str = str.toLowerCase();
-    //             if (str.matches(".*cpu op-mode.*64")) {
-    //                 bitArchitecture = BitArchitecture.ARCH_64_BIT;
+    }
 
-    //             }
-    //         }
-    //     );
 
-    //     return bitArchitecture;
+    public static Endian getEndian() {
+        return endian;
 
-    // }
+    }
 
-    // public static Endian getEndian() {
-    //     // Endian endian;
+    private static void detectBitArchitecture() {
+        // Op-modes can include both 32 and 64 bits. If 64 bits exist, choose
+        // 64 bits. Otherwise, default to 32 bits.
+        cpuInfo.forEach(
+            (str) -> {
+                str = str.toLowerCase();
+                
+                String pattern64Bit = ".*cpu op-mode.*64-bit.*";
+                String pattern32Bit = "(?m).*cpu op-mode.*32-bit\\s*$";
 
-    //     cpuInfo.forEach(
-    //         (str) -> {
-    //             str = str.toLowerCase();
-    //             if (str.matches(".*byte order.*little endian")) {
-    //                 endian = Endian.LITTLE_ENDIAN;
+                if (str.matches(pattern64Bit)) {
+                    bitArchitecture = BitArchitecture.ARCH_64_BIT;
 
-    //             } else if (str.matches(".*byte order.*big endian")) {
-    //                 endian = Endian.BIG_ENDIAN;
+                } else if (str.matches(pattern32Bit)) {
+                    bitArchitecture = BitArchitecture.ARCH_32_BIT;
+                }
+            }
+        );
 
-    //             }
-    //         }
-    //     );
+    }
 
-    //     return endian;
+    private static void detectEndian() {
+        cpuInfo.forEach(
+            (str) -> {
+                str = str.toLowerCase();
+                if (str.matches(".*byte order.*little endian")) {
+                    endian = Endian.LITTLE_ENDIAN;
 
-    // }
+                } else if (str.matches(".*byte order.*big endian")) {
+                    endian = Endian.BIG_ENDIAN;
+
+                }
+            }
+        );
+
+    }
 
 }

@@ -2,17 +2,20 @@ package devicemanagement.system;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.stream.Stream;
+import java.util.List;
 
 public class CommandRunner {
     private ProcessBuilder builder;
-    private Process subProcess;
 
-    private Stream<String> stdOut;
-    private Stream<String> stdErr;
+    private Process subProcess = null;
+
+    private List<String> output = null;
 
     public CommandRunner(String... commandTokens) {
         builder = new ProcessBuilder(commandTokens);
+        builder.redirectErrorStream(true);
 
     }
 
@@ -31,39 +34,32 @@ public class CommandRunner {
     
     }
 
-    public Stream<String> getStdOut() {
-        return stdOut;
+    // public Optional<Stream<String>> getStdOut() {
+    //     return Optional.ofNullable(stdOut);
 
-    }
+    // }
 
-    public Stream<String> getStdErr() {
-        return stdErr;
+    // public Optional<List<String>> getStdErr() {
+    //     return Optional.ofNullable(stdErr);
         
-    }
+    // }
     
-    public Stream<String> runCommand() throws IOException {
+    public List<String> runCommand() throws IOException, InterruptedException {
         subProcess = builder.start();
+
+        try (BufferedReader reader = subProcess.inputReader()) {
+            output = reader.lines().toList();
+            subProcess.waitFor();
+            return output;
+
+        } finally {
+            if (subProcess.isAlive()) {
+                subProcess.destroyForcibly();
+            }
+
+        }
         
-        BufferedReader stdOutReader = subProcess.inputReader();
-        BufferedReader stdErrReader = subProcess.errorReader();
-
-        stdOut = stdOutReader.lines();
-        stdErr = stdErrReader.lines();
-
-        stdOutReader.close();
-        stdErrReader.close();
-        
-        return stdOut;
     }
 
-    public void kill() {
-        subProcess.destroy();
-
-    }
-
-    public void killForcibly() {
-        subProcess.destroyForcibly();
-
-    }
 
 }

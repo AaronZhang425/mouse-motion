@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 import eventclassification.EventTypes;
@@ -39,7 +38,7 @@ public class EventDevicesManager {
      * @return List of devices that pass the filter
      */
     public static ArrayList<EventDevice> getDevices(
-            Predicate<EventDevice> filter
+        Predicate<EventDevice> filter
     ) {
         ArrayList<EventDevice> filtered = new ArrayList<>();
 
@@ -97,10 +96,11 @@ public class EventDevicesManager {
             capabilities = getCapabilities(eventDir);
 
             devices.add(new EventDevice(
-                    id,
-                    name,
-                    eventFile,
-                    capabilities));
+                id,
+                name,
+                eventFile,
+                capabilities)
+            );
 
         }
 
@@ -110,7 +110,8 @@ public class EventDevicesManager {
         // Get the files within the directory and only get subdirectoreis
         // of /sys/class/input that start with event followed by a number
         String[] files = dirToFilter.list(
-                (File dir, String name) -> name.toLowerCase().matches("event[0-9]+"));
+            (File dir, String name) -> name.toLowerCase().matches("event[0-9]+")
+        );
 
         return files;
     }
@@ -279,10 +280,11 @@ public class EventDevicesManager {
 
     private static EventTypes[] getPossibleEventTypes(String eventDirName) {
         File eventTypeCapabilitiesFile = new File(
-                INPUT_DEVICE_DIR +
-                        "/" +
-                        eventDirName +
-                        "/device/capabilities/ev");
+            INPUT_DEVICE_DIR +
+            "/" +
+            eventDirName +
+            "/device/capabilities/ev"
+        );
 
         // get get the hex number representing the possible event types
         // file containing possible event types will always use a single word
