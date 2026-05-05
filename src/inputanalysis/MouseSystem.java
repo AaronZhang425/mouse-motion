@@ -24,6 +24,8 @@ public class MouseSystem {
      */
     private double angle = 0;
 
+    private boolean run = true;
+
     /**
      * Creates a MouseSystem given a hashmap representing the arrangment of 
      * mice and stores a hashmap with mouse trackers and positions relative to
@@ -214,6 +216,18 @@ public class MouseSystem {
             (mousePos[0] * mousePos[0])
             + (mousePos[1] * mousePos[1])
         );
+
+    }
+
+    public void run() {
+        while (run) {
+            if (isGoingOppositeDirection(null, null, null)) {
+                System.out.println("turning");
+            }
+
+        }
+
+        terminate();
 
     }
 
