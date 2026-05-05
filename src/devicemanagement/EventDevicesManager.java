@@ -268,13 +268,6 @@ public class EventDevicesManager {
 
         }
 
-        // System.out.println(eventTypeName);
-        // for (EventCode test: eventCodeCapabilities) {
-        // System.out.print(test + " ");
-        // }
-
-        // System.out.println();
-
         return eventCodeCapabilities;
     }
 
