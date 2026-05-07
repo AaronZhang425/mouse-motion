@@ -66,10 +66,21 @@ public class MouseCountsTracker extends InputEventConsumer {
         this.transformationFunction = transformationFunction;
     }
 
+    /**
+     * Get the number of counts recorded since tracking began
+     * 
+     * @return Total counts since tracking began
+     */
     public int getLifetimeCounts() {
         return lifetimeCounts;
     }
 
+    /**
+     * Gets the velocity of the latest record. Will never be 0 once the moouse
+     * recieves reports
+     * 
+     * @return Non-zero velocity
+     */
     public double getVelocity() {
         return velocity;
     }
