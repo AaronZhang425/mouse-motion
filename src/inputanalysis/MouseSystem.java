@@ -220,6 +220,8 @@ public class MouseSystem {
     }
 
     public void run() {
+        // Still need to figure out formula to determine position after both
+        // rotational and translational movment of mouse
         while (run) {
             if (isGoingOppositeDirection(null, null, null)) {
                 System.out.println("turning");

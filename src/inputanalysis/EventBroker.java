@@ -75,6 +75,11 @@ public class EventBroker implements Runnable {
         }
     }
 
+    /**
+     * Indicates if the method is flagged to stop.
+     * 
+     * @return True if flagged to run; false if flagged to stop.
+     */
     public boolean isRunning() {
         return run;
     }    
@@ -89,14 +94,19 @@ public class EventBroker implements Runnable {
         EventData data = null;
 
         while (run) {
+            // Get data
             data = reader.getEventData();
 
+            // If the data is null, go to next iteration and try again
             if (data == null) {
                 continue;
             }
 
-            InputEventConsumer eventConsumer = consumerMap.get(data.getEventCode());
+            InputEventConsumer eventConsumer = consumerMap.get(
+                data.getEventCode()
+            );
 
+            // Only handle data if there is a valid consumer
             if (eventConsumer != null) {
                 eventConsumer.consume(data);
 
