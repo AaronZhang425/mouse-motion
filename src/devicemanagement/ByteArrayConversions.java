@@ -72,6 +72,14 @@ public class ByteArrayConversions {
         return num;
     }
 
+    /**
+     * Converts a section of a byte array in little endian to an int
+     * 
+     * @param arr Arrray containing the bytes
+     * @param msbIndex The index of the most significant byte in the array
+     * @param lsbIndex The index of the least significant byte in the array
+     * @return The int represented by the section in the array in little endian
+     */
     private static int toIntLittleEndian(
         byte[] arr,
         int msbIndex,
