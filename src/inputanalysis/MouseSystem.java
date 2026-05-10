@@ -16,12 +16,12 @@ public class MouseSystem {
      * being the tracker and the value being the distance from the center
      * of the system as components of a vector 
      */
-    private HashMap<MouseMotionTracker, double[]> mouseTrackerArrangement;
+    private HashMap<MouseMotionTracker, MouseLocationData> mouseTrackerArrangement;
 
     /**
      * Represents the angle of the system from the starting position with 
      * counterclockwise being the positive direction and clockwise being the 
-     * negative direction in radians
+     * negative direction in radians. 
      */
     private double angle = 0;
 
@@ -37,13 +37,13 @@ public class MouseSystem {
      * @throws UncheckedIOException
      */
     public MouseSystem(
-        HashMap<Mouse, double[]> rawMouseArrangement
+        HashMap<Mouse, MouseLocationData> rawMouseArrangement
     ) throws UncheckedIOException {
         mouseTrackerArrangement = new HashMap<>();
         
         // For each entry within the raw mouse arrangement
         rawMouseArrangement.forEach(
-            (Mouse mouse, double[] positions) -> {
+            (Mouse mouse, MouseLocationData positions) -> {
                 // Try to create a tracker for each mouse and place it the 
                 // mouse tracker map with its respective position
                 try {
@@ -69,7 +69,7 @@ public class MouseSystem {
      * 
      * @return Copy of hashmap mapping mouse trackers to positions
      */
-    public HashMap<MouseMotionTracker, double[]> getMouseArrangement() {
+    public HashMap<MouseMotionTracker, MouseLocationData> getMouseArrangement() {
         return new HashMap<>(mouseTrackerArrangement);
         
     }
@@ -205,18 +205,8 @@ public class MouseSystem {
 
     }
     
-    /**
-     * Given a mouse, get its radius from the center of rotation.
-     * 
-     * @param mouse The mouse to get the radius of
-     * @return The radius or distance of the mouse to the center
-     */
-    public double getRadius(MouseMotionTracker mouse) {
-        double[] mousePos = mouseTrackerArrangement.get(mouse);
-        return Math.sqrt(
-            (mousePos[0] * mousePos[0])
-            + (mousePos[1] * mousePos[1])
-        );
+    public MouseLocationData getMouseLocationData(MouseMotionTracker mouse) {
+        return mouseTrackerArrangement.get(mouse);
 
     }
 

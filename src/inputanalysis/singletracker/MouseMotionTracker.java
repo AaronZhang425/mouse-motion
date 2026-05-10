@@ -37,7 +37,7 @@ public class MouseMotionTracker {
     /**
      * Creates a tracker for a mouse that tracks x and y movement and converts
      * the mouse counts into physical measurements for displacement in meters
-     * and velocity in meters per second. Begins reading mouse data immediately.
+     * and velocity in meters per second.
      * 
      * @param mouse
      * @throws FileNotFoundException
@@ -67,8 +67,6 @@ public class MouseMotionTracker {
             eventBroker,
             mouse.getDevice().getName() + " Event Broker"
         );
-
-        eventBrokerThread.start();
 
     }
 
@@ -131,6 +129,14 @@ public class MouseMotionTracker {
             xTracker.getVelocity(),
             yTracker.getVelocity()
         };
+
+    }
+
+    /**
+     * Begins mouse tracking
+     */
+    public void start() {
+        eventBrokerThread.start();
 
     }
 

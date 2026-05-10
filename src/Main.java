@@ -67,6 +67,7 @@ public class Main {
             Mouse mouse = new Mouse(filteredDeviceList.get(0), DPI);
             System.out.println(mouse.getDevice().getName());
             mouseTracker = new MouseMotionTracker(mouse);
+            mouseTracker.start();
             
         } catch (FileNotFoundException e) {
             System.out.println(e);
