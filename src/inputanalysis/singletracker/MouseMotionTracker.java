@@ -2,6 +2,7 @@ package inputanalysis.singletracker;
 
 import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.function.Function;
 
 import devicemanagement.*;
 import eventclassification.eventcodes.EventCode;
@@ -67,6 +68,29 @@ public class MouseMotionTracker {
             eventBroker,
             mouse.getDevice().getName() + " Event Broker"
         );
+
+    }
+
+    public void setTransformationFunction(
+        Rel axis,
+        Function<Double, Double> function
+    ) throws IllegalArgumentException {
+        if (!axis.equals(Rel.REL_X) && !axis.equals(Rel.REL_Y)) {
+            throw new IllegalArgumentException(
+                "Axis must be Rel.REL_X of Rel.REL_y"
+            );
+
+        }
+
+        if (axis.equals(Rel.REL_X)) {
+            xTracker.setTransformationFunction(function);
+
+        } else {
+            yTracker.setTransformationFunction(function);
+
+        }
+
+
 
     }
 

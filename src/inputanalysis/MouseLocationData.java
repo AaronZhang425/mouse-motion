@@ -1,7 +1,11 @@
 package inputanalysis;
 
 /**
- * Represents the location of a single mouse relative to the origin
+ * Represents the location of a single mouse relative to the origin in a mouse
+ * system. The front of the system is the positive y direction and the right
+ * of the system is the positive x direction. Counter clockwise is the positive
+ * direction. Angle 0 is when the front ot he mouse faces the same direction as 
+ * the front of the system.
  */
 public class MouseLocationData {
     /**
@@ -32,6 +36,7 @@ public class MouseLocationData {
     }
 
     public void setPosition(double[] position) {
+        // If the length of the array is not 2, throw an exception
         if (position.length != 2) {
             throw new IllegalArgumentException(
                 "Position array must be of length 2"
@@ -39,6 +44,7 @@ public class MouseLocationData {
 
         }
 
+        // Copy the array
         this.position = new double[]{position[0], position[1]};
 
     }
