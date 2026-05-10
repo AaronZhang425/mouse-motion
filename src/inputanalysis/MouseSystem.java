@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import devicemanagement.Mouse;
 import eventclassification.eventcodes.Rel;
+import inputanalysis.singletracker.MouseMotionTracker;
 
 // TODO: Handle displacement in a rotating system
 public class MouseSystem {

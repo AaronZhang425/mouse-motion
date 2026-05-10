@@ -2,7 +2,7 @@ import devicemanagement.*;
 import devicemanagement.system.*;
 import eventclassification.*;
 import eventclassification.eventcodes.*;
-import inputanalysis.MouseMotionTracker;
+import inputanalysis.singletracker.MouseMotionTracker;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

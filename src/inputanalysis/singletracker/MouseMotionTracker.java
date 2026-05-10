@@ -1,4 +1,4 @@
-package inputanalysis;
+package inputanalysis.singletracker;
 
 import java.io.FileNotFoundException;
 import java.util.HashMap;
