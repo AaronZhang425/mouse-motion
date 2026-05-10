@@ -216,6 +216,7 @@ public class MouseSystem {
         while (run) {
             if (isGoingOppositeDirection(null, null, null)) {
                 System.out.println("turning");
+                
             }
 
         }
