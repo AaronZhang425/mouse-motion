@@ -90,8 +90,6 @@ public class MouseMotionTracker {
 
         }
 
-
-
     }
 
     /**
@@ -103,6 +101,19 @@ public class MouseMotionTracker {
         return mouse;
     
     }
+
+    /**
+     * Get the resultant of the displacement
+     * 
+     * @return
+     */
+    public double getDisplacementResultant() {
+        return Math.hypot(
+            xTracker.getDisplacement(),
+            yTracker.getDisplacement()
+        );
+
+    }    
 
     /**
      * Gets the event broker of the mouse tracker that governs the distribution
