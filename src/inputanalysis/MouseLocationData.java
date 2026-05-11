@@ -3,8 +3,8 @@ package inputanalysis;
 /**
  * Represents the location of a single mouse relative to the origin in a mouse
  * system. The front of the system is the positive y direction and the right
- * of the system is the positive x direction. Counter clockwise is the positive
- * direction. Angle 0 is when the front ot he mouse faces the same direction as 
+ * of the system is the positive x direction. Counterclockwise is the positive
+ * direction. Angle 0 is when the front of the mouse faces the same direction as 
  * the front of the system.
  */
 public class MouseLocationData {
