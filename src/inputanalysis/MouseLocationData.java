@@ -50,7 +50,7 @@ public class MouseLocationData {
     }
 
     public double getRadius() {
-        return Math.sqrt(position[0] * position[0] + position[1] * position[1]);
+        return Math.hypot(position[0], position[1]);
 
     }
     
