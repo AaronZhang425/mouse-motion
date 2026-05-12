@@ -4,6 +4,7 @@ package inputanalysis;
 import java.io.FileNotFoundException;
 import java.io.UncheckedIOException;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import devicemanagement.Mouse;
 import eventclassification.eventcodes.Rel;
@@ -11,12 +12,7 @@ import inputanalysis.singletracker.MouseMotionTracker;
 
 // TODO: Handle displacement in a rotating system
 public class MouseSystem {
-    /**
-     * Represents the arangement of mice being tracked as a map with the key
-     * being the tracker and the value being the distance from the center
-     * of the system as components of a vector 
-     */
-    private HashMap<MouseMotionTracker, MouseLocationData> mouseTrackerArrangement;
+    private HashMap<SystemComponent, MouseMotionTracker> trackers;
 
     /**
      * Represents the angle of the system from the starting position with 
@@ -27,50 +23,28 @@ public class MouseSystem {
 
     private boolean run = true;
 
-    /**
-     * Creates a MouseSystem given a hashmap representing the arrangment of 
-     * mice and stores a hashmap with mouse trackers and positions relative to
-     * the center of rotation. Starts every mouse tracker immediately upon 
-     * object creation.
-     * 
-     * @param rawMouseArrangement
-     * @throws UncheckedIOException
-     */
     public MouseSystem(
-        HashMap<Mouse, MouseLocationData> rawMouseArrangement
-    ) throws UncheckedIOException {
-        mouseTrackerArrangement = new HashMap<>();
-        
-        // For each entry within the raw mouse arrangement
-        rawMouseArrangement.forEach(
-            (Mouse mouse, MouseLocationData positions) -> {
-                // Try to create a tracker for each mouse and place it the 
-                // mouse tracker map with its respective position
-                try {
-                    MouseMotionTracker tracker = new MouseMotionTracker(mouse);
-                    mouseTrackerArrangement.put(tracker, positions);
-                    
-                } catch (FileNotFoundException e) {
-                    // If file not found, throw rethrow as unchecked 
-                    throw new UncheckedIOException(
-                        new FileNotFoundException(e.getMessage())
-                    );
+        SystemComponent[] components
+    ) throws FileNotFoundException {
+        trackers = new HashMap<>();
 
-                }
+        for (SystemComponent component : components) {
+            trackers.put(
+                component,
+                new MouseMotionTracker(component.getMouse())
+            );
 
-            }
+        }
 
-        );
-
-    }
+    }    
 
     /**
      * Get a copy of mouse arrangement hashmap
      * 
      * @return Copy of hashmap mapping mouse trackers to positions
      */
-    public HashMap<MouseMotionTracker, MouseLocationData> getMouseArrangement() {
-        return new HashMap<>(mouseTrackerArrangement);
+    public HashMap<SystemComponent, MouseMotionTracker> getTrackerArrangement() {
+        return new HashMap<>(trackers);
         
     }
 
@@ -90,11 +64,18 @@ public class MouseSystem {
      * Prepares all the tracker threads to stop.
      */
     public void terminate() {
-        for (MouseMotionTracker tracker : mouseTrackerArrangement.keySet()) {
-            tracker.terminate();
+        for (
+            Entry<SystemComponent, MouseMotionTracker> pair 
+            : trackers.entrySet()
+        ) {
+            pair.getValue().terminate();
 
         }
 
+    }
+
+    public double displacementCrossProduct() {
+        throw new UnsupportedOperationException("Unimplented");
     }
 
     /**
@@ -106,6 +87,7 @@ public class MouseSystem {
      * @param mouse2 A mouse tracker for a different mouse
      * @return True if the mice are going in oppsite directions
      */
+    @Deprecated
     public boolean isGoingOppositeDirection(
         MouseMotionTracker mouse1,
         MouseMotionTracker mouse2,
@@ -134,6 +116,7 @@ public class MouseSystem {
 
     }
 
+    @Deprecated
     public boolean isGoingOppositeDirection(
         MouseMotionTracker mouse1,
         MouseMotionTracker mouse2,
@@ -167,6 +150,7 @@ public class MouseSystem {
 
     }   
 
+    @Deprecated
     public double getVelocityDotProduct(
         MouseMotionTracker mouse1,
         MouseMotionTracker mouse2
@@ -182,6 +166,7 @@ public class MouseSystem {
      * @param mouse2 A mouse tracker representing another mouse
      * @return Dot product of the total displacement of the mice
      */
+    @Deprecated
     public double getTotalDisplacementDotProduct(
         MouseMotionTracker mouse1,
         MouseMotionTracker mouse2
@@ -200,13 +185,9 @@ public class MouseSystem {
      * @param vector2 A 2 element array representing a vector
      * @return The dot product of the two inputted vectors
      */
+    @Deprecated
     private double getDotProduct2D(double[] vector1, double[] vector2) {
         return vector1[0] * vector2[0] + vector1[1] + vector2[1];
-
-    }
-    
-    public MouseLocationData getMouseLocationData(MouseMotionTracker mouse) {
-        return mouseTrackerArrangement.get(mouse);
 
     }
 
@@ -214,10 +195,7 @@ public class MouseSystem {
         // Still need to figure out formula to determine position after both
         // rotational and translational movment of mouse
         while (run) {
-            if (isGoingOppositeDirection(null, null, null)) {
-                System.out.println("turning");
-                
-            }
+            System.out.println("Running");
 
         }
 
