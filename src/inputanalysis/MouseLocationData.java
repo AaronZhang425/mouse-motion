@@ -13,30 +13,18 @@ public class MouseLocationData {
      * the positive y direction and the right of the mass is the positive x
      * direction.
      */
-    private double[] position;
+    private final double[] POSITION;
 
     /**
      * Angle of mouse from front of the mass with the counter clockwise 
      * direction being positive.
      */
-    private double angle;
+    private final double ANGLE;
 
     public MouseLocationData(
         double[] position,
         double angle
     ) throws IllegalArgumentException {
-        setPosition(position);
-        this.angle = angle;
-
-    }
-
-    public double[] getPosition() {
-        return new double[]{position[0], position[1]};
-
-    }
-
-    public void setPosition(double[] position) {
-        // If the length of the array is not 2, throw an exception
         if (position.length != 2) {
             throw new IllegalArgumentException(
                 "Position array must be of length 2"
@@ -45,25 +33,25 @@ public class MouseLocationData {
         }
 
         // Copy the array
-        this.position = new double[]{position[0], position[1]};
+        this.POSITION = new double[]{position[0], position[1]};
+
+        this.ANGLE = angle;
+
+    }
+
+    public double[] getPosition() {
+        return new double[]{POSITION[0], POSITION[1]};
 
     }
 
     public double getRadius() {
-        return Math.hypot(position[0], position[1]);
+        return Math.hypot(POSITION[0], POSITION[1]);
 
     }
     
     public double getAngle() {
-        return angle;
+        return ANGLE;
 
     }
-
-    public void setAngle(double angle) {
-        this.angle = angle;
-
-    }
-
-
 
 }
