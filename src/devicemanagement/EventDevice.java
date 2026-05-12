@@ -14,7 +14,7 @@ import eventclassification.eventcodes.EventCode;
  * a record to maintain support for older versions of java
  */
 public class EventDevice {
-    private final int[] id;
+    private final int[] ID;
     private final String name;
     private final File handlerFile;
     private final HashMap<EventTypes, EventCode[]> capabilities;
@@ -25,7 +25,7 @@ public class EventDevice {
         File handlerFile,
         HashMap<EventTypes, EventCode[]> capabilities
     ) {
-        this.id = id;
+        this.ID = id;
         this.name = name;
         this.handlerFile = handlerFile;
         this.capabilities = capabilities;
@@ -66,7 +66,7 @@ public class EventDevice {
      * @return id array
      */
     public int[] getId() {
-        return id;
+        return ID;
 
     }
 
@@ -119,7 +119,7 @@ public class EventDevice {
         }
 
         return (
-            Arrays.equals(id, other.id) &&
+            Arrays.equals(ID, other.ID) &&
             name.equals(other.name) &&
             handlerFile.equals(other.handlerFile) &&
             capabilities.equals(other.capabilities)
@@ -129,10 +129,10 @@ public class EventDevice {
     @Override
     public String toString() {
         return (
-            "Bus: " + id[0] + "\n" +
-            "Vendor: " + id[1] + "\n" +
-            "Product: " + id[2] + "\n" +
-            "Version: " + id[3] + "\n" +
+            "Bus: " + ID[0] + "\n" +
+            "Vendor: " + ID[1] + "\n" +
+            "Product: " + ID[2] + "\n" +
+            "Version: " + ID[3] + "\n" +
             "Name: " + name + "\n" +
             "Handler: " + handlerFile
 
