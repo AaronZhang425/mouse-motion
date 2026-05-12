@@ -13,6 +13,12 @@ public class MouseSystem {
     private HashMap<SystemComponent, MouseMotionTracker> trackers;
 
     /**
+     * Represents the pairs of components in the system. Used to calculate 
+     * cross products
+     */
+    private final SystemComponent[][] COMPONENT_PAIRS;
+
+    /**
      * Represents the angle of the system from the starting position with 
      * counterclockwise being the positive direction and clockwise being the 
      * negative direction in radians. 
@@ -21,20 +27,50 @@ public class MouseSystem {
 
     private boolean run = true;
 
+    // public MouseSystem(
+    //     SystemComponent[] components
+    // ) throws FileNotFoundException {
+    //     trackers = new HashMap<>();
+
+    //     for (SystemComponent component : components) {
+    //         trackers.put(
+    //             component,
+    //             new MouseMotionTracker(component.getMouse())
+    //         );
+
+    //     }
+
+    //     // TEMPORARY
+    //     COMPONENT_PAIRS = null;
+
+    // }    
+
     public MouseSystem(
-        SystemComponent[] components
+        SystemComponent[][] componentPairs
     ) throws FileNotFoundException {
-        trackers = new HashMap<>();
+        int numPairs = componentPairs.length;
+        this.COMPONENT_PAIRS = new SystemComponent[numPairs][2];
+        
+        for (int pair = 0; pair < numPairs; pair++) {
+            SystemComponent component1 = componentPairs[pair][0];
+            SystemComponent component2 = componentPairs[pair][1];
 
-        for (SystemComponent component : components) {
+            this.COMPONENT_PAIRS[pair][0] = component1;
+            this.COMPONENT_PAIRS[pair][1] = component2;
+
             trackers.put(
-                component,
-                new MouseMotionTracker(component.getMouse())
+                component1,
+                new MouseMotionTracker(component1.getMouse())
             );
-
+            
+            trackers.put(
+                component2,
+                new MouseMotionTracker(component2.getMouse())
+            );
+            
         }
 
-    }    
+    }
 
     /**
      * Get a copy of mouse arrangement hashmap
@@ -44,6 +80,20 @@ public class MouseSystem {
     public HashMap<SystemComponent, MouseMotionTracker> getTrackerArrangement() {
         return new HashMap<>(trackers);
         
+    }
+
+    public SystemComponent[][] getComponentPairs() {
+        SystemComponent[][] pairsCopy = (
+            new SystemComponent[COMPONENT_PAIRS.length][2]
+        );
+
+        for (int pair = 0; pair < COMPONENT_PAIRS.length; pair++) {
+            pairsCopy[pair][0] = COMPONENT_PAIRS[pair][0];
+            pairsCopy[pair][1] = COMPONENT_PAIRS[pair][1];
+        }
+
+        return pairsCopy;
+
     }
 
     /**
