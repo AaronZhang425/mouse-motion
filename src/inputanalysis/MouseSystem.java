@@ -27,47 +27,17 @@ public class MouseSystem implements Runnable{
     private volatile boolean run = true;
 
     public MouseSystem(
-        SystemComponent[] components
-    ) throws FileNotFoundException {
-        TRACKERS = new HashMap<>();
-        int length = components.length;
-
-        int pairs = (int) (length / 2 + 0.5);
-
-        COMPONENT_PAIRS = new SystemComponent[pairs][2];
-    
-        for (int i = 0; i < components.length - 1; i += 2) {
-            int pairIdx = i / 2;
-
-            SystemComponent component1 = components[i];
-            SystemComponent component2 = components[(i + 1) % pairs];
-
-            COMPONENT_PAIRS[pairIdx][0] = component1; 
-            COMPONENT_PAIRS[pairIdx][1] = component2;
-
-            TRACKERS.put(
-                component1,
-                new MouseMotionTracker(component1.getMouse())
-            );
-            
-            TRACKERS.put(
-                component2,
-                new MouseMotionTracker(component2.getMouse())
-            );
-
-        }
-
-    }
-
-    public MouseSystem(
         SystemComponent[][] componentPairs
     ) throws FileNotFoundException, IllegalArgumentException {
         TRACKERS = new HashMap<>();
 
+        // Create a copy of the array
         int numPairs = componentPairs.length;
         COMPONENT_PAIRS = new SystemComponent[numPairs][2];
         
         for (int pair = 0; pair < numPairs; pair++) {
+            // If at any point the inner arrray is of length 2 and does not
+            // represent a pair, throw an error
             if (componentPairs[pair].length != 2) {
                 throw new IllegalArgumentException(
                     "The inner arrays must be of length 2, representing a pair"
@@ -80,6 +50,7 @@ public class MouseSystem implements Runnable{
             COMPONENT_PAIRS[pair][0] = component1;
             COMPONENT_PAIRS[pair][1] = component2;
 
+            // Register the componenet and map it to a tracker
             TRACKERS.put(
                 component1,
                 new MouseMotionTracker(component1.getMouse())
