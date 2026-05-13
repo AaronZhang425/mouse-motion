@@ -39,7 +39,7 @@ public class MouseCountsTracker extends InputEventConsumer {
     /**
      * Represents the mouse being tracked
      */
-    private Mouse mouse;
+    private final Mouse MOUSE;
 
     public MouseCountsTracker(Mouse mouse, Rel eventCode) {
         super(eventCode);
@@ -51,7 +51,7 @@ public class MouseCountsTracker extends InputEventConsumer {
 
         }
 
-        this.mouse = mouse;
+        MOUSE = mouse;
 
     }
 
@@ -110,7 +110,7 @@ public class MouseCountsTracker extends InputEventConsumer {
     }
 
     private double mouseCountsToMeters(int mouseCounts) {
-        return (double) mouseCounts / mouse.getDpi() * 0.0254;
+        return (double) mouseCounts / MOUSE.getDpi() * 0.0254;
     }
 
     /**
@@ -121,7 +121,7 @@ public class MouseCountsTracker extends InputEventConsumer {
     @Override
     public void consume(EventData inputEvent) throws IllegalArgumentException {
         // If the event codes do not match, throw error
-        if (!inputEvent.getEventCode().equals(eventCode)) {
+        if (!eventCodeCheck(inputEvent)) {
             throw new IllegalArgumentException(
                 "EventData argument eventCode must match that of the tracker"
             );

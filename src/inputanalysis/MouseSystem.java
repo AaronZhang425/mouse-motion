@@ -1,18 +1,21 @@
 package inputanalysis;
 
-
 import java.io.FileNotFoundException;
-import java.io.UncheckedIOException;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import devicemanagement.Mouse;
 import eventclassification.eventcodes.Rel;
 import inputanalysis.singletracker.MouseMotionTracker;
 
 // TODO: Handle displacement in a rotating system
 public class MouseSystem {
-    private HashMap<SystemComponent, MouseMotionTracker> trackers;
+    private final HashMap<SystemComponent, MouseMotionTracker> TRACKERS;
+
+    /**
+     * Represents the pairs of components in the system. Used to calculate 
+     * cross products
+     */
+    private final SystemComponent[][] COMPONENT_PAIRS;
 
     /**
      * Represents the angle of the system from the starting position with 
@@ -26,17 +29,64 @@ public class MouseSystem {
     public MouseSystem(
         SystemComponent[] components
     ) throws FileNotFoundException {
-        trackers = new HashMap<>();
+        TRACKERS = new HashMap<>();
+        int length = components.length;
 
-        for (SystemComponent component : components) {
-            trackers.put(
-                component,
-                new MouseMotionTracker(component.getMouse())
+        int pairs = (int) (length / 2 + 0.5);
+
+        COMPONENT_PAIRS = new SystemComponent[pairs][2];
+    
+        for (int i = 0; i < components.length - 1; i += 2) {
+            int pairIdx = i / 2;
+
+            SystemComponent component1 = components[i];
+            SystemComponent component2 = components[(i + 1) % pairs];
+
+            COMPONENT_PAIRS[pairIdx][0] = component1; 
+            COMPONENT_PAIRS[pairIdx][1] = component2;
+
+            TRACKERS.put(
+                component1,
+                new MouseMotionTracker(component1.getMouse())
+            );
+            
+            TRACKERS.put(
+                component2,
+                new MouseMotionTracker(component2.getMouse())
             );
 
         }
 
-    }    
+    }
+
+    public MouseSystem(
+        SystemComponent[][] componentPairs
+    ) throws FileNotFoundException {
+        TRACKERS = new HashMap<>();
+
+        int numPairs = componentPairs.length;
+        COMPONENT_PAIRS = new SystemComponent[numPairs][2];
+        
+        for (int pair = 0; pair < numPairs; pair++) {
+            SystemComponent component1 = componentPairs[pair][0];
+            SystemComponent component2 = componentPairs[pair][1];
+
+            COMPONENT_PAIRS[pair][0] = component1;
+            COMPONENT_PAIRS[pair][1] = component2;
+
+            TRACKERS.put(
+                component1,
+                new MouseMotionTracker(component1.getMouse())
+            );
+            
+            TRACKERS.put(
+                component2,
+                new MouseMotionTracker(component2.getMouse())
+            );
+            
+        }
+
+    }
 
     /**
      * Get a copy of mouse arrangement hashmap
@@ -47,6 +97,21 @@ public class MouseSystem {
         return new HashMap<>(trackers);
         
     }
+
+    public SystemComponent[][] getComponentPairs() {
+        SystemComponent[][] pairsCopy = (
+            new SystemComponent[COMPONENT_PAIRS.length][2]
+        );
+
+        for (int pair = 0; pair < COMPONENT_PAIRS.length; pair++) {
+            pairsCopy[pair][0] = COMPONENT_PAIRS[pair][0];
+            pairsCopy[pair][1] = COMPONENT_PAIRS[pair][1];
+        }
+
+        return pairsCopy;
+
+    }
+
 
     /**
      * Gets the heading of the mouse system. Counter-clockwise rotation is 
@@ -66,7 +131,7 @@ public class MouseSystem {
     public void terminate() {
         for (
             Entry<SystemComponent, MouseMotionTracker> pair 
-            : trackers.entrySet()
+            : TRACKERS.entrySet()
         ) {
             pair.getValue().terminate();
 
