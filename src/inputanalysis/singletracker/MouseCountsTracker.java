@@ -95,6 +95,11 @@ public class MouseCountsTracker extends InputEventConsumer {
         return displacement;
     }
 
+    public double getDisplacementDelta() {
+        return mouseCountsToMeters(lastCountReading);
+        
+    }
+
     /**
      * Converts the last counts reading from the mouse into displacement
      * 
