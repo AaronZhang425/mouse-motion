@@ -40,15 +40,10 @@ public class Main {
                 (device) -> {
                     List<EventCode> eventCodes = Arrays.asList(device.getEventCodes());
 
-                    if (
-                        eventCodes.contains(Rel.REL_X) 
+                    return (
+                        eventCodes.contains(Rel.REL_X)
                         && eventCodes.contains(Rel.REL_Y)
-                    ) {
-                        return true;
-
-                    }
-
-                    return false;
+                    );
 
                 } 
         
