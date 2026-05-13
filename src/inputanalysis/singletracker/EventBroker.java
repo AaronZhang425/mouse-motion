@@ -70,7 +70,9 @@ public class EventBroker implements Runnable {
             System.out.println(e.getCause());
 
         } catch (NullPointerException e) {
-            throw new NullPointerException("Check the permissions of /dev/input");
+            throw new NullPointerException(
+                "Check the permissions of /dev/input"
+            );
 
         }
     }
