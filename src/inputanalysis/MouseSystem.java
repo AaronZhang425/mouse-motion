@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 import eventclassification.eventcodes.Rel;
 import inputanalysis.singletracker.MouseMotionTracker;
 
-// TODO: Handle displacement in a rotating system
+// TODO: THIS CLASS HAS NOT BEEN TESTED BECAUSE I DO NOT HAVE THE HARDWARE
 public class MouseSystem {
     private final HashMap<SystemComponent, MouseMotionTracker> TRACKERS;
 
@@ -61,13 +61,19 @@ public class MouseSystem {
 
     public MouseSystem(
         SystemComponent[][] componentPairs
-    ) throws FileNotFoundException {
+    ) throws FileNotFoundException, IllegalArgumentException {
         TRACKERS = new HashMap<>();
 
         int numPairs = componentPairs.length;
         COMPONENT_PAIRS = new SystemComponent[numPairs][2];
         
         for (int pair = 0; pair < numPairs; pair++) {
+            if (componentPairs[pair].length != 2) {
+                throw new IllegalArgumentException(
+                    "The inner arrays must be of length 2, representing a pair"
+                );
+            }
+
             SystemComponent component1 = componentPairs[pair][0];
             SystemComponent component2 = componentPairs[pair][1];
 
