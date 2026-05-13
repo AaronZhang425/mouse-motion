@@ -77,8 +77,6 @@ public class InputReader {
         // TODO: Handle different byte architectures and endianness
         byte[] buffer = eventFileReader();
 
-        int bufferSize = buffer.length;
-
         // Buffer will be null if file stream has ended. If file stream
         // ended, return null
         if (buffer == null || buffer.length == 0) {

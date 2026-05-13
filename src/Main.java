@@ -1,19 +1,14 @@
 import devicemanagement.*;
 import devicemanagement.system.*;
-import eventclassification.*;
 import eventclassification.eventcodes.*;
 import inputanalysis.singletracker.MouseMotionTracker;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Stream;
 
 public class Main {
     public static int DPI = 1000;

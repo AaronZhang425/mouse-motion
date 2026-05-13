@@ -4,16 +4,16 @@ public class Mouse {
     /**
      * The EventDevice object that represents the mosue
      */
-    private final EventDevice device;
+    private final EventDevice DEVICE;
 
     /**
      * The dots/counts per inch of the mouse 
      */
-    private final int dpi;
+    private final int DPI;
 
     public Mouse(EventDevice device, int dpi) {
-        this.device = device;
-        this.dpi = dpi;
+        this.DEVICE = device;
+        this.DPI = dpi;
     }
 
     /**
@@ -22,7 +22,7 @@ public class Mouse {
      * @return Mouse device
      */
     public EventDevice getDevice() {
-        return device;
+        return DEVICE;
     
     }
 
@@ -32,7 +32,7 @@ public class Mouse {
      * @return Mouse DPI
      */
     public int getDpi() {
-        return dpi;
+        return DPI;
     
     }
 
@@ -49,8 +49,8 @@ public class Mouse {
         }
 
         return (
-            device.equals(other.device) &&
-            dpi == other.dpi
+            DEVICE.equals(other.DEVICE) &&
+            DPI == other.DPI
         );
     }
 

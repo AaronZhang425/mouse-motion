@@ -18,30 +18,30 @@ public class EventBroker implements Runnable {
     /**
      * Maps event codes to a consumer
      */
-    private HashMap<EventCode, InputEventConsumer> consumerMap;
+    private final HashMap<EventCode, InputEventConsumer> CONSUMER_MAP;
     
     /**
      * Reads input events
      */
-    private InputReader reader;
+    private final InputReader READER;
 
     public EventBroker(
         InputReader reader,
         HashMap<EventCode, InputEventConsumer> consumerMap
     ) {
-        this.consumerMap = consumerMap;
-        this.reader = reader;
+        CONSUMER_MAP = new HashMap<>(consumerMap);
+        READER = reader;
 
     }
 
     public EventBroker(
         Mouse mouse,
-        HashMap<EventCode, InputEventConsumer> consumerHashMap
+        HashMap<EventCode, InputEventConsumer> ConsumerMap
     ) throws FileNotFoundException {
 
-        this.consumerMap = consumerHashMap;
+        CONSUMER_MAP = new HashMap(consumerMap);
         
-        reader = new InputReader(mouse.getDevice().getHandlerFile());
+        READER = new InputReader(mouse.getDevice().getHandlerFile());
 
     }
 
@@ -52,7 +52,7 @@ public class EventBroker implements Runnable {
      * @return
      */
     public HashMap<EventCode, InputEventConsumer> getConsumers() {
-        return consumerMap;
+        return new HashMap<>(CONSUMER_MAP);
     
     }
 
@@ -102,7 +102,7 @@ public class EventBroker implements Runnable {
                 continue;
             }
 
-            InputEventConsumer eventConsumer = consumerMap.get(
+            InputEventConsumer eventConsumer = CONSUMER_MAP.get(
                 data.getEventCode()
             );
 
