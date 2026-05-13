@@ -21,12 +21,12 @@ public class InputReader {
     /**
      * Represents the path of the event file to read
      */
-    private File inputFile;
+    private final File INPUT_FILE;
 
     /**
      * Buffered file reader object to read the stream of the event file
      */
-    private BufferedInputStream reader;
+    private final BufferedInputStream READER;
 
     public InputReader(int eventNum) throws FileNotFoundException {
         this(new File("/dev/input/event" + eventNum));
@@ -38,11 +38,10 @@ public class InputReader {
     }
 
     public InputReader(File file) throws FileNotFoundException {
-        inputFile = file;
+        INPUT_FILE = file;
         
-        reader = new BufferedInputStream(new FileInputStream(inputFile));
+        READER = new BufferedInputStream(new FileInputStream(INPUT_FILE));
         
-
     }
 
     public boolean isClosed() {
@@ -189,11 +188,11 @@ public class InputReader {
             // Prevent events being sheered and cut in half
             while (bufferIndexOffset < bufferSize) {
                 if (closed) {
-                    reader.close();
+                    READER.close();
                     return null;
                 }
 
-                bytesRead = reader.read(buffer, bufferIndexOffset, maxBytesRead);
+                bytesRead = READER.read(buffer, bufferIndexOffset, maxBytesRead);
 
                 // The read method returns -1 if the stream has ended
                 if (bytesRead == -1) {
