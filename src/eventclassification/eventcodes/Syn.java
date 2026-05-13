@@ -38,7 +38,7 @@ public enum Syn implements EventCode {
     } 
 
     public static Syn byValue(int value) {
-        return (Syn) VALUE_MAP.get(value);
+        return VALUE_MAP.get(value);
     }
 
 

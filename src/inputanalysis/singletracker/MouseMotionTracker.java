@@ -141,8 +141,8 @@ public class MouseMotionTracker {
 
     public double[] getDisplacementDelta() {
         return new double[]{
-            xTracker.getDisplacementDelta(),
-            yTracker.getDisplacementDelta()
+            XTRACKER.getDisplacementDelta(),
+            YTRACKER.getDisplacementDelta()
         };
     }
 

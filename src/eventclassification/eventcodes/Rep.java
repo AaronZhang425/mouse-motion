@@ -36,7 +36,7 @@ public enum Rep implements EventCode {
     }
 
     public static Rep byValue(int value) {
-        return (Rep) VALUE_MAP.get(value);
+        return VALUE_MAP.get(value);
     }
 
 

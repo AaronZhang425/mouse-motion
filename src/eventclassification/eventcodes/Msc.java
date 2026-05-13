@@ -40,7 +40,7 @@ public enum Msc implements EventCode {
     } 
 
     public static Msc byValue(int value) {
-        return (Msc) VALUE_MAP.get(value);
+        return VALUE_MAP.get(value);
     }
 
 

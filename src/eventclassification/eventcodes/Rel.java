@@ -48,7 +48,7 @@ public enum Rel implements EventCode {
     } 
 
     public static Rel byValue(int value) {
-        return (Rel) VALUE_MAP.get(value);
+        return VALUE_MAP.get(value);
     }
 
 

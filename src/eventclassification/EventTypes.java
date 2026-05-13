@@ -142,7 +142,7 @@ public enum EventTypes implements EventCategory{
      * @return Event type corresponding to value
      */
     public static EventTypes byValue(int value) {
-        return (EventTypes) VALUE_MAP.get(value);
+        return VALUE_MAP.get(value);
     }
 
 }
