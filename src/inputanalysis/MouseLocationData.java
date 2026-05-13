@@ -16,8 +16,10 @@ public class MouseLocationData {
     private final double[] POSITION;
 
     /**
-     * Angle of mouse from front of the mass with the counter clockwise 
-     * direction being positive.
+     * Angle of mouse from front of the system with the counterclockwise 
+     * direction being positive. The mount angle does not represent the angle
+     * from the mouse from the origin but the angle between the direction the 
+     * mouse front and system front.
      */
     private final double MOUNT_ANGLE;
 
