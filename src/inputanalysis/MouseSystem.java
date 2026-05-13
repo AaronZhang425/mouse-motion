@@ -8,7 +8,7 @@ import eventclassification.eventcodes.Rel;
 import inputanalysis.singletracker.MouseMotionTracker;
 
 // TODO: THIS CLASS HAS NOT BEEN TESTED BECAUSE I DO NOT HAVE THE HARDWARE
-public class MouseSystem {
+public class MouseSystem implements Runnable{
     private final HashMap<SystemComponent, MouseMotionTracker> TRACKERS;
 
     /**
@@ -22,9 +22,9 @@ public class MouseSystem {
      * counterclockwise being the positive direction and clockwise being the 
      * negative direction in radians. 
      */
-    private double angle = 0;
+    private volatile double angle = 0;
 
-    private boolean run = true;
+    private volatile boolean run = true;
 
     public MouseSystem(
         SystemComponent[] components
