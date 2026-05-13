@@ -46,7 +46,7 @@ public enum Led implements EventCode {
     }
 
     public static Led byValue(int value) {
-        return (Led) VALUE_MAP.get(value);
+        return VALUE_MAP.get(value);
     }
 
 

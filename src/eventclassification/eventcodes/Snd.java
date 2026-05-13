@@ -37,7 +37,7 @@ public enum Snd implements EventCode {
     } 
 
     public static Snd byValue(int value) {
-        return (Snd) VALUE_MAP.get(value);
+        return VALUE_MAP.get(value);
     }
 
 

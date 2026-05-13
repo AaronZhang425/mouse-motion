@@ -82,7 +82,7 @@ public enum Abs implements EventCode {
     }
 
     public static Abs byValue(int value) {
-        return (Abs) VALUE_MAP.get(value);
+        return VALUE_MAP.get(value);
     }
 
 

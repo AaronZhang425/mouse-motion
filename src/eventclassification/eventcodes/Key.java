@@ -678,7 +678,7 @@ public enum Key implements EventCode {
     }
 
     public static Key byValue(int value) {
-        return (Key) VALUE_MAP.get(value);
+        return VALUE_MAP.get(value);
     }
 
 

@@ -53,7 +53,7 @@ public enum Sw implements EventCode {
     } 
 
     public static Sw byValue(int value) {
-        return (Sw) VALUE_MAP.get(value);
+        return VALUE_MAP.get(value);
     }
 
 

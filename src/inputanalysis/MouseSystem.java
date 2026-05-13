@@ -100,7 +100,7 @@ public class MouseSystem {
      * @return Copy of hashmap mapping mouse trackers to positions
      */
     public HashMap<SystemComponent, MouseMotionTracker> getTrackers() {
-        return new HashMap<>(trackers);
+        return new HashMap<>(TRACKERS);
         
     }
 

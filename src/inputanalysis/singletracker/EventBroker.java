@@ -36,10 +36,10 @@ public class EventBroker implements Runnable {
 
     public EventBroker(
         Mouse mouse,
-        HashMap<EventCode, InputEventConsumer> ConsumerMap
+        HashMap<EventCode, InputEventConsumer> consumerMap
     ) throws FileNotFoundException {
 
-        CONSUMER_MAP = new HashMap(consumerMap);
+        CONSUMER_MAP = new HashMap<>(consumerMap);
         
         READER = new InputReader(mouse.getDevice().getHandlerFile());
 
@@ -63,7 +63,7 @@ public class EventBroker implements Runnable {
         run = false;
 
         try {
-            reader.close(); // Stop file reader to prevent resource leaks
+            READER.close(); // Stop file reader to prevent resource leaks
             
         } catch (IOException e) {
             System.out.println(e);
@@ -95,7 +95,7 @@ public class EventBroker implements Runnable {
 
         while (run) {
             // Get data
-            data = reader.getEventData();
+            data = READER.getEventData();
 
             // If the data is null, go to next iteration and try again
             if (data == null) {
