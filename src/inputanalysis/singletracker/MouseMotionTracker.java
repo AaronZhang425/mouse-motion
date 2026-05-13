@@ -139,6 +139,13 @@ public class MouseMotionTracker {
     
     }
 
+    public double[] getDisplacementDelta() {
+        return new double[]{
+            xTracker.getDisplacementDelta(),
+            yTracker.getDisplacementDelta()
+        };
+    }
+
     /**
      * Gets the total mouse counts as componenets of a vector with x being
      * index 0 and y being index 1.
