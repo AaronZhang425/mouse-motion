@@ -12,17 +12,17 @@ public class MouseMotionTracker {
     /**
      * The mouse being tracked
      */
-    private Mouse mouse;
+    private final Mouse MOUSE;
 
     /**
      * Tracker for x mouse counts.
      */
-    private MouseCountsTracker xTracker;
+    private final MouseCountsTracker XTRACKER;
 
     /**
      * Tracker for y mouse counts
      */
-    private MouseCountsTracker yTracker;
+    private final MouseCountsTracker YTRACKER;
 
     /**
      * System to read mouse events and distribute events that correspond to
@@ -44,18 +44,18 @@ public class MouseMotionTracker {
      * @throws FileNotFoundException
      */
     public MouseMotionTracker(Mouse mouse) throws FileNotFoundException {
-        this.mouse = mouse;
+        MOUSE = mouse;
 
         // Create the trackers
-        xTracker = new MouseCountsTracker(mouse, Rel.REL_X);
-        yTracker = new MouseCountsTracker(mouse, Rel.REL_Y);
+        XTRACKER = new MouseCountsTracker(mouse, Rel.REL_X);
+        YTRACKER = new MouseCountsTracker(mouse, Rel.REL_Y);
 
         // Map an event code to a tracker that tracks the event code for a 
         // device
         HashMap<EventCode, InputEventConsumer> eventConsumers = new HashMap<>();
 
-        eventConsumers.put(Rel.REL_X, xTracker);
-        eventConsumers.put(Rel.REL_Y, yTracker);
+        eventConsumers.put(Rel.REL_X, XTRACKER);
+        eventConsumers.put(Rel.REL_Y, YTRACKER);
 
         // Read from a device and map its input to a event consumer to handle
         eventBroker = new EventBroker(
@@ -83,10 +83,10 @@ public class MouseMotionTracker {
         }
 
         if (axis.equals(Rel.REL_X)) {
-            xTracker.setTransformationFunction(function);
+            XTRACKER.setTransformationFunction(function);
 
         } else {
-            yTracker.setTransformationFunction(function);
+            YTRACKER.setTransformationFunction(function);
 
         }
 
@@ -98,7 +98,7 @@ public class MouseMotionTracker {
      * @return A mouse object representing the mouse being tracked
      */
     public Mouse getMouse() {
-        return mouse;
+        return MOUSE;
     
     }
 
@@ -109,8 +109,8 @@ public class MouseMotionTracker {
      */
     public double getDisplacementResultant() {
         return Math.hypot(
-            xTracker.getDisplacement(),
-            yTracker.getDisplacement()
+            XTRACKER.getDisplacement(),
+            YTRACKER.getDisplacement()
         );
 
     }    
@@ -133,8 +133,8 @@ public class MouseMotionTracker {
      */
     public double[] getDisplacement() {
         return new double[]{
-            xTracker.getDisplacement(),
-            yTracker.getDisplacement()
+            XTRACKER.getDisplacement(),
+            YTRACKER.getDisplacement()
         };
     
     }
@@ -147,8 +147,8 @@ public class MouseMotionTracker {
      */
     public int[] getLifetimeCounts() {
         return new int[]{
-            xTracker.getLifetimeCounts(),
-            yTracker.getLifetimeCounts()
+            XTRACKER.getLifetimeCounts(),
+            YTRACKER.getLifetimeCounts()
         };
 
     }
@@ -161,8 +161,8 @@ public class MouseMotionTracker {
      */
     public double[] getVelocity() {
         return new double[]{
-            xTracker.getVelocity(),
-            yTracker.getVelocity()
+            XTRACKER.getVelocity(),
+            YTRACKER.getVelocity()
         };
 
     }

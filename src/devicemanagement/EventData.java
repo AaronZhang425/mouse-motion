@@ -17,10 +17,10 @@ import eventclassification.eventcodes.EventCode;
  * this program uses enums instead
  */
 public class EventData {
-    private final long[] time;
-    private final EventTypes eventType;
-    private final EventCode eventCode;
-    private final int value;
+    private final long[] TIME;
+    private final EventTypes EVENT_TYPE;
+    private final EventCode EVENT_CODE;
+    private final int VALUE;
 
     /**
      * Creates an event data object to represent an event created by a 
@@ -31,11 +31,23 @@ public class EventData {
      * @param eventCode
      * @param value
      */
-    public EventData(long[] time, EventTypes eventType, EventCode eventCode, int value) {
-        this.time = time;
-        this.eventType = eventType;
-        this.eventCode = eventCode;
-        this.value = value;
+    public EventData(
+        long[] time,
+        EventTypes eventType,
+        EventCode eventCode,
+        int value
+    ) throws IllegalArgumentException {
+        if (time.length != 2) {
+            throw new IllegalArgumentException(
+                "Length of time array muse be 2"
+            );
+
+        }
+
+        TIME = time;
+        EVENT_TYPE = eventType;
+        EVENT_CODE = eventCode;
+        VALUE = value;
     }
 
     /**
@@ -45,7 +57,7 @@ public class EventData {
      * index 1 as fractional seconds as microseconds
      */
     public long[] getTime() {
-        return time;
+        return new long[]{TIME[0], TIME[1]};
     
     }
 
@@ -55,7 +67,7 @@ public class EventData {
      * @return whole seconds at which event occured
      */
     public long getSeconds() {
-        return time[0];
+        return TIME[0];
         
     }
 
@@ -66,7 +78,7 @@ public class EventData {
      * @return whole seconds at which event occured
      */
     public long getMicroseconds() {
-        return time[1];
+        return TIME[1];
 
     }
 
@@ -78,7 +90,7 @@ public class EventData {
      * @return
      */
     public double getTotalSeconds() {
-        return time[0] + ((double) time[1] / 1e-6);
+        return TIME[0] + ((double) TIME[1] / 1e-6);
     }
 
     /**
@@ -87,7 +99,7 @@ public class EventData {
      * @return event type of input event
      */
     public EventTypes getEventType() {
-        return eventType;
+        return EVENT_TYPE;
 
     }
 
@@ -97,7 +109,7 @@ public class EventData {
      * @return event code of input event
      */
     public EventCode getEventCode() {
-        return eventCode;
+        return EVENT_CODE;
 
     }
 
@@ -107,7 +119,7 @@ public class EventData {
      * @return Value of event
      */
     public int getValue() {
-        return value;
+        return VALUE;
     
     }
 
@@ -117,10 +129,10 @@ public class EventData {
         }
 
         return (
-            Arrays.equals(time, other.time) &&
-            eventType.equals(other.eventType) &&
-            eventCode.equals(other.eventCode) &&
-            value == other.value
+            Arrays.equals(TIME, other.TIME) &&
+            EVENT_TYPE.equals(other.EVENT_TYPE) &&
+            EVENT_CODE.equals(other.EVENT_CODE) &&
+            VALUE == other.VALUE
         );
     }
 
@@ -128,11 +140,11 @@ public class EventData {
     public String toString() {
         return (
             "Input Event Info: \n" +
-            "Seconds: " + time[0] + "\n" +
-            "Microseconds: " + time[1] + "\n" +
-            "Event Type: " + eventType + "\n" +
-            "Event Code: " + eventCode + "\n" +
-            "Value: " + value + "\n"
+            "Seconds: " + TIME[0] + "\n" +
+            "Microseconds: " + TIME[1] + "\n" +
+            "Event Type: " + EVENT_TYPE + "\n" +
+            "Event Code: " + EVENT_CODE + "\n" +
+            "Value: " + VALUE + "\n"
         );
      
     }
