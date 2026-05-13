@@ -19,12 +19,26 @@ public class MouseLocationData {
      * Angle of mouse from front of the mass with the counter clockwise 
      * direction being positive.
      */
-    private final double ANGLE;
+    private final double MOUNT_ANGLE;
 
+    /**
+     * Create a MouseLocationObject that represets the location of a single
+     * mouse. The position array must be of length 2. Rightwards is positive x
+     * and forwards is positive y. The angle is in the counterclockwise
+     * direction. When the mouse and systemm point foward, angle is 0. The
+     * angle does not represent the angle from the origin but the angle from
+     * the front of the system.
+     * 
+     * @param position The first element is x and second is y from center
+     * @param angle Angle between mouse front and system front
+     * @throws IllegalArgumentException Thrown if position is not of length 2
+     */
     public MouseLocationData(
         double[] position,
         double angle
     ) throws IllegalArgumentException {
+        // position array must be a array of 2 that represents the coordinate
+        // from the center of rotation
         if (position.length != 2) {
             throw new IllegalArgumentException(
                 "Position array must be of length 2"
@@ -35,7 +49,7 @@ public class MouseLocationData {
         // Copy the array
         POSITION = new double[]{position[0], position[1]};
 
-        ANGLE = angle;
+        MOUNT_ANGLE = angle;
 
     }
 
@@ -49,8 +63,8 @@ public class MouseLocationData {
 
     }
     
-    public double getAngle() {
-        return ANGLE;
+    public double getMountAngle() {
+        return MOUNT_ANGLE;
 
     }
 
