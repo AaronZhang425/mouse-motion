@@ -33,9 +33,9 @@ public class MouseLocationData {
         }
 
         // Copy the array
-        this.POSITION = new double[]{position[0], position[1]};
+        POSITION = new double[]{position[0], position[1]};
 
-        this.ANGLE = angle;
+        ANGLE = angle;
 
     }
 

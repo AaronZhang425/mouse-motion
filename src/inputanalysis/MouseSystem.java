@@ -10,7 +10,7 @@ import inputanalysis.singletracker.MouseMotionTracker;
 
 // TODO: Handle displacement in a rotating system
 public class MouseSystem {
-    private HashMap<SystemComponent, MouseMotionTracker> trackers;
+    private final HashMap<SystemComponent, MouseMotionTracker> TRACKERS;
 
     /**
      * Represents the pairs of components in the system. Used to calculate 
@@ -27,43 +27,60 @@ public class MouseSystem {
 
     private boolean run = true;
 
-    // public MouseSystem(
-    //     SystemComponent[] components
-    // ) throws FileNotFoundException {
-    //     trackers = new HashMap<>();
+    public MouseSystem(
+        SystemComponent[] components
+    ) throws FileNotFoundException {
+        TRACKERS = new HashMap<>();
+        int length = components.length;
 
-    //     for (SystemComponent component : components) {
-    //         trackers.put(
-    //             component,
-    //             new MouseMotionTracker(component.getMouse())
-    //         );
+        int pairs = (int) (length / 2 + 0.5);
 
-    //     }
+        COMPONENT_PAIRS = new SystemComponent[pairs][2];
+    
+        for (int i = 0; i < components.length - 1; i += 2) {
+            int pairIdx = i / 2;
 
-    //     // TEMPORARY
-    //     COMPONENT_PAIRS = null;
+            SystemComponent component1 = components[i];
+            SystemComponent component2 = components[(i + 1) % pairs];
 
-    // }    
+            COMPONENT_PAIRS[pairIdx][0] = component1; 
+            COMPONENT_PAIRS[pairIdx][1] = component2;
+
+            TRACKERS.put(
+                component1,
+                new MouseMotionTracker(component1.getMouse())
+            );
+            
+            TRACKERS.put(
+                component2,
+                new MouseMotionTracker(component2.getMouse())
+            );
+
+        }
+
+    }
 
     public MouseSystem(
         SystemComponent[][] componentPairs
     ) throws FileNotFoundException {
+        TRACKERS = new HashMap<>();
+
         int numPairs = componentPairs.length;
-        this.COMPONENT_PAIRS = new SystemComponent[numPairs][2];
+        COMPONENT_PAIRS = new SystemComponent[numPairs][2];
         
         for (int pair = 0; pair < numPairs; pair++) {
             SystemComponent component1 = componentPairs[pair][0];
             SystemComponent component2 = componentPairs[pair][1];
 
-            this.COMPONENT_PAIRS[pair][0] = component1;
-            this.COMPONENT_PAIRS[pair][1] = component2;
+            COMPONENT_PAIRS[pair][0] = component1;
+            COMPONENT_PAIRS[pair][1] = component2;
 
-            trackers.put(
+            TRACKERS.put(
                 component1,
                 new MouseMotionTracker(component1.getMouse())
             );
             
-            trackers.put(
+            TRACKERS.put(
                 component2,
                 new MouseMotionTracker(component2.getMouse())
             );
@@ -78,7 +95,7 @@ public class MouseSystem {
      * @return Copy of hashmap mapping mouse trackers to positions
      */
     public HashMap<SystemComponent, MouseMotionTracker> getTrackerArrangement() {
-        return new HashMap<>(trackers);
+        return new HashMap<>(TRACKERS);
         
     }
 
@@ -114,7 +131,7 @@ public class MouseSystem {
     public void terminate() {
         for (
             Entry<SystemComponent, MouseMotionTracker> pair 
-            : trackers.entrySet()
+            : TRACKERS.entrySet()
         ) {
             pair.getValue().terminate();
 

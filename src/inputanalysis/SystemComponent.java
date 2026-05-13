@@ -7,8 +7,8 @@ public class SystemComponent {
     private final MouseLocationData LOCATION_DATA;
    
     public SystemComponent(Mouse mouse, MouseLocationData locationData) {
-        this.MOUSE = mouse;
-        this.LOCATION_DATA = locationData;
+        MOUSE = mouse;
+        LOCATION_DATA = locationData;
 
     }
 
