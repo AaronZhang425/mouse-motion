@@ -116,7 +116,15 @@ public class MouseSystem implements Runnable{
 
     }
 
-    public double displacementCrossProduct() {
+    public double displacementDeltaCrossProduct(
+        SystemComponent[] components
+    ) throws IllegalArgumentException {
+        if (components.length != 2) {
+            throw new IllegalArgumentException(
+                "components must be of length 2"
+            );
+        }
+
         throw new UnsupportedOperationException("Unimplented");
     }
 
