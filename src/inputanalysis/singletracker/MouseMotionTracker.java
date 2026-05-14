@@ -75,6 +75,7 @@ public class MouseMotionTracker {
         Rel axis,
         Function<Double, Double> function
     ) throws IllegalArgumentException {
+        // Throw an error if the axis is not x and not y
         if (!axis.equals(Rel.REL_X) && !axis.equals(Rel.REL_Y)) {
             throw new IllegalArgumentException(
                 "Axis must be Rel.REL_X of Rel.REL_y"
@@ -139,6 +140,11 @@ public class MouseMotionTracker {
     
     }
 
+    /**
+     * Get displacement delta from the latest reading in both directions
+     * 
+     * @return The displacement delta from the latest reading {x, y}
+     */
     public double[] getDisplacementDelta() {
         return new double[]{
             XTRACKER.getDisplacementDelta(),
