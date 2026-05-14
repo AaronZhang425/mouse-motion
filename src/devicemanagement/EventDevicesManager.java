@@ -20,7 +20,7 @@ public class EventDevicesManager {
     private static final File INPUT_DEVICE_DIR = new File("/sys/class/input");
 
     // List of devices
-    private static final ArrayList<EventDevice> devices = new ArrayList<>();
+    private static final ArrayList<EventDevice> DEVICES = new ArrayList<>();
 
     static {
         update();
@@ -37,7 +37,7 @@ public class EventDevicesManager {
     ) {
         ArrayList<EventDevice> filtered = new ArrayList<>();
 
-        devices.forEach(
+        DEVICES.forEach(
             (device) -> {
                 if (filter.test(device)) {
                     filtered.add(device);
@@ -56,7 +56,7 @@ public class EventDevicesManager {
      */
     public static ArrayList<EventDevice> getDevices() {
         // Return a copy of arraylist to prevent external manipulation
-        return new ArrayList<>(devices);
+        return new ArrayList<>(DEVICES);
 
     }
 
@@ -67,7 +67,7 @@ public class EventDevicesManager {
      */
     public static void update() {
         // Clear arraylist to remove duplicate items being added
-        devices.clear();
+        DEVICES.clear();
 
         // device id
         int[] id;
@@ -90,12 +90,7 @@ public class EventDevicesManager {
             name = getDeviceName(eventDir);
             capabilities = getCapabilities(eventDir);
 
-            devices.add(new EventDevice(
-                id,
-                name,
-                eventFile,
-                capabilities)
-            );
+            DEVICES.add(new EventDevice(id, name, eventFile, capabilities));
 
         }
 
@@ -235,8 +230,6 @@ public class EventDevicesManager {
         String[] hexNums = readFileLine(eventCodeFile).split(" ");
 
         ArrayList<Integer> bitIndicies = new ArrayList<>();
-
-        // System.out.println(eventDirName);
 
         // for each hex number
         for (int i = 0; i < hexNums.length; i++) {

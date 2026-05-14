@@ -15,9 +15,9 @@ import eventclassification.eventcodes.EventCode;
  */
 public class EventDevice {
     private final int[] ID;
-    private final String name;
-    private final File handlerFile;
-    private final HashMap<EventTypes, EventCode[]> capabilities;
+    private final String NAME;
+    private final File HANDLER_FILE;
+    private final HashMap<EventTypes, EventCode[]> CAPABILITIES;
 
     public EventDevice(
         int[] id,
@@ -25,10 +25,10 @@ public class EventDevice {
         File handlerFile,
         HashMap<EventTypes, EventCode[]> capabilities
     ) {
-        this.ID = id;
-        this.name = name;
-        this.handlerFile = handlerFile;
-        this.capabilities = capabilities;
+        ID = id;
+        NAME = name;
+        HANDLER_FILE = handlerFile;
+        CAPABILITIES = capabilities;
 
     }
 
@@ -36,7 +36,7 @@ public class EventDevice {
         ArrayList<EventCode> eventCodeList = new ArrayList<>();
 
         // Loop through hashmap and add event codes to list
-        for (Entry<EventTypes, EventCode[]> pair : capabilities.entrySet()) {
+        for (Entry<EventTypes, EventCode[]> pair : CAPABILITIES.entrySet()) {
             for (EventCode eventCodes : pair.getValue()) {
                 eventCodeList.add(eventCodes);
 
@@ -55,7 +55,7 @@ public class EventDevice {
      * @return Array of EventTypes paritally supported by device.
      */
     public EventTypes[] getEventTypes() {
-        return capabilities.keySet().toArray(new EventTypes[0]);
+        return CAPABILITIES.keySet().toArray(new EventTypes[0]);
 
     }
 
@@ -76,7 +76,7 @@ public class EventDevice {
      * @return name of device
      */
     public String getName() {
-        return name;
+        return NAME;
 
     }
 
@@ -90,7 +90,7 @@ public class EventDevice {
      * @return device handler file
      */
     public File getHandlerFile() {
-        return handlerFile;
+        return HANDLER_FILE;
 
     }
 
@@ -103,7 +103,7 @@ public class EventDevice {
      * @return Mapping of capable event types to respective capable event codes 
      */
     public HashMap<EventTypes, EventCode[]> getCapabilities() {
-        return capabilities;
+        return CAPABILITIES;
     }
 
     /**
@@ -120,9 +120,9 @@ public class EventDevice {
 
         return (
             Arrays.equals(ID, other.ID) &&
-            name.equals(other.name) &&
-            handlerFile.equals(other.handlerFile) &&
-            capabilities.equals(other.capabilities)
+            NAME.equals(other.NAME) &&
+            HANDLER_FILE.equals(other.HANDLER_FILE) &&
+            CAPABILITIES.equals(other.CAPABILITIES)
         );
     }
 
@@ -133,8 +133,8 @@ public class EventDevice {
             "Vendor: " + ID[1] + "\n" +
             "Product: " + ID[2] + "\n" +
             "Version: " + ID[3] + "\n" +
-            "Name: " + name + "\n" +
-            "Handler: " + handlerFile
+            "Name: " + NAME + "\n" +
+            "Handler: " + HANDLER_FILE
 
         );
     }

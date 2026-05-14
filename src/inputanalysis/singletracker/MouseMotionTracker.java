@@ -28,12 +28,12 @@ public class MouseMotionTracker {
      * System to read mouse events and distribute events that correspond to
      * the mouse trackers to handle
      */
-    private EventBroker eventBroker;
+    private final EventBroker EVENT_BROKER;
 
     /**
      * The thread that runs the event broker
      */
-    private Thread eventBrokerThread;
+    private final Thread EVENT_BROKER_THREAD;
 
     /**
      * Creates a tracker for a mouse that tracks x and y movement and converts
@@ -58,14 +58,14 @@ public class MouseMotionTracker {
         eventConsumers.put(Rel.REL_Y, YTRACKER);
 
         // Read from a device and map its input to a event consumer to handle
-        eventBroker = new EventBroker(
+        EVENT_BROKER = new EventBroker(
             new InputReader(mouse.getDevice().getHandlerFile()),
             eventConsumers
         );
 
         // Run the EventBroker in a seperate thread
-        eventBrokerThread = new Thread(
-            eventBroker,
+        EVENT_BROKER_THREAD = new Thread(
+            EVENT_BROKER,
             mouse.getDevice().getName() + " Event Broker"
         );
 
@@ -122,7 +122,7 @@ public class MouseMotionTracker {
      * @return Event broker handling mouse data
      */
     public EventBroker getEventBroker() {
-        return eventBroker;
+        return EVENT_BROKER;
         
     }
 
@@ -178,19 +178,19 @@ public class MouseMotionTracker {
      * Begins mouse tracking
      */
     public void start() {
-        eventBrokerThread.start();
+        EVENT_BROKER_THREAD.start();
 
     }
 
     /**
      * Stops mouse reader thread. To stop, at least one byte of data must be 
-     * read after the signal or in otherwords, the mouse must move.
+     * read after the signal or in other words, the mouse must move.
      */
     public void terminate() {
-        eventBroker.terminate();
+        EVENT_BROKER.terminate();
         
         try {
-            eventBrokerThread.join(10);
+            EVENT_BROKER_THREAD.join(10);
         
         } catch (InterruptedException e) {
             e.printStackTrace();    
