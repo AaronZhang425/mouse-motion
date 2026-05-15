@@ -196,6 +196,7 @@ public class MouseMotionTracker {
         EVENT_BROKER.terminate();
         
         try {
+            // Give the thread 10 ms to stop
             EVENT_BROKER_THREAD.join(10);
         
         } catch (InterruptedException e) {
