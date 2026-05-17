@@ -37,11 +37,16 @@ public class MouseCountsTracker extends InputEventConsumer {
     );
 
     /**
-     * Represents the mouse being tracked
+     * DPI of mouse
      */
-    private final Mouse MOUSE;
+    private final int DPI;
 
     public MouseCountsTracker(Mouse mouse, Rel eventCode) {
+        this(mouse.getDpi(), eventCode);
+
+    }
+
+    public MouseCountsTracker(int dpi, Rel eventCode) {
         super(eventCode);
 
         if (!eventCode.equals(Rel.REL_X) && !eventCode.equals(Rel.REL_Y)) {
@@ -51,8 +56,7 @@ public class MouseCountsTracker extends InputEventConsumer {
 
         }
 
-        MOUSE = mouse;
-
+        DPI = dpi;
     }
 
     /**
@@ -110,7 +114,7 @@ public class MouseCountsTracker extends InputEventConsumer {
     }
 
     private double mouseCountsToMeters(int mouseCounts) {
-        return (double) mouseCounts / MOUSE.getDpi() * 0.0254;
+        return (double) mouseCounts / DPI * 0.0254;
     }
 
     /**

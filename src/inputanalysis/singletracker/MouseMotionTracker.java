@@ -106,7 +106,7 @@ public class MouseMotionTracker {
     /**
      * Get the resultant of the displacement
      * 
-     * @return
+     * @return Resultant magnitude of displacement
      */
     public double getDisplacementResultant() {
         return Math.hypot(
