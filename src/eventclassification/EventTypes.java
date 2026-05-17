@@ -30,9 +30,6 @@ public enum EventTypes implements EventCategory{
 
         }
 
-        // methods manually put in to avoid java reflection due to
-        // memory overhead
-
         EVENTCODES_MAP = new HashMap<>();
 
         // SYN
@@ -131,12 +128,18 @@ public enum EventTypes implements EventCategory{
         return VALUE;
     }
 
+    /**
+     * Get the event codes represented by a given number and event type
+     * 
+     * @param num Number representing event code
+     * @return Event code represented
+     */
     public EventCode eventCodeByValue(int num) {
         return EVENTCODES_MAP.get(this).apply(num);
     }
 
     /**
-     * Maps the event type value back to the respective event type
+     * Map the event type value back to the respective event type
      * 
      * @param value Value of event type
      * @return Event type corresponding to value
