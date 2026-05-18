@@ -57,9 +57,11 @@ public class MouseCountsTracker extends InputEventConsumer {
 
         }
 
+        // Set the inversion factor to -1 to invert the axis if invert is set
         INVERSION = invert ? -1 : 1;
 
         DPI = dpi;
+        
     }
 
     /**
