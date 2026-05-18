@@ -1,12 +1,11 @@
 package inputanalysis.singletracker;
 
-import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.function.Function;
-
 import devicemanagement.*;
 import eventclassification.eventcodes.EventCode;
 import eventclassification.eventcodes.Rel;
+import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.function.Function;
 
 public class MouseMotionTracker {
     /**
@@ -47,8 +46,8 @@ public class MouseMotionTracker {
         MOUSE = mouse;
 
         // Create the trackers
-        XTRACKER = new MouseCountsTracker(mouse, Rel.REL_X);
-        YTRACKER = new MouseCountsTracker(mouse, Rel.REL_Y);
+        XTRACKER = new MouseCountsTracker(mouse, Rel.REL_X, false);
+        YTRACKER = new MouseCountsTracker(mouse, Rel.REL_Y, true);
 
         // Map an event code to a tracker that tracks the event code for a 
         // device

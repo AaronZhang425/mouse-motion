@@ -1,10 +1,9 @@
 package inputanalysis.singletracker;
 
-import java.util.function.Function;
-
 import devicemanagement.EventData;
 import devicemanagement.Mouse;
 import eventclassification.eventcodes.Rel;
+import java.util.function.Function;
 
 public class MouseCountsTracker extends InputEventConsumer {
     /**
@@ -41,12 +40,14 @@ public class MouseCountsTracker extends InputEventConsumer {
      */
     private final int DPI;
 
-    public MouseCountsTracker(Mouse mouse, Rel eventCode) {
-        this(mouse.getDpi(), eventCode);
+    private final int INVERSION;
+
+    public MouseCountsTracker(Mouse mouse, Rel eventCode, boolean invert) {
+        this(mouse.getDpi(), eventCode, invert);
 
     }
 
-    public MouseCountsTracker(int dpi, Rel eventCode) {
+    public MouseCountsTracker(int dpi, Rel eventCode, boolean invert) {
         super(eventCode);
 
         if (!eventCode.equals(Rel.REL_X) && !eventCode.equals(Rel.REL_Y)) {
@@ -55,6 +56,8 @@ public class MouseCountsTracker extends InputEventConsumer {
             );
 
         }
+
+        INVERSION = invert ? -1 : 1;
 
         DPI = dpi;
     }
@@ -132,7 +135,7 @@ public class MouseCountsTracker extends InputEventConsumer {
 
         }
 
-        lastCountReading = inputEvent.getValue();
+        lastCountReading = inputEvent.getValue() * INVERSION;
         
         displacement += transformationFunction.apply(
             mouseCountsToMeters(lastCountReading)
