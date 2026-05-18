@@ -55,18 +55,49 @@ public class MouseLocationData {
 
     }
 
+    /**
+     * Get the position of the mouse relative to the point of system rotation.
+     * The positive x direction is right wards and the positive y direction is 
+     * fowards.
+     * 
+     * @return Position array of the mouse in the format {x, y}
+     */
     public double[] getPosition() {
         return new double[]{POSITION[0], POSITION[1]};
 
     }
 
+    /**
+     * Get the distance of the mouse from the center of rotation. 
+     * 
+     * @return The distance of the mouse from the point of rotation
+     */
     public double getRadius() {
         return Math.hypot(POSITION[0], POSITION[1]);
 
     }
     
+    /**
+     * Get the angle between the front of the mouse and the front of the 
+     * system. The angle is 0 when both the mouse and the entire system is
+     * pointing in the same the direction. The angle is positive in 
+     * counterclockwise direction.
+     * 
+     * @return Angle between mouse front and system front in radians
+     */
     public double getMountAngle() {
         return MOUNT_ANGLE;
+
+    }
+
+    /**
+     * Get the angle of the mouse from the center with the positive direction
+     * in the counterclockwise direction in radians.
+     * 
+     * @return Angle from the right of the center to the mouse.
+     */
+    public double getAngleFromCenter() {
+        return Math.atan2(POSITION[1], POSITION[0]);
 
     }
 
