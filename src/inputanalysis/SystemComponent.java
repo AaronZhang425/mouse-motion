@@ -15,7 +15,7 @@ public class SystemComponent {
     /**
      * Get the location of the mouse system component
      * 
-     * @return
+     * @return Location of mouse in {x, y}
      */
     public MouseLocationData getLocationData() {
         return LOCATION_DATA;

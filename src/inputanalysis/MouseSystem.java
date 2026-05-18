@@ -128,6 +128,29 @@ public class MouseSystem implements Runnable{
         throw new UnsupportedOperationException("Unimplented");
     }
 
+    public double[] getDisplacementDeltaChangeBases(SystemComponent component) {
+        MouseMotionTracker tracker = TRACKERS.get(component);
+
+        double[] displacementDelta = tracker.getDisplacementDelta();
+
+        // Angle from y axis, not x axis
+        // Represents angle between heading of mouse and system
+        double mountAngle = component.getLocationData().getMountAngle();
+
+        double changeBasesX = (
+            displacementDelta[0] * Math.sin(mountAngle)
+            + displacementDelta[1] * Math.sin(mountAngle)
+        );
+
+        double changeBasesY = (
+            displacementDelta[0] * Math.cos(mountAngle)
+            + displacementDelta[1] * Math.cos(mountAngle)
+        ); 
+
+        return new double[]{changeBasesX, changeBasesY};
+
+    }
+
     /**
      * Determines if the given mice are going opposite directions. Such a case
      * can occur if either the mice are traveling in opposite directions 
