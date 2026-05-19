@@ -1,9 +1,8 @@
 package devicemanagement.system;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class SystemSpecDetector {
     private static CommandRunner runner = null;

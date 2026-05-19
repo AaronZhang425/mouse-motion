@@ -55,6 +55,7 @@ public enum BitArchitecture {
 
     }
 
+    @Override
     public String toString() {
         return this.name();
 

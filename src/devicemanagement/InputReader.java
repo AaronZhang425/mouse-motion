@@ -1,15 +1,14 @@
 package devicemanagement;
 
+import devicemanagement.system.*;
+import eventclassification.EventTypes;
+import eventclassification.eventcodes.EventCode;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import devicemanagement.system.*;
-import eventclassification.EventTypes;
-import eventclassification.eventcodes.EventCode;
 
 
 public class InputReader {
@@ -49,7 +48,7 @@ public class InputReader {
 
     }
 
-    public EventData[] getSynReport() {
+    public EventData[] getSynReport() throws IOException {
         // Create array list to store all non-syn events
         ArrayList<EventData> events = new ArrayList<>();
         
@@ -63,7 +62,7 @@ public class InputReader {
         }
 
         // Return the arraylist as an array
-        return events.toArray(new EventData[events.size()]);
+        return events.toArray(EventData[]::new);
 
     }
 
@@ -72,7 +71,7 @@ public class InputReader {
      * 
      * @return Single event
      */
-    public EventData getEventData() {
+    public EventData getEventData() throws IOException {
         // TODO: Handle different byte architectures and endianness
         byte[] buffer = eventFileReader();
 
@@ -141,12 +140,11 @@ public class InputReader {
         int bufferIndex = 0;
 
         // Copy original buffer data into the inner arrays
-        for (int row = 0; row < splitEventData.length; row++) {
-            for (int col = 0; col < splitEventData[row].length; col++) {
-                splitEventData[row][col] = buffer[bufferIndex];
+        for (byte[] splitEventData1 : splitEventData) {
+            for (int col = 0; col < splitEventData1.length; col++) {
+                splitEventData1[col] = buffer[bufferIndex];
                 bufferIndex++;
             }
-
         }
 
         return splitEventData;
@@ -158,7 +156,7 @@ public class InputReader {
      * 
      * @return Event report represented as a byte array
      */
-    public byte[] eventFileReader() {
+    public byte[] eventFileReader() throws IOException {
         if (closed) {
             return null;
         }
@@ -178,37 +176,31 @@ public class InputReader {
         
         // try to get the event data from the file
         
-        try {
-            int bytesRead;
-            int maxBytesRead = bufferSize;
+        int bytesRead;
+        int maxBytesRead = bufferSize;
 
-            int bufferIndexOffset = 0;
+        int bufferIndexOffset = 0;
 
-            // Ensure a single entire event is read
-            // Prevent events being sheered and cut in half
-            while (bufferIndexOffset < bufferSize) {
-                if (closed) {
-                    READER.close();
-                    return null;
-                }
-
-                bytesRead = READER.read(buffer, bufferIndexOffset, maxBytesRead);
-
-                // The read method returns -1 if the stream has ended
-                if (bytesRead == -1) {
-                    return null;
-                }
-                
-                bufferIndexOffset += bytesRead;
-                maxBytesRead -= bytesRead;
-
+        // Ensure a single entire event is read
+        // Prevent events being sheered and cut in half
+        while (bufferIndexOffset < bufferSize) {
+            if (closed) {
+                READER.close();
+                return null;
             }
-                   
-        } catch(IOException e) {
-            e.printStackTrace();
-            return null;
+
+            bytesRead = READER.read(buffer, bufferIndexOffset, maxBytesRead);
+
+            // The read method returns -1 if the stream has ended
+            if (bytesRead == -1) {
+                return null;
+            }
+            
+            bufferIndexOffset += bytesRead;
+            maxBytesRead -= bytesRead;
 
         }
+                   
         
         // return the event data
         return buffer;

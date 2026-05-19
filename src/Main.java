@@ -4,6 +4,7 @@ import eventclassification.eventcodes.*;
 import inputanalysis.singletracker.MouseMotionTracker;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +21,7 @@ public class Main {
         try {
             SystemSpecDetector.runDetection();
             
-        } catch (Exception e) {
+        } catch (IOException | InterruptedException e) {
             System.out.println(e);
             throw new UndeclaredThrowableException(e);
 
