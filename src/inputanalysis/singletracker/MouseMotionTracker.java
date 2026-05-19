@@ -191,17 +191,13 @@ public class MouseMotionTracker {
      * Stops mouse reader thread. To stop, at least one byte of data must be 
      * read after the signal or in other words, the mouse must move.
      */
-    public void terminate() {
+    public void terminate() throws InterruptedException {
         EVENT_BROKER.terminate();
         
-        try {
-            // Give the thread 10 ms to stop
-            EVENT_BROKER_THREAD.join(10);
+        // Give the thread 10 ms to stop
+        EVENT_BROKER_THREAD.join(10);
         
-        } catch (InterruptedException e) {
-            e.printStackTrace();    
-            
-        }
+
         
     }
 }

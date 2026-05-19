@@ -1,13 +1,12 @@
 package inputanalysis.singletracker;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.HashMap;
-
 import devicemanagement.EventData;
 import devicemanagement.InputReader;
 import devicemanagement.Mouse;
 import eventclassification.eventcodes.EventCode;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.HashMap;
 
 public class EventBroker implements Runnable {
     /**
@@ -93,15 +92,16 @@ public class EventBroker implements Runnable {
      */
     @Override
     public void run() {
-        EventData data = null;
+        EventData data;
 
         while (run) {
             // Get data
-            data = READER.getEventData();
-
-            // If the data is null, go to next iteration and try again
-            if (data == null) {
+            try {
+                data = READER.getEventData();
+                
+            } catch (IOException e) {
                 continue;
+
             }
 
             InputEventConsumer eventConsumer = CONSUMER_MAP.get(

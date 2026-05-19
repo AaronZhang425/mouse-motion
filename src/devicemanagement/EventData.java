@@ -1,9 +1,8 @@
 package devicemanagement;
 
-import java.util.Arrays;
-
 import eventclassification.EventTypes;
 import eventclassification.eventcodes.EventCode;
+import java.util.Arrays;
 
 /**
  * This class holds data of each event created by the device. The structure of 
@@ -139,12 +138,12 @@ public class EventData {
     @Override
     public String toString() {
         return (
-            "Input Event Info: \n" +
-            "Seconds: " + TIME[0] + "\n" +
-            "Microseconds: " + TIME[1] + "\n" +
-            "Event Type: " + EVENT_TYPE + "\n" +
-            "Event Code: " + EVENT_CODE + "\n" +
-            "Value: " + VALUE + "\n"
+            "Input Event Info: \nSeconds:"
+            + TIME[0] + "\n" 
+            + "Microseconds: " + TIME[1] + "\n"
+            + "Event Type: " + EVENT_TYPE + "\n"
+            + "Event Code: " + EVENT_CODE + "\n"
+            + "Value: " + VALUE + "\n"
         );
      
     }

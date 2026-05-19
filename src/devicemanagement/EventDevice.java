@@ -1,13 +1,12 @@
 package devicemanagement;
 
+import eventclassification.EventTypes;
+import eventclassification.eventcodes.EventCode;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map.Entry;
-
-import eventclassification.EventTypes;
-import eventclassification.eventcodes.EventCode;
 
 /**
  * Class that wraps several pieces of data about a device. Do not replace with
@@ -37,14 +36,11 @@ public class EventDevice {
 
         // Loop through hashmap and add event codes to list
         for (Entry<EventTypes, EventCode[]> pair : CAPABILITIES.entrySet()) {
-            for (EventCode eventCodes : pair.getValue()) {
-                eventCodeList.add(eventCodes);
-
-            }
+            eventCodeList.addAll(Arrays.asList(pair.getValue()));
 
         }
 
-        return eventCodeList.toArray(new EventCode[0]);
+        return eventCodeList.toArray(EventCode[]::new);
 
     }
 
@@ -55,7 +51,7 @@ public class EventDevice {
      * @return Array of EventTypes paritally supported by device.
      */
     public EventTypes[] getEventTypes() {
-        return CAPABILITIES.keySet().toArray(new EventTypes[0]);
+        return CAPABILITIES.keySet().toArray(EventTypes[]::new);
 
     }
 

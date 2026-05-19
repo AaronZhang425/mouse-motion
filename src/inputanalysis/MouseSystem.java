@@ -1,11 +1,10 @@
 package inputanalysis;
 
+import eventclassification.eventcodes.Rel;
+import inputanalysis.singletracker.MouseMotionTracker;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map.Entry;
-
-import eventclassification.eventcodes.Rel;
-import inputanalysis.singletracker.MouseMotionTracker;
 
 // TODO: THIS CLASS HAS NOT BEEN TESTED BECAUSE I DO NOT HAVE THE HARDWARE
 public class MouseSystem implements Runnable{
@@ -105,7 +104,7 @@ public class MouseSystem implements Runnable{
     /**
      * Prepares all the tracker threads to stop.
      */
-    public void terminate() {
+    public void terminate() throws InterruptedException {
         for (
             Entry<SystemComponent, MouseMotionTracker> pair 
             : TRACKERS.entrySet()
@@ -128,7 +127,7 @@ public class MouseSystem implements Runnable{
         throw new UnsupportedOperationException("Unimplented");
     }
 
-    public double[] getDisplacementDeltaChangeBases(SystemComponent component) {
+    public double[] getDisplacementDeltaRotated(SystemComponent component) {
         MouseMotionTracker tracker = TRACKERS.get(component);
 
         double[] displacementDelta = tracker.getDisplacementDelta();
@@ -264,6 +263,7 @@ public class MouseSystem implements Runnable{
 
     }
 
+    @Override
     public void run() {
         // Still need to figure out formula to determine position after both
         // rotational and translational movment of mouse
@@ -272,7 +272,13 @@ public class MouseSystem implements Runnable{
 
         }
 
-        terminate();
+        try {
+            terminate();
+            
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+
+        }
 
     }
 
