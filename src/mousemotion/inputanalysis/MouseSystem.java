@@ -1,10 +1,10 @@
 package mousemotion.inputanalysis;
 
 import inputmangement.eventclassification.eventcodes.Rel;
-import mousemotion.inputanalysis.singletracker.MouseMotionTracker;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import mousemotion.inputanalysis.singletracker.MouseMotionTracker;
 
 // TODO: THIS CLASS HAS NOT BEEN TESTED BECAUSE I DO NOT HAVE THE HARDWARE
 public class MouseSystem implements Runnable{
@@ -115,7 +115,7 @@ public class MouseSystem implements Runnable{
 
     }
 
-    public double displacementDeltaCrossProduct(
+    public double[] displacementDeltaCrossProduct(
         SystemComponent[] components
     ) throws IllegalArgumentException {
         if (components.length != 2) {
@@ -124,7 +124,27 @@ public class MouseSystem implements Runnable{
             );
         }
 
-        throw new UnsupportedOperationException("Unimplented");
+        // Get vector 1
+        double[] displacementDelta1 = getDisplacementDeltaRotated(
+            components[0]
+        );
+
+        // Get vector 2
+        double[] displacementDelta2 = getDisplacementDeltaRotated(
+            components[1]
+        );
+
+        // Calculate the cross product. Because the 2 vectors are in 2D space,
+        // the x and y components are always 0. The z can be anything.
+        return new double[]{
+            0,
+            0,
+            (
+                displacementDelta1[0] * displacementDelta2[1] 
+                - displacementDelta1[1] * displacementDelta2[0]
+            )
+        };
+
     }
 
     public double[] getDisplacementDeltaRotated(SystemComponent component) {
