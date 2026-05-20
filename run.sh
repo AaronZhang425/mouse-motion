@@ -3,4 +3,4 @@
 SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 cd ${SCRIPT_DIR}
 
-java -cp build Main
+java -cp build mousemotion/Main
