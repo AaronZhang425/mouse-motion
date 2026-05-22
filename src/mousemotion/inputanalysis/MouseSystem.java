@@ -34,6 +34,7 @@ public class MouseSystem implements Runnable{
         int numPairs = componentPairs.length;
         COMPONENT_PAIRS = new SystemComponent[numPairs][2];
         
+        // Copy the component pairings
         for (int pair = 0; pair < numPairs; pair++) {
             // If at any point the inner arrray is of length 2 and does not
             // represent a pair, throw an error
@@ -43,6 +44,7 @@ public class MouseSystem implements Runnable{
                 );
             }
 
+            // Copy the components
             SystemComponent component1 = componentPairs[pair][0];
             SystemComponent component2 = componentPairs[pair][1];
 
@@ -115,6 +117,68 @@ public class MouseSystem implements Runnable{
 
     }
 
+
+    public double[] getCrossProduct2D(double[] vector1, double[] vector2) {
+        if (vector1.length != 2 || vector2.length != 2) {
+            throw new IllegalArgumentException(
+                "Both vectors must be of length 2"
+            );
+        
+        }
+
+        return new double[]{
+            0,
+            0,
+            vector1[0] * vector2[1] - vector1[1] * vector2[0]
+        };
+
+
+    }
+
+    /**
+     * Get the cross product for any 2D or 3D vector pair
+     * 
+     * @param vector1 An array of length 2 or 3
+     * @param vector2 An array of length 2 or 3
+     * @return Cross product
+     * @throws IllegalArgumentException If vectors are not 2D or 3D
+     */
+    public double[] crossProdut(
+        double[] vector1,
+        double[] vector2
+    ) throws IllegalArgumentException {
+        if (
+            (vector1.length != 2 && vector1.length != 3)
+            || (vector2.length != 2 && vector2.length != 3)
+        ) {
+            throw new IllegalArgumentException(
+                "Vectors must be of length 2 or 3"
+            );
+
+        }
+
+        if (vector1.length == 2) {
+            vector1 = new double[]{vector1[0], vector1[1], 0};
+
+        }
+        
+        if (vector2.length == 2) {
+            vector2 = new double[]{vector2[0], vector2[1], 0};
+
+        }
+
+        // Calculate the cross product
+        return new double[]{
+            vector1[1] * vector2[2] - vector1[2] * vector2[1],
+            vector1[2] * vector2[0] - vector1[0] - vector2[2],
+            vector1[0] * vector2[1] - vector1[1] * vector2[0]
+
+        };
+
+
+    }
+
+    @Deprecated
     public double[] displacementDeltaCrossProduct(
         SystemComponent[] components
     ) throws IllegalArgumentException {
