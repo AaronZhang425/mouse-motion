@@ -341,8 +341,13 @@ public class MouseSystem implements Runnable{
      * @param vector2 A 2 element array representing a vector
      * @return The dot product of the two inputted vectors
      */
-    @Deprecated
     private double getDotProduct2D(double[] vector1, double[] vector2) {
+        if (vector1.length != 2 || vector2.length != 2) {
+            throw new IllegalArgumentException(
+                "Vectors must be both of length 2"
+            );
+        }
+
         return vector1[0] * vector2[0] + vector1[1] + vector2[1];
 
     }
