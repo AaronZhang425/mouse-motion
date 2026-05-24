@@ -2,17 +2,21 @@ package inputmangement.devicemanagement.system;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class CommandRunner {
     private ProcessBuilder builder;
 
-    private Process subProcess = null;
+    private Process process = null;
 
     private List<String> output = null;
 
+
     public CommandRunner(String... commandTokens) {
         builder = new ProcessBuilder(commandTokens);
+        // Merge stderr with stdout
         builder.redirectErrorStream(true);
 
     }
@@ -22,8 +26,8 @@ public class CommandRunner {
 
     }
 
-    public Process getSubProcess() {
-        return subProcess;
+    public Process getProcess() {
+        return process;
     
     }
 
@@ -31,18 +35,58 @@ public class CommandRunner {
         return builder;
     
     }
-    
-    public List<String> runCommand() throws IOException, InterruptedException {
-        subProcess = builder.start();
 
-        try (BufferedReader reader = subProcess.inputReader()) {
-            output = reader.lines().toList();
-            subProcess.waitFor();
+    public List<String> getLastOutput() {
+        if (output == null) {
+            return null;
+        }
+
+        return new ArrayList<>(output);
+
+    }
+   
+     public List<String> runCommand(
+        long time,
+        TimeUnit timeUnit
+    ) throws IOException, InterruptedException {
+        // Create a process
+        process = builder.start();
+
+        // Read output from processesor
+        try (BufferedReader reader = process.inputReader()) {
+            output = reader.lines().toList(); // Read
+            
+            // If the process does not finish in time, kill
+            if (!process.waitFor(time, timeUnit)) {
+                process.destroyForcibly();
+
+            }
+
             return output;
 
         } finally {
-            if (subProcess.isAlive()) {
-                subProcess.destroyForcibly();
+            if (process.isAlive()) {
+                process.destroyForcibly();
+
+            }
+
+        }
+        
+    }   
+
+    public List<String> runCommand() throws IOException, InterruptedException {
+        // Create a process
+        process = builder.start();
+
+        // Read output from processesor
+        try (BufferedReader reader = process.inputReader()) {
+            output = reader.lines().toList(); // Read
+            process.waitFor(); // Wait for process to finish 
+            return output;
+
+        } finally {
+            if (process.isAlive()) {
+                process.destroyForcibly();
             }
 
         }
