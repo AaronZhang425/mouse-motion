@@ -19,15 +19,7 @@ public class SystemSpecDetector {
         runner = new CommandRunner("lscpu");
         
         // run the lscpu command to list info about cpu
-        cpuInfo = runner.runCommand();
-
-        Process subProcess = runner.getSubProcess();
-
-        // If the process does not complete in 2 seconds, kill it.
-        if (!subProcess.waitFor(2, TimeUnit.SECONDS)) {
-            subProcess.destroyForcibly();
-
-        }
+        cpuInfo = runner.runCommand(2, TimeUnit.SECONDS);
 
         detectBitArchitecture();
         detectEndian();
