@@ -65,6 +65,8 @@ public class CommandRunner {
             return output;
 
         } finally {
+            // If an error occurs and thread is alive
+            // Kill it
             if (process.isAlive()) {
                 process.destroyForcibly();
 
@@ -85,6 +87,8 @@ public class CommandRunner {
             return output;
 
         } finally {
+            // If an error occurs and thread is alive
+            // Kill it            
             if (process.isAlive()) {
                 process.destroyForcibly();
             }
