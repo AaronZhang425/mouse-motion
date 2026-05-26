@@ -36,6 +36,11 @@ public class CommandRunner {
     
     }
 
+    /**
+     * Get the latest recoreded output
+     * 
+     * @return Last output captured
+     */
     public List<String> getLastOutput() {
         if (output == null) {
             return null;
