@@ -43,6 +43,11 @@ public class InputReader {
         
     }
 
+    /**
+     * Indicates if reader has been flagged to be closed.
+     * 
+     * @return True if reader is flagged to be closed
+     */
     public boolean isClosed() {
         return closed;
 
