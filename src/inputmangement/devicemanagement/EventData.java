@@ -136,13 +136,13 @@ public class EventData {
 
         EventData otherEventData = (EventData) other;
 
-
         return (
             Arrays.equals(TIME, otherEventData.TIME) &&
             EVENT_TYPE.equals(otherEventData.EVENT_TYPE) &&
             EVENT_CODE.equals(otherEventData.EVENT_CODE) &&
             VALUE == otherEventData.VALUE
         );
+        
     }
 
     @Override
