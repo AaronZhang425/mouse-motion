@@ -122,16 +122,26 @@ public class EventData {
     
     }
 
-    public boolean equals(EventData other){
-        if (other == null) {
-            return false;
+    @Override
+    public boolean equals(Object other){
+        if (other == this) {
+            return true;
+
         }
 
+        if (!(other instanceof EventData)) {
+            return false;
+
+        }
+
+        EventData otherEventData = (EventData) other;
+
+
         return (
-            Arrays.equals(TIME, other.TIME) &&
-            EVENT_TYPE.equals(other.EVENT_TYPE) &&
-            EVENT_CODE.equals(other.EVENT_CODE) &&
-            VALUE == other.VALUE
+            Arrays.equals(TIME, otherEventData.TIME) &&
+            EVENT_TYPE.equals(otherEventData.EVENT_TYPE) &&
+            EVENT_CODE.equals(otherEventData.EVENT_CODE) &&
+            VALUE == otherEventData.VALUE
         );
     }
 
