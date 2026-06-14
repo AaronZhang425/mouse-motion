@@ -109,17 +109,41 @@ public class EventDevice {
      * @param other Input device to compare to
      * @return Equality of the 2 input devices
      */
-    public boolean equals(EventDevice other) {
-        if (other == null) {
-            return false;
+    // public boolean equals(EventDevice other) {
+    //     if (other == null) {
+    //         return false;
+    //     }
+
+    //     return (
+    //         Arrays.equals(ID, other.ID) &&
+    //         NAME.equals(other.NAME) &&
+    //         HANDLER_FILE.equals(other.HANDLER_FILE) &&
+    //         CAPABILITIES.equals(other.CAPABILITIES)
+    //     );
+    // }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+
         }
 
+        if (!(other instanceof EventDevice)) {
+            return false;
+
+        }
+
+        EventDevice otherEventDevice = (EventDevice) other;
+
         return (
-            Arrays.equals(ID, other.ID) &&
-            NAME.equals(other.NAME) &&
-            HANDLER_FILE.equals(other.HANDLER_FILE) &&
-            CAPABILITIES.equals(other.CAPABILITIES)
+            Arrays.equals(ID, otherEventDevice.ID)
+            && NAME.equals(otherEventDevice.NAME)
+            && HANDLER_FILE.equals(otherEventDevice.HANDLER_FILE)
+            && CAPABILITIES.equals(otherEventDevice.CAPABILITIES)
         );
+
+
     }
 
     @Override
