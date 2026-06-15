@@ -43,15 +43,37 @@ public class Mouse {
      * @param other The other mouse to compare to
      * @return The equality between the two mouse objects
      */
-    public boolean equals(Mouse other) {
-        if (other == null) {
-            return false;
+    // public boolean equals(Mouse other) {
+    //     if (other == null) {
+    //         return false;
+    //     }
+
+    //     return (
+    //         DEVICE.equals(other.DEVICE) &&
+    //         DPI == other.DPI
+    //     );
+    // }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+
         }
 
+        if (!(other instanceof Mouse)) {
+            return false;
+
+        }
+
+        Mouse otherMouse = (Mouse) other;
+
         return (
-            DEVICE.equals(other.DEVICE) &&
-            DPI == other.DPI
+            DEVICE.equals(otherMouse.DEVICE)
+            && DPI == otherMouse.DPI
         );
+
+
     }
 
 }
