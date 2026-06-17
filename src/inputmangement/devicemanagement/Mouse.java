@@ -1,5 +1,7 @@
 package inputmangement.devicemanagement;
 
+import java.util.Objects;
+
 public class Mouse {
     /**
      * The EventDevice object that represents the mosue
@@ -53,6 +55,15 @@ public class Mouse {
     //         DPI == other.DPI
     //     );
     // }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+            DEVICE,
+            DPI
+        );
+
+    }
 
     @Override
     public boolean equals(Object other) {

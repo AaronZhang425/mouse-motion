@@ -3,10 +3,13 @@ package inputmangement.devicemanagement;
 import inputmangement.eventclassification.EventTypes;
 import inputmangement.eventclassification.eventcodes.EventCode;
 import java.io.File;
+import java.io.UncheckedIOException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.Objects;
 
 /**
  * Class that wraps several pieces of data about a device. Do not replace with
@@ -26,8 +29,17 @@ public class EventDevice {
     ) {
         ID = id;
         NAME = name;
-        HANDLER_FILE = handlerFile;
-        CAPABILITIES = capabilities;
+        
+        try {
+            HANDLER_FILE = new File(handlerFile.getCanonicalPath());
+
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+
+        }
+        
+        
+        CAPABILITIES = new HashMap<>(capabilities);
 
     }
 
@@ -121,6 +133,16 @@ public class EventDevice {
     //         CAPABILITIES.equals(other.CAPABILITIES)
     //     );
     // }
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+            Arrays.hashCode(ID),
+            NAME,
+            HANDLER_FILE,
+            CAPABILITIES
+        );
+
+    }
 
     @Override
     public boolean equals(Object other) {
