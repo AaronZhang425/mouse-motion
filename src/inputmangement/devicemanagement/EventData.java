@@ -2,6 +2,7 @@ package inputmangement.devicemanagement;
 
 import inputmangement.eventclassification.EventTypes;
 import inputmangement.eventclassification.eventcodes.EventCode;
+import java.util.Objects;
 import java.util.Arrays;
 
 /**
@@ -123,6 +124,17 @@ public class EventData {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(
+            Arrays.hashCode(TIME),
+            EVENT_TYPE,
+            EVENT_CODE,
+            VALUE
+        );
+
+    }
+
+    @Override
     public boolean equals(Object other){
         if (other == this) {
             return true;
@@ -142,7 +154,7 @@ public class EventData {
             EVENT_CODE.equals(otherEventData.EVENT_CODE) &&
             VALUE == otherEventData.VALUE
         );
-        
+
     }
 
     @Override
