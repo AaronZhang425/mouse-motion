@@ -38,24 +38,6 @@ public class Mouse {
     
     }
 
-    /**
-     * Compares if two mouse objects have the same DPI and are represented
-     * by the same devices.
-     * 
-     * @param other The other mouse to compare to
-     * @return The equality between the two mouse objects
-     */
-    // public boolean equals(Mouse other) {
-    //     if (other == null) {
-    //         return false;
-    //     }
-
-    //     return (
-    //         DEVICE.equals(other.DEVICE) &&
-    //         DPI == other.DPI
-    //     );
-    // }
-
     @Override
     public int hashCode() {
         return Objects.hash(
@@ -65,6 +47,13 @@ public class Mouse {
 
     }
 
+    /**
+     * Compares if two mouse objects have the same DPI and are represented
+     * by the same devices.
+     * 
+     * @param other The other mouse to compare to
+     * @return The equality between the two mouse objects
+     */
     @Override
     public boolean equals(Object other) {
         if (this == other) {

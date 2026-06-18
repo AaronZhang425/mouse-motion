@@ -114,25 +114,6 @@ public class EventDevice {
         return CAPABILITIES;
     }
 
-    /**
-     * Returns true if both InputDevices have the same ID, name, handler file, 
-     * and capabilities
-     * 
-     * @param other Input device to compare to
-     * @return Equality of the 2 input devices
-     */
-    // public boolean equals(EventDevice other) {
-    //     if (other == null) {
-    //         return false;
-    //     }
-
-    //     return (
-    //         Arrays.equals(ID, other.ID) &&
-    //         NAME.equals(other.NAME) &&
-    //         HANDLER_FILE.equals(other.HANDLER_FILE) &&
-    //         CAPABILITIES.equals(other.CAPABILITIES)
-    //     );
-    // }
     @Override
     public int hashCode() {
         return Objects.hash(
@@ -144,6 +125,13 @@ public class EventDevice {
 
     }
 
+    /**
+     * Returns true if both InputDevices have the same ID, name, handler file, 
+     * and capabilities
+     * 
+     * @param other Input device to compare to
+     * @return Equality of the 2 input devices
+     */
     @Override
     public boolean equals(Object other) {
         if (other == this) {
