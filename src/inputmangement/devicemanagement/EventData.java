@@ -134,6 +134,12 @@ public class EventData {
 
     }
 
+    /**
+     * Determine if another object is equivalent to this object.
+     * 
+     * @param other The other object to compare this object to.
+     * @return True if passed EventData has same time, type, code, and value
+     */
     @Override
     public boolean equals(Object other){
         if (other == this) {
