@@ -126,11 +126,12 @@ public class EventDevice {
     }
 
     /**
-     * Returns true if both InputDevices have the same ID, name, handler file, 
-     * and capabilities
+     * Determine if this object and another object are equal. Returns true if
+     * the other object is an EventDevice object with the same ID, name, handler
+     * file, and capabilities.
      * 
      * @param other Input device to compare to
-     * @return Equality of the 2 input devices
+     * @return True if ID, name, hanler file, and capabilities are the same
      */
     @Override
     public boolean equals(Object other) {
