@@ -48,11 +48,11 @@ public class Mouse {
     }
 
     /**
-     * Compares if two mouse objects have the same DPI and are represented
-     * by the same devices.
+     * Determine if two objects are equal. True if the other object passed is 
+     * a Mouse object with the same DPI and EventDevice.
      * 
      * @param other The other mouse to compare to
-     * @return The equality between the two mouse objects
+     * @return True if other object has equivalent dpi and EventDevice object
      */
     @Override
     public boolean equals(Object other) {
