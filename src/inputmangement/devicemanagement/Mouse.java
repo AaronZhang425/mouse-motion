@@ -38,6 +38,12 @@ public class Mouse {
     
     }
 
+    /**
+     * Generates a hash code for this object based on the EventDevice and the 
+     * DPI
+     * 
+     * @return The hash of this object
+     */
     @Override
     public int hashCode() {
         return Objects.hash(
