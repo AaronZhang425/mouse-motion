@@ -356,8 +356,26 @@ public class MouseSystem implements Runnable{
     public void run() {
         // Still need to figure out formula to determine position after both
         // rotational and translational movment of mouse
+
+        double[][] displacementDeltaCrossProduct = (
+            new double[COMPONENT_PAIRS.length][3]
+        );
+
         while (run) {
             System.out.println("Running");
+        
+            for (
+                int pairIndex = 0;
+                pairIndex < COMPONENT_PAIRS.length;
+                pairIndex++
+            ) {
+                displacementDeltaCrossProduct[pairIndex] = getCrossProduct2D(
+                    TRACKERS.get(COMPONENT_PAIRS[pairIndex][0]).getDisplacementDelta()
+                    TRACKERS.get(COMPONENT_PAIRS[pairIndex][1]).getDisplacementDelta()
+                );
+
+            }
+
 
         }
 

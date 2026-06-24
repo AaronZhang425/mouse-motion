@@ -25,7 +25,7 @@ public class SystemComponent {
     /**
      * Get the mouse representing the system component
      * 
-     * @return
+     * @return The mouse this system component represents
      */
     public Mouse getMouse() {
         return MOUSE;
