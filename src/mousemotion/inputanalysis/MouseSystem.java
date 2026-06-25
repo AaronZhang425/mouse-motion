@@ -357,9 +357,11 @@ public class MouseSystem implements Runnable{
         // Still need to figure out formula to determine position after both
         // rotational and translational movment of mouse
 
-        double[][] displacementDeltaCrossProduct = (
-            new double[COMPONENT_PAIRS.length][3]
-        );
+        // double[][] displacementDeltaCrossProduct = (
+        //     new double[COMPONENT_PAIRS.length][3]
+        // );
+
+        double averageCrossProduct = 0;
 
         while (run) {
             System.out.println("Running");
@@ -369,10 +371,21 @@ public class MouseSystem implements Runnable{
                 pairIndex < COMPONENT_PAIRS.length;
                 pairIndex++
             ) {
-                displacementDeltaCrossProduct[pairIndex] = getCrossProduct2D(
-                    TRACKERS.get(COMPONENT_PAIRS[pairIndex][0]).getDisplacementDelta()
-                    TRACKERS.get(COMPONENT_PAIRS[pairIndex][1]).getDisplacementDelta()
-                );
+                averageCrossProduct += getCrossProduct2D(
+                    TRACKERS.get(
+                        COMPONENT_PAIRS[pairIndex][0]
+                    ).getDisplacementDelta(),
+                    TRACKERS.get(
+                        COMPONENT_PAIRS[pairIndex][1]
+                    ).getDisplacementDelta()
+                )[2];
+
+            }
+
+            averageCrossProduct /= COMPONENT_PAIRS.length;
+
+            if (Math.abs(averageCrossProduct) <= 0.001) {
+                // Do something
 
             }
 
