@@ -366,18 +366,10 @@ public class MouseSystem implements Runnable{
         while (run) {
             System.out.println("Running");
         
-            for (
-                int pairIndex = 0;
-                pairIndex < COMPONENT_PAIRS.length;
-                pairIndex++
-            ) {
+            for (SystemComponent[] pair : COMPONENT_PAIRS) {
                 averageCrossProduct += getCrossProduct2D(
-                    TRACKERS.get(
-                        COMPONENT_PAIRS[pairIndex][0]
-                    ).getDisplacementDelta(),
-                    TRACKERS.get(
-                        COMPONENT_PAIRS[pairIndex][1]
-                    ).getDisplacementDelta()
+                    TRACKERS.get(pair[0]).getDisplacement(),
+                    TRACKERS.get(pair[1]).getDisplacement() 
                 )[2];
 
             }
