@@ -212,9 +212,9 @@ public class MouseSystem implements Runnable{
     }
 
     public double[] getDisplacementDeltaRotated(SystemComponent component) {
-        MouseMotionTracker tracker = TRACKERS.get(component);
-
-        double[] displacementDelta = tracker.getDisplacementDelta();
+        double[] displacementDelta = (
+            TRACKERS.get(component).getDisplacementDelta()
+        );
 
         // Angle from y axis, not x axis
         // Represents angle between heading of mouse and system
@@ -354,13 +354,6 @@ public class MouseSystem implements Runnable{
 
     @Override
     public void run() {
-        // Still need to figure out formula to determine position after both
-        // rotational and translational movment of mouse
-
-        // double[][] displacementDeltaCrossProduct = (
-        //     new double[COMPONENT_PAIRS.length][3]
-        // );
-
         double averageCrossProduct = 0;
 
         while (run) {
@@ -368,16 +361,26 @@ public class MouseSystem implements Runnable{
         
             for (SystemComponent[] pair : COMPONENT_PAIRS) {
                 averageCrossProduct += getCrossProduct2D(
-                    TRACKERS.get(pair[0]).getDisplacement(),
-                    TRACKERS.get(pair[1]).getDisplacement() 
+                    getDisplacementDeltaRotated(pair[0]),
+                    getDisplacementDeltaRotated(pair[1]) 
                 )[2];
 
             }
 
             averageCrossProduct /= COMPONENT_PAIRS.length;
 
-            if (Math.abs(averageCrossProduct) <= 0.001) {
-                // Do something
+            if (Math.abs(averageCrossProduct) >= 0.001) {
+                // double averageAngleDelta = 0;
+                
+                // for (SystemComponent[] pair : COMPONENT_PAIRS) {
+                //     for (SystemComponent component : pair) {
+                //         TRACKERS.get(component).getDisplacementDelta();
+                //         // Do something
+
+                //     }
+
+                // }
+                
 
             }
 
