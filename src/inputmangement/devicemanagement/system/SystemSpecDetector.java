@@ -9,7 +9,7 @@ public class SystemSpecDetector {
 
     private static List<String> cpuInfo = null;
 
-    private static BitArchitecture bitArchitecture = (
+    private static CpuWordSize wordSize = (
         null
     );
 
@@ -26,8 +26,8 @@ public class SystemSpecDetector {
 
     }
 
-    public static BitArchitecture getBitArchitecture() {
-        return bitArchitecture;
+    public static CpuWordSize getBitArchitecture() {
+        return wordSize;
 
     }
 
@@ -48,10 +48,10 @@ public class SystemSpecDetector {
                 String pattern32Bit = "(?m).*cpu op-mode.*32-bit\\s*$";
 
                 if (str.matches(pattern64Bit)) {
-                    bitArchitecture = BitArchitecture.ARCH_64_BIT;
+                    wordSize = CpuWordSize.SIZE_64_BITS;
 
                 } else if (str.matches(pattern32Bit)) {
-                    bitArchitecture = BitArchitecture.ARCH_32_BIT;
+                    wordSize = CpuWordSize.SIZE_32_BITS;
                 }
             }
         );

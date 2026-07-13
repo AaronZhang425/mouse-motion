@@ -3,17 +3,17 @@ package inputmangement.devicemanagement.system;
 public class SystemInfo {
     private static SystemInfo instance;
 
-    private final BitArchitecture architecture;
+    private final CpuWordSize architecture;
     private final Endian endian;
 
-    private SystemInfo(BitArchitecture architecture, Endian endian) {
+    private SystemInfo(CpuWordSize architecture, Endian endian) {
         this.architecture = architecture;
         this.endian = endian;
 
     }
 
     public static void setUpInfo(
-        BitArchitecture architecture,
+        CpuWordSize architecture,
         Endian endian
     ) {
         if (instance != null) {
@@ -47,7 +47,7 @@ public class SystemInfo {
      * 
      * @return Bit architecture
      */
-    public BitArchitecture getArchitecture() {
+    public CpuWordSize getArchitecture() {
         return architecture;
 
     }

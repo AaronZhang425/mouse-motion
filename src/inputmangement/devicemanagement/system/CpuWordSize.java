@@ -1,8 +1,8 @@
 package inputmangement.devicemanagement.system;
 
-public enum BitArchitecture {
-    ARCH_32_BIT(32),
-    ARCH_64_BIT(64);
+public enum CpuWordSize {
+    SIZE_32_BITS(32),
+    SIZE_64_BITS(64);
 
     /**
      * Represents the number of bits CPU register can handle at once
@@ -15,7 +15,7 @@ public enum BitArchitecture {
      * 
      * @param bits
      */
-    private BitArchitecture(int bits) {
+    private CpuWordSize(int bits) {
         this.bits = bits;
     }
 
@@ -35,14 +35,14 @@ public enum BitArchitecture {
      * @param bits Bit architecture of CPU
      * @return The bit architecture that represents the number of bits
      */
-    public static BitArchitecture bitArchitectureFromBits(int bits) {
+    public static CpuWordSize cpuWordSizeFromBits(int bits) {
         return switch (bits) {
             case 32 -> {
-                yield ARCH_32_BIT;
+                yield SIZE_32_BITS;
             }
 
             case 64 -> {
-                yield ARCH_64_BIT;
+                yield SIZE_64_BITS;
             }
             
             default -> {

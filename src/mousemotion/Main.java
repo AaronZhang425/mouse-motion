@@ -3,15 +3,13 @@ package mousemotion;
 import inputmangement.devicemanagement.*;
 import inputmangement.devicemanagement.system.*;
 import inputmangement.eventclassification.eventcodes.*;
-import mousemotion.inputanalysis.singletracker.MouseMotionTracker;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
+import mousemotion.inputanalysis.singletracker.MouseMotionTracker;
 
 public class Main {
     public static int DPI = 1000;
@@ -29,7 +27,7 @@ public class Main {
 
         }
 
-        BitArchitecture detectedBits = SystemSpecDetector.getBitArchitecture();
+        CpuWordSize detectedBits = SystemSpecDetector.getBitArchitecture();
         Endian detectedEndian = SystemSpecDetector.getEndian();
 
 	    // Set up information about machine

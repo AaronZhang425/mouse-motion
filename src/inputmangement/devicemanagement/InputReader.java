@@ -170,7 +170,7 @@ public class InputReader {
         // Each event is 24 bytes for 64 bit systesms. 16 for 32 bit systems
         int bufferSize = (
             SystemInfo.getSystemInfo().getArchitecture().equals(
-                BitArchitecture.ARCH_64_BIT
+                CpuWordSize.SIZE_64_BITS
             )
             ? 24 
             : 16
