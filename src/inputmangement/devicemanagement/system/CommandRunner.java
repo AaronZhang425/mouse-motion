@@ -8,11 +8,8 @@ import java.util.concurrent.TimeUnit;
 
 public class CommandRunner {
     private ProcessBuilder builder;
-
     private Process process = null;
-
     private List<String> output = null;
-
 
     public CommandRunner(String... commandTokens) {
         builder = new ProcessBuilder(commandTokens);

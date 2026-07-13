@@ -22,6 +22,7 @@ public class Main {
             SystemSpecDetector.runDetection();
             
         } catch (IOException | InterruptedException e) {
+            // WARNING: Error can happen if command fails to run
             System.out.println(e);
             throw new UndeclaredThrowableException(e);
 
